@@ -1,0 +1,12 @@
+Implementing the Game SCRUM 1:
+
+Main Menu:
+1. Start Game
+2. High Scores
+3. Help
+4. Quit
+
+Game:
+1. Board: Use a 7x6 Matrix (ArrayList of Arraylists of ints)
+2. To place a coin, we click the column.
+3. TO BE CONTINUED
