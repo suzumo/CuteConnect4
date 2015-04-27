@@ -1,0 +1,15 @@
+User story:
+
+As a user I can do:
+
+1. Verse a computer of three difficulty settings
+2. Verse another human on the same computer
+3. Beat highscores (time taken/number of moves to beat the other player/computer of different difficulties)
+	a. This means I will be able to enter my name
+4. Set a time limit for each move.
+5. Select SUPER CONNECT FOUR MODE as a game mode
+6. Select coin colour (Prevent two players choosing the same colour)
+7. To be assisted by a hint system when struggling
+	a. Novice will have the hint ready for them whenever they need it
+	b. Intermediate will have a limited amount of hints
+	c. Expert will have no hints at all
