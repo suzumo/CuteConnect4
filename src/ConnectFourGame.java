@@ -19,6 +19,7 @@ public class ConnectFourGame extends JFrame implements KeyListener{
 	
 	public static void main(String[] args) {
 		System.out.println("connect four game 2015");
+		//Testing board functions
 		Board board = new Board();
 		board.print();
 		board.dropToken(3, 1);

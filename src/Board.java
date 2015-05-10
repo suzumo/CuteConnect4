@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Board {
 	private ArrayList<ArrayList<Cell>> board;
-	
+	private int turn;
 	/**
 	 * Constructor of boredom
 	 * unsure if I'm making this one size too big
@@ -18,6 +18,8 @@ public class Board {
 				board.get(i).add(new Cell(i,j,0));
 			}
 		}
+		
+		turn = 0;
 	}
 	
 	/**
@@ -29,17 +31,63 @@ public class Board {
 //		int row = 0;
 //		while (board[col][row] == 0) row += 1;
 //		board[col][row] = player;
-		for(int i = 0; i < 6; i++){
-			if(board.get(col).get(i).getValue() == 0){
-				board.get(col).get(i).setValue(player);
-				break;
+		if(checkMoveValid(col)){
+			for(int i = 0; i < 6; i++){
+				if(board.get(col).get(i).getValue() == 0){
+					board.get(col).get(i).setValue(player);
+					break;
+				}
 			}
+			turn++;
 		}
 	}
 	
+	/**
+	 * Checks if the current move attempt is valid 
+	 * @param col      : The column that the player or computer is attempting to drop a token in
+	 * @return valid   : If the move is valid or not
+	 */
+	public boolean checkMoveValid(int col){
+		boolean valid = true;
+		
+		if(col > 7){
+			valid = false;
+		}
+		if(board.get(col).get(5).getValue() != 0){
+			valid = false;
+		}
+		
+		
+		return valid;
+	}
 	
 	public ArrayList<ArrayList<Cell>> getBoard() {
 		return board;
+	}
+	
+	
+	/**
+	 * Calculates which player's turn it is
+	 * 
+	 * Note: 1 = player1 2 = player 2
+	 * @return player     : The which player's turn it is
+	 */
+	public int calcTurn(){
+		int player = 0;
+		if((turn%2) == 0){
+			player = 2;
+		} else{
+			player = 1;
+		}
+		return player;
+	}
+	
+	/**
+	 * Returns the current turn
+	 * @return turn   : The current turn
+	 */
+	public int getTurn(){
+		return turn;
 	}
 
 	/**
