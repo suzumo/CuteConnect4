@@ -46,14 +46,12 @@ public class Board {
 	 * Prints out the board
 	 */
 	public void print() {
-		System.out.println("Bottom");
-		for(int i = 0; i < 6 ; i++){
-			for(int j = 0; j < 7;j++){
-				System.out.print(board.get(j).get(i).getValue() + " ");
-			}
-			System.out.println();
+		for (int i = 5; i >= 0; i--) {
+		    for (int j = 6; j >= 0; j--) {
+		    	System.out.print(board.get(j).get(i).getValue() + " ");
+		    }
+		    System.out.println();
 		}
-		System.out.println("Top");
 		System.out.println();
 	}
 }
