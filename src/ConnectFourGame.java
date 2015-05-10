@@ -1,9 +1,14 @@
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.JFrame;
 
 
 public class ConnectFourGame extends JFrame implements KeyListener{
+	
+	Graphics g;
 	
 	public ConnectFourGame() {
 		
@@ -13,7 +18,16 @@ public class ConnectFourGame extends JFrame implements KeyListener{
 		setVisible(true);
 		setSize(400, 400);	// may need to make this dynamic
 		setTitle("Connect Four");
+		setBackground(Color.BLACK);
 
+		
+	}
+	
+	public void paint(Graphics g){
+		
+		
+		g.setColor(Color.WHITE);
+		
 		
 	}
 	
@@ -24,9 +38,8 @@ public class ConnectFourGame extends JFrame implements KeyListener{
 		board.print();
 		board.dropToken(3, 1);
 		board.print();
-		// TODO: create thread to draw
 		
-		// TODO: create thread to update
+		
 		
 		ConnectFourGame cfg = new ConnectFourGame();
 	}
