@@ -113,6 +113,9 @@ public class Board {
 	 * @return		0 if there is no win, player number (i.e. 1, 2...) if there is a win.
 	 */
 	public int checkForWin(int col){
+		
+		if (turn < 7)
+			return 0;
 
 		int x = col;
 		int y = curr_row;
