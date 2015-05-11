@@ -38,13 +38,16 @@ public class ConnectFourGame extends JFrame implements KeyListener{
 		
 		// black background
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, width, height);
+		//g.fillRect(0, 0, width, height);
 		
 		
 		// draw cells 
 		g.translate(100, 100);
-		for (ArrayList a: board.getBoard()){
-			for (Cell c: (ArrayList<Cell>) a){
+		for (ArrayList<Cell> a: board.getBoard()){      //One of the following is NULL
+			if(a == null){
+				System.out.println(a);
+			}
+			for (Cell c: a){    //Need to debug
 				if (c.getValue() == 0){
 					g.setColor(Color.white);
 					g.drawRect(c.getCol() * cellwidth, cellwidth*(6-c.getRow() ), cellwidth, cellwidth);
@@ -77,7 +80,7 @@ public class ConnectFourGame extends JFrame implements KeyListener{
 			cfg.update();
 			
 			try {
-				Thread.sleep(500);
+				Thread.sleep(40);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
