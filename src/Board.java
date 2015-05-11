@@ -37,6 +37,7 @@ public class Board {
 			for(int i = 0; i < 6; i++){
 				if(board.get(col).get(i).getValue() == 0){
 					board.get(col).get(i).setValue(player);
+					curr_row = i;
 					break;
 				}
 			}
