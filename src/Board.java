@@ -4,6 +4,8 @@ import java.util.ArrayList;
 public class Board {
 	private ArrayList<ArrayList<Cell>> board;
 	private int turn;
+	private int curr_row;
+	
 	/**
 	 * Constructor of boredom
 	 * unsure if I'm making this one size too big
@@ -18,7 +20,7 @@ public class Board {
 				board.get(i).add(new Cell(i,j,0));
 			}
 		}
-		
+		curr_row = 0;
 		turn = 0;
 	}
 	
@@ -102,5 +104,150 @@ public class Board {
 		}
 		System.out.println();
 	}
+	
+	/***
+	 * Checks for win
+	 */
+	public Boolean checkForWin(int col){
+
+		int x = col;
+		int y = curr_row;
+		int player_val = board.get(col).get(curr_row).getValue();
+
+		int count = 3;
+		
+		// check down
+		check_down:
+		if (y >= 3) {
+			y--; //checking the cell below insertion
+			while (y >= 0) {
+				// if the cell is not equal to player_val, then stop check_down
+				if (board.get(x).get(y).getValue() != player_val) {
+					count = 3;
+					y = curr_row;
+					x = col;
+					break check_down;
+				}
+				count--;
+				
+				// if count is zero then there are 4 cells with same value
+				if (count == 0)
+					return true;
+			}
+		}
+		
+		// check sideways - first left
+		check_left:
+		if (x-1 >= 0) {
+			x--; //checking the cell below insertion
+
+			// if the cell is not equal to player_val, then stop check_left
+			if (board.get(x).get(y).getValue() != player_val) {
+				x = col;
+				y = curr_row;
+				break check_left;
+			}
+			count--;
+				
+			// if count is zero then there are 4 cells with same value
+			if (count == 0)
+				return true;
+		}
+
+		// check sideways - second right
+		check_right:
+		if (x+1 <= 7) {
+			x++; //checking the cell below insertion
+
+			// if the cell is not equal to player_val, then stop check_right
+			if (board.get(x).get(y).getValue() != player_val) {
+				//reset values as there are no wins
+				count = 3;
+				y = curr_row;
+				x = col;
+				break check_right;
+			}
+			count--;
+					
+			// if count is zero then there are 4 cells with same value
+			if (count == 0)
+				return true;
+		}
+		
+		// check ascending diagonal
+		check_left_ascending_diagonal:
+		if (x-1 >= 0 && y-1 >=0) {
+			x--; 
+			y--;
+			
+			if (board.get(x).get(y).getValue() != player_val) {
+				x = col;
+				y = curr_row;
+				break check_left_ascending_diagonal;
+			}
+			count--;
+					
+			// if count is zero then there are 4 cells with same value
+			if (count == 0)
+				return true;
+		}
+
+		check_right_ascending_diagonal:
+		if (x+1 <= 7 && y+1 <= 6) {
+			x++; 
+			y++;
+			
+			if (board.get(x).get(y).getValue() != player_val) {
+				count = 3;
+				x = col;
+				y = curr_row;
+				break check_right_ascending_diagonal;
+			}
+
+			count--;
+
+			if (count == 0)
+				return true;
+		}
+
+		// check descending diagonal
+		check_left_descending_diagonal:
+		if (x-1 >= 0 && y+1 <= 6) {
+			x--;
+			y++;
+			
+			if (board.get(x).get(y).getValue() != player_val) {
+				x = col;
+				y = curr_row;
+				break check_left_descending_diagonal;
+			}
+			count--;
+					
+			if (count == 0)
+				return true;
+		}
+
+		check_right_descending_diagonal:
+		if (x+1 <= 7 && y-1 >= 0) {
+			x++; 
+			y--;
+			
+			if (board.get(x).get(y).getValue() != player_val) {
+				count = 3;
+				x = col;
+				y = curr_row;
+				break check_right_descending_diagonal;
+			}
+
+			count--;
+
+			if (count == 0)
+				return true;
+		}
+
+		return false;
+		
+	}
+
 	
 }
