@@ -1,0 +1,25 @@
+need to have implemented
+	check for win		-ch
+
+	more sophisticated UI	-j
+		whose turn
+		each player name
+		finer elements (eg coin, grid)
+		
+	restart game		-j
+	
+	choose whether to go first or second	
+	
+	click instead of numbers	-e
+
+	more complex ai			-a
+	
+	fix graphical refresh issues		-e	
+	
+	
+	main menu		-ch
+		new game(cpu or 2 player
+		help screen
+	
+	fix null pointer  		-e
+			
