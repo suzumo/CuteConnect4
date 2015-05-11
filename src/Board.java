@@ -106,9 +106,12 @@ public class Board {
 	}
 	
 	/***
-	 * Checks for win
+	 * Checks for win at each coin drop at column, col.
+	 * @pre			turn is greater than 6.
+	 * @param col	column number
+	 * @return		0 if there is no win, player number (i.e. 1, 2...) if there is a win.
 	 */
-	public Boolean checkForWin(int col){
+	public int checkForWin(int col){
 
 		int x = col;
 		int y = curr_row;
@@ -132,7 +135,7 @@ public class Board {
 				
 				// if count is zero then there are 4 cells with same value
 				if (count == 0)
-					return true;
+					return player_val;
 			}
 		}
 		
@@ -151,7 +154,7 @@ public class Board {
 				
 			// if count is zero then there are 4 cells with same value
 			if (count == 0)
-				return true;
+				return player_val;
 		}
 
 		// check sideways - second right
@@ -171,7 +174,7 @@ public class Board {
 					
 			// if count is zero then there are 4 cells with same value
 			if (count == 0)
-				return true;
+				return player_val;
 		}
 		
 		// check ascending diagonal
@@ -189,7 +192,7 @@ public class Board {
 					
 			// if count is zero then there are 4 cells with same value
 			if (count == 0)
-				return true;
+				return player_val;
 		}
 
 		check_right_ascending_diagonal:
@@ -207,7 +210,7 @@ public class Board {
 			count--;
 
 			if (count == 0)
-				return true;
+				return player_val;
 		}
 
 		// check descending diagonal
@@ -224,7 +227,7 @@ public class Board {
 			count--;
 					
 			if (count == 0)
-				return true;
+				return player_val;
 		}
 
 		check_right_descending_diagonal:
@@ -242,10 +245,10 @@ public class Board {
 			count--;
 
 			if (count == 0)
-				return true;
+				return player_val;
 		}
 
-		return false;
+		return 0;
 		
 	}
 
