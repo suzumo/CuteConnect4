@@ -136,6 +136,10 @@ public class ConnectFourGame extends JFrame implements KeyListener{
 			// Handle turns
 			switchPlayer();
 		}
+		
+		if (e.getKeyChar() == 's'){
+			setVsPlayer();
+		}
 	}
 
 	public boolean isVsCPU() {
