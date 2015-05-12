@@ -30,7 +30,7 @@ public class MenuPanel extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 
 		setLayout(new GridBagLayout());
-		gbc.insets = new Insets(1,1,1,1);
+		gbc.insets = new Insets(0,0,0,0);
 		this.setBackground(Color.BLACK);
 		
 		JLabel label = new JLabel(new ImageIcon(this.getClass().getResource("resource/Connect4.png"))); 
@@ -63,16 +63,16 @@ public class MenuPanel extends JPanel {
 		buttons.add(helpButton);
 		
 		//Exit Button
-		JButton exitButton = new JButton(new ImageIcon(getClass().getResource("resource/Help.png")));
-		helpButton.setActionCommand("Exit");
-		helpButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/HelpHover.png")));
-		helpButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/HelpSelect.png")));
-		helpButton.setContentAreaFilled(false);
+		JButton quitButton = new JButton(new ImageIcon(getClass().getResource("resource/quitButton.png")));
+		quitButton.setActionCommand("Quit");
+		quitButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/quitHover.png")));
+		quitButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/quitPressed.png")));
+		quitButton.setContentAreaFilled(false);
 		//gbc.anchor = GridBagConstraints.NORTH;
 		gbc.gridx = 1;
 		gbc.gridy = 3;
-		this.add(helpButton, gbc);
-		buttons.add(helpButton);
+		this.add(quitButton, gbc);
+		buttons.add(quitButton);
 	}	
 	
 	private void validateToMainFrame(JFrame frame) {

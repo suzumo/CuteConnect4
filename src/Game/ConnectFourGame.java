@@ -23,6 +23,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 	private MenuPanel menuPanel;
 	private MainFrame mainFrame;
 	private PlayPanel playPanel;
+	private BoardMechanics boardMechanics;
 
 	
 	public ConnectFourGame() {
@@ -79,6 +80,10 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			showPlayPanel();		//show play panel
 	}
 
+	public void viewGamePanel(MainFrame mainFrame){
+		boardMechanics = new BoardMechanics(this, mainFrame);
+	}
+	
 	/**
 	 * Enable the play panel
 	 * 
@@ -106,13 +111,19 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		gamePanel.setVisible(false);
 	}
 	
+	
 	public void actionPerformed(ActionEvent event) {
-		if(event.getActionCommand().equalsIgnoreCase("Start"))						//when start button is pressed
-		{
+		if(event.getActionCommand().equalsIgnoreCase("Start")){
 			menuPanel.setVisible(false);
 			//viewPlayPanel(mainFrame);
+			viewGamePanel(mainFrame);
+		} else if(event.getActionCommand().equalsIgnoreCase("Quit")) {				//when quit button is pressed
+			int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?","Quit Message",JOptionPane.YES_NO_OPTION);		//check to make sure user really wants to quit
 			
-		}		
-	}
+			if(quit == 0){		//yes
+				System.exit(0);
+			}
+		}
+	} 
 
 }
