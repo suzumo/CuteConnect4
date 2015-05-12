@@ -1,5 +1,7 @@
 /AI.class
 /Board.class
-/BoardControl.class
 /Cell.class
 /ConnectFourGame.class
+/Main.class
+/GUI/
+/Game/
