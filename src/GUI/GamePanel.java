@@ -2,8 +2,7 @@ package GUI;
 
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.awt.event.*;
+
 
 import javax.swing.*;
 
@@ -12,19 +11,18 @@ import Game.BoardMechanics;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
-	private JButton[][] slots; 
+	private JButton[][] slots;
 	
 	public GamePanel(MainFrame mainFrame) {
 		//setFocusable(true);				//sets the focus of the keypress events to the game board
-		setMinimumSize(new Dimension(700,700));
-		setSize(600,600);
 		slots = new JButton[6][7];
 		drawBoard();
-		this.setBackground(Color.BLACK);
 		validateToMainFrame(mainFrame);
 	}
 	
 	private void drawBoard(){
+		setMinimumSize(new Dimension(700,700));
+		setSize(600,600);
 		JButton button;
 		setLayout(new GridLayout(6,7));
 		
@@ -37,6 +35,7 @@ public class GamePanel extends JPanel {
 				this.add(button);
 			}
 		}
+		this.setBackground(Color.BLACK);
 	}
 	
 	/**
@@ -60,7 +59,7 @@ public class GamePanel extends JPanel {
 	        for (int col = 0; col < 7; col++){ 
 	          slots[row][col].addMouseListener(connectFourListener); 
 	        }      
-	   } 		
+	    } 		
 	}
 
 	public int getColumn(JButton button) {
@@ -72,20 +71,22 @@ public class GamePanel extends JPanel {
 				}        
 			}      
 		}   
-		System.out.println("returnColumn: " + returnColumn);
 		return returnColumn; 
 	}
 
-	
-	
 	public void set(int column, int row, int player) {
 	    if (player == 1) { 
 	      slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/player1.png")));
 	 
-	    }  
-	    else { 
+	    } else { 
 	      slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/player2.png")));
 	    }    		
+	}
+
+	public void restart(MainFrame mainFrame) {
+		this.removeAll();
+		drawBoard();	
+		validateToMainFrame(mainFrame);
 	}
 	
 }

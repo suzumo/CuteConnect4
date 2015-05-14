@@ -15,6 +15,7 @@ import GUI.HelpPanel;
 import GUI.MenuPanel;
 import GUI.PlayPanel;
 import GUI.MainFrame;
+import GUI.DifficultyPanel;
 
 
 public class ConnectFourGame extends JFrame implements ActionListener{
@@ -23,6 +24,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 	private MenuPanel menuPanel;
 	private MainFrame mainFrame;
 	private PlayPanel playPanel;
+	private DifficultyPanel diffPanel;
 	private BoardMechanics boardMechanics;
 
 	
@@ -52,8 +54,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		}
 	}
 	
-	public void viewPlayPanel(JFrame mainFrame)
-	{
+	public void viewPlayPanel(JFrame mainFrame){
 		if(playPanel == null)
 		{
 			playPanel = new PlayPanel(mainFrame);
@@ -63,25 +64,28 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			{
 				button.addActionListener(this);
 			}
-			
-			//adding action listeners to radio buttons
-			for(JRadioButton radioButton : playPanel.getRadioButtons())
-			{
-				radioButton.addActionListener(this);
-			}
-			
-			//adding action listeners to check boxes
-			for(JCheckBox checkBox : playPanel.getCheckBox())
-			{
-				checkBox.addActionListener(this);
-			}
 		}
 		else
 			showPlayPanel();		//show play panel
 	}
+	
+	public void viewDiffPanel(JFrame mainFrame){
+		if(diffPanel == null)
+		{
+			diffPanel = new DifficultyPanel(mainFrame);
+			
+			//adding action listeners to buttons
+			for(JButton button : diffPanel.getButtons())
+			{
+				button.addActionListener(this);
+			}
+		}
+		else
+			showDiffPanel();		//show play panel
+	}
 
-	public void viewGamePanel(MainFrame mainFrame){
-		boardMechanics = new BoardMechanics(this, mainFrame);
+	public void viewGamePanel(MainFrame mainFrame, int diff){
+		boardMechanics = new BoardMechanics(this, mainFrame, diff);
 	}
 	
 	/**
@@ -111,12 +115,28 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		gamePanel.setVisible(false);
 	}
 	
+	public void showDiffPanel(){
+		diffPanel.setVisible(true);
+	}
+	
+	public void hideDiffPanel(){
+		diffPanel.setVisible(false);
+	}
 	
 	public void actionPerformed(ActionEvent event) {
 		if(event.getActionCommand().equalsIgnoreCase("Start")){
 			menuPanel.setVisible(false);
-			//viewPlayPanel(mainFrame);
-			viewGamePanel(mainFrame);
+			viewPlayPanel(mainFrame);
+			//viewGamePanel(mainFrame);
+		} else if(event.getActionCommand().equalsIgnoreCase("PvP")){
+			hidePlayPanel();
+			viewGamePanel(mainFrame, -1);
+		} else if(event.getActionCommand().equalsIgnoreCase("PvAI")){
+			hidePlayPanel();
+			viewDiffPanel(mainFrame);
+		} else if(event.getActionCommand().equalsIgnoreCase("Easy")){
+			hideDiffPanel();
+			viewGamePanel(mainFrame, 0);
 		} else if(event.getActionCommand().equalsIgnoreCase("Quit")) {				//when quit button is pressed
 			int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?","Quit Message",JOptionPane.YES_NO_OPTION);		//check to make sure user really wants to quit
 			

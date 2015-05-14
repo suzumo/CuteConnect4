@@ -8,11 +8,11 @@ import GUI.GamePanel;
 import Game.BoardMechanics;
 
 public class ConnectFourListener implements MouseListener{
-	private int win;
+	private boolean win;
 	GamePanel gui; 
 	BoardMechanics game; 
 	public ConnectFourListener(BoardMechanics game, GamePanel gui) { 
-		win = 0;
+		win = false;
 		this.game = game; 
 		this.gui = gui; 
 		gui.addListener(this); 
@@ -20,23 +20,30 @@ public class ConnectFourListener implements MouseListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent event) {
-		JButton button = (JButton) event.getComponent(); 
+//		System.out.println("Click");
+		JButton button = (JButton) event.getComponent();
+		int row = -1;
 	    int column = gui.getColumn(button); 
-	    int row = game.dropToken(column);  
-	    game.print();
+    	row = game.dropToken(column);
+    	System.out.println("row: " + row + " col " + column);
 	    if(row != -1){
         	gui.set(column, row, game.getCurrentPlayer());
 	    }
-	    win = game.checkForWin(column, row);
-//		System.out.println("Player " + win + " Wins!");
-	    //win = 1;
-	    if(win == 1){
-	    	game.win(win);
-	    } else if(win == 2){
-	    	game.win(win);
+	    win = game.checkForWin();
+	    if(win == true){
+	    	game.win(game.getCurrentPlayer());
 	    }
 	}
 
+	
+//	if(game.getCurrentPlayer() == 2 && game.isCPU()){
+//    	move = game.aiDropToken();
+//		row = game.dropToken(move);
+//		System.out.println("move "+ move +" Row "+ row);
+//		if(row != -1){
+//        	gui.set(move, row, game.getCurrentPlayer());
+//	    }
+	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -56,9 +63,26 @@ public class ConnectFourListener implements MouseListener{
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseReleased(MouseEvent e) {
+		int row = -1;
+		int move = -1;
+		JButton button = (JButton) e.getComponent(); 
+	    int clicked = gui.getColumn(button); 
+		if(clicked != 0){
+			if(game.isCPU() && game.getCurrentPlayer() == 2){
+	    		move = game.aiDropToken();
+	    		row = game.dropToken(move);
+	    		System.out.println("move "+ move +" Row "+ row);
+	    		if(row != -1){
+		        	gui.set(move, row, game.getCurrentPlayer());
+	    		}
+			}
+
+			win = game.checkForWin();
+		    if(win == true){
+			    	game.win(game.getCurrentPlayer());
+		    }
+		}
 	}
 
 }
