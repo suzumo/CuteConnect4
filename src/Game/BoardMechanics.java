@@ -54,18 +54,20 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 * @param player	owner of token -> can be replaced by turn or whatever
 	 */
 	public int dropToken(int col) {
+		int dRow = -1;
 		if(checkMoveValid(col)){
 			for(int i = 5; i >=0; i--){
 				if(board.get(i).get(col).getValue() == 0){
-					board.get(i	).get(col).setValue(this.getCurrentPlayer());
+					board.get(i).get(col).setValue(this.getCurrentPlayer());
 					curr_row = i;
 					break;
 				}
 			}
 			turn++;
+			System.out.println("Row: " + curr_row);
+			return curr_row;
 		}
-		System.out.println("Row: " + curr_row);
-		return curr_row;
+		return dRow;
 	}
 	
 	/**
@@ -94,18 +96,56 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	public boolean checkMoveValid(int col){
 		boolean valid = true;
 		
-//		if(col > 7 || col < 0){
-//			valid = false;
-//		}
-//		if(board.get(col).get(0).getValue() != 0){
-//			valid = false;
-//		}
+		if(col > 7 || col < 0){
+			valid = false;
+		}
+		if(board.get(0).get(col).getValue() != 0){
+			System.out.println("Full");
+			valid = false;
+		}
 		
 		
 		return valid;
 	}
 	
+	/***
+	 * Checks for win at each coin drop at column, col.
+	 * @pre			turn is greater than 6.
+	 * @param col	column number
+	 * @return		0 if there is no win, player number (i.e. 1, 2...) if there is a win.
+	 */
+	public int checkForWin(int col, int row){
+		
+		if (turn < 7) return 0;
+		return 0;
+		
+		
+		
+	}
 	
+	public void win(int win) {
+		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"You Won!!\n" + "Would you like to play again?","Winner",JOptionPane.YES_NO_OPTION);
+		if(playAgain == 0){		//yes
+			restart();
+		} else if(playAgain == 1){		//no
+			c4Game.viewMenuPanel(mainFrame);
+			gamePanel.setVisible(false);
+		}
+	}
+	
+	/**
+	 * restarting the entire game
+	 * 
+	 */
+	public void restart()
+	{
+		gamePanel.removeAll();
+		gamePanel.setVisible(true);
+		gamePanel.setFocusable(true);
+		gamePanel.requestFocusInWindow();
+		new BoardMechanics(c4Game, mainFrame);
+
+	}
 	
 	@Override
 	public void keyPressed(KeyEvent arg0) {
@@ -127,6 +167,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 
 

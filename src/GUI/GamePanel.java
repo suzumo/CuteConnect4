@@ -31,8 +31,8 @@ public class GamePanel extends JPanel {
 		for(int row = 0; row < 6; row++){
 			for(int col = 0; col < 7; col++){
 				button = new JButton(new ImageIcon(this.getClass().getResource("resource/Cell.png")));
-				button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/coin2.png")));
-				button.setPressedIcon(new ImageIcon(getClass().getResource("resource/coin3.png")));
+				button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/CellHover.png")));
+				button.setPressedIcon(new ImageIcon(getClass().getResource("resource/CellSelect.png")));
 				slots[row][col] = button;
 				this.add(button);
 			}
@@ -80,11 +80,12 @@ public class GamePanel extends JPanel {
 	
 	public void set(int column, int row, int player) {
 	    if (player == 1) { 
-	      slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/coin2.png")));
+	      slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/player1.png")));
 	 
 	    }  
 	    else { 
-	      slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/coin3.png")));
+	      slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/player2.png")));
 	    }    		
 	}
+	
 }
