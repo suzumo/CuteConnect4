@@ -8,40 +8,42 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import Game.Cell;
-import Game.Board;
+import Game.BoardMechanics;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
-    private ArrayList<ArrayList<Cell>> gameBoard;
-    private Board board;
-
-    public GamePanel(JFrame mainFrame){
-    	board = new Board();
-    	gameBoard = board.getBoard();
-		setFocusable(true);				//sets the focus of the keypress events to the game board
+	private JButton[][] slots; 
+	
+	public GamePanel(MainFrame mainFrame) {
+		//setFocusable(true);				//sets the focus of the keypress events to the game board
 		setMinimumSize(new Dimension(700,700));
 		setSize(600,600);
+		slots = new JButton[6][7];
 		drawBoard();
 		this.setBackground(Color.BLACK);
 		validateToMainFrame(mainFrame);
-		this.setFocusable(true);
-		this.requestFocusInWindow();
-    }
-
-	private void drawBoard() {
+	}
+	
+	private void drawBoard(){
 		JButton button;
 		setLayout(new GridLayout(6,7));
 		
-		for(int y = 0; y < 7; y++){
-			for(int x = 0; x < 6; x++){
+		for(int row = 0; row < 6; row++){
+			for(int col = 0; col < 7; col++){
 				button = new JButton(new ImageIcon(this.getClass().getResource("resource/Cell.png")));
+				button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/coin2.png")));
+				button.setPressedIcon(new ImageIcon(getClass().getResource("resource/coin3.png")));
+				slots[row][col] = button;
 				this.add(button);
 			}
 		}
-		
 	}
-
-	private void validateToMainFrame(JFrame mainFrame) {
+	
+	/**
+	 * Adds the gamePanel to the mainframe
+	 * @param mainFrame
+	 */
+	private void validateToMainFrame(MainFrame mainFrame) {
 		GridBagConstraints gbc = new GridBagConstraints();		//creating new gridbagconstraints for the panel
 		gbc.insets = new Insets(60, 60, 60, 60);
 		gbc.anchor = GridBagConstraints.CENTER;
@@ -51,6 +53,38 @@ public class GamePanel extends JPanel {
 		gbc.weighty = 1.0;
 		mainFrame.getContentPane().add(this, gbc);
 		mainFrame.validate();
-		
+	}
+
+	public void addListener(ConnectFourListener connectFourListener) {
+	    for (int row=0; row<6; row++) { 
+	        for (int col = 0; col < 7; col++){ 
+	          slots[row][col].addMouseListener(connectFourListener); 
+	        }      
+	   } 		
+	}
+
+	public int getColumn(JButton button) {
+		int returnColumn = -1; 
+		for (int row=0; row<6; row++) { 
+			for (int col = 0; col < 7; col++) { 
+				if (slots[row][col] == button) { 
+					returnColumn = col; 
+				}        
+			}      
+		}   
+		System.out.println("returnColumn: " + returnColumn);
+		return returnColumn; 
+	}
+
+	
+	
+	public void set(int column, int row, int player) {
+	    if (player == 1) { 
+	      slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/coin2.png")));
+	 
+	    }  
+	    else { 
+	      slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/coin3.png")));
+	    }    		
 	}
 }

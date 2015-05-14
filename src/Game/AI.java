@@ -8,7 +8,7 @@ public class AI {
 	public AI(int i) {
 		difficulty = i;
 	}
-	public int makeAIMove(Board b) {
+	public int makeAIMove(BoardMechanics b) {
 		int move = -1;
 		switch (difficulty) {
 		case 0: move = makeBongoMove(b); break;
@@ -17,12 +17,12 @@ public class AI {
 		
 		return move;
 	}
-	private int makeBongoMove(Board b) {
+	private int makeBongoMove(BoardMechanics b) {
 		int move = (int) Math.ceil(Math.random()* 7);
 		while (!b.checkMoveValid(move)) move = (int) Math.ceil(Math.random()* 7);
 		return move;
 	}
-	private int makeEasyMove(Board b) {
+	private int makeEasyMove(BoardMechanics b) {
 		LinkedList<Integer> avoidCols = checkImpendingVictory(b);
 		int move = (int) Math.ceil(Math.random()* 7);
 		int i = 0;
@@ -33,7 +33,7 @@ public class AI {
 		}
 		return move;
 	}
-	private LinkedList<Integer> checkImpendingVictory(Board b) {
+	private LinkedList<Integer> checkImpendingVictory(BoardMechanics b) {
 		LinkedList<Integer> winningColumns = new LinkedList<Integer>();
 		// copy board
 		// check if victory occurs by adding into each column
