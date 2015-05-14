@@ -21,6 +21,7 @@ public class MenuPanel extends JPanel {
 	
 	
 	public MenuPanel(JFrame frame) {
+
 		buttons = new ArrayList<JButton>();
 		initialize();
 		validateToMainFrame(frame);
@@ -36,7 +37,8 @@ public class MenuPanel extends JPanel {
 		JLabel label = new JLabel(new ImageIcon(this.getClass().getResource("resource/Connect4.png"))); 
 		gbc.gridx = 1;
 		gbc.gridy = 0;
-		this.add(label, gbc);	
+		this.add(label, gbc);
+
 		
 		//start button
 		JButton startButton = new JButton(new ImageIcon(getClass().getResource("resource/startButton.png")));
@@ -49,19 +51,20 @@ public class MenuPanel extends JPanel {
 		gbc.gridy = 1;
 		this.add(startButton, gbc);
 		buttons.add(startButton);
-		
+
 		//Help Button
 		JButton helpButton = new JButton(new ImageIcon(getClass().getResource("resource/Help.png")));
 		helpButton.setActionCommand("Help");
-		helpButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/HelpHover.png")));
+		helpButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/helpHover.png")));
 		helpButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/HelpSelect.png")));
 		helpButton.setContentAreaFilled(false);
+
 		//gbc.anchor = GridBagConstraints.NORTH;
 		gbc.gridx = 1;
 		gbc.gridy = 2;
 		this.add(helpButton, gbc);
 		buttons.add(helpButton);
-		
+
 		//Exit Button
 		JButton quitButton = new JButton(new ImageIcon(getClass().getResource("resource/quitButton.png")));
 		quitButton.setActionCommand("Quit");
@@ -94,8 +97,7 @@ public class MenuPanel extends JPanel {
 	 * 
 	 * @return buttons
 	 */
-	public ArrayList<JButton> getButton()
-	{
+	public ArrayList<JButton> getButton(){
 		return buttons;
 	}
 	
