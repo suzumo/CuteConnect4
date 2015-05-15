@@ -45,8 +45,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			menuPanel = new MenuPanel(mainFrame);
 			
 			//adding actions listeners to the buttons within the menu panel
-			for(JButton button : menuPanel.getButton())
-			{
+			for(JButton button : menuPanel.getButtons()){
 				button.addActionListener(this);
 			}
 		} else {
@@ -60,8 +59,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			playPanel = new PlayPanel(mainFrame);
 			
 			//adding action listeners to buttons
-			for(JButton button : playPanel.getButtons())
-			{
+			for(JButton button : playPanel.getButtons()){
 				button.addActionListener(this);
 			}
 		}
@@ -75,8 +73,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			diffPanel = new DifficultyPanel(mainFrame);
 			
 			//adding action listeners to buttons
-			for(JButton button : diffPanel.getButtons())
-			{
+			for(JButton button : diffPanel.getButtons()){
 				button.addActionListener(this);
 			}
 		}

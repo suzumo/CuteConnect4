@@ -2,7 +2,7 @@ package GUI;
 
 
 import java.awt.*;
-
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -12,9 +12,11 @@ import Game.BoardMechanics;
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 	private JButton[][] slots;
+	private ArrayList<JButton> buttons;
 	
 	public GamePanel(MainFrame mainFrame) {
 		//setFocusable(true);				//sets the focus of the keypress events to the game board
+		buttons = new ArrayList<JButton>();
 		slots = new JButton[6][7];
 		drawBoard();
 		validateToMainFrame(mainFrame);
@@ -29,9 +31,11 @@ public class GamePanel extends JPanel {
 		for(int row = 0; row < 6; row++){
 			for(int col = 0; col < 7; col++){
 				button = new JButton(new ImageIcon(this.getClass().getResource("resource/Cell.png")));
+				button.setActionCommand("Drop");
 				button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/CellHover.png")));
 				button.setPressedIcon(new ImageIcon(getClass().getResource("resource/CellSelect.png")));
 				slots[row][col] = button;
+				buttons.add(button);
 				this.add(button);
 			}
 		}
@@ -87,6 +91,10 @@ public class GamePanel extends JPanel {
 		this.removeAll();
 		drawBoard();	
 		validateToMainFrame(mainFrame);
+	}
+
+	public ArrayList<JButton> getButtons() {
+		return buttons;
 	}
 	
 }

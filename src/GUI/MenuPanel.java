@@ -94,7 +94,7 @@ public class MenuPanel extends JPanel {
 	 * 
 	 * @return buttons
 	 */
-	public ArrayList<JButton> getButton()
+	public ArrayList<JButton> getButtons()
 	{
 		return buttons;
 	}

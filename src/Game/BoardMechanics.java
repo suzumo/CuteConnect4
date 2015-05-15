@@ -38,7 +38,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		this.ai = new AI(diff);
 		gamePanel = new GamePanel(mainFrame);
 		listener = new ConnectFourListener(this, this.gamePanel);
-		
+		for(JButton button : gamePanel.getButtons()){
+			button.addActionListener(this);
+		}
 	}
 	
 	private void initilize(){
@@ -91,10 +93,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		return currentPlayer;
 	}
 	
-	public AI getAI(){
-		return this.ai;
-	}
-
 	public void print() {
 		for (int row = 0; row < 6; row++) {
 		    for (int col = 0; col < 7; col++) {
@@ -257,10 +255,28 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 	}
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent event) {
+		int row = -1;
+		int move = -1;
+		boolean win = false;
+		if(event.getActionCommand().equalsIgnoreCase("Drop")){
+			System.out.println("AI");
+			if(isCPU() && getCurrentPlayer() == 2){
+	    		move = aiDropToken();
+	    		row = dropToken(move);
+	    		System.out.println("move "+ move +" Row "+ row);
+	    		if(row != -1){
+	    			gamePanel.set(move, row, getCurrentPlayer());
+	    		}
+	    		win = checkForWin();
+			    if(win == true){
+				    	win(getCurrentPlayer());
+			    }
+			}
+
+		}
+}
 		
-	}
 
 
 

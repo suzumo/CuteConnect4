@@ -64,25 +64,7 @@ public class ConnectFourListener implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		int row = -1;
-		int move = -1;
-		JButton button = (JButton) e.getComponent(); 
-	    int clicked = gui.getColumn(button); 
-		if(clicked != 0){
-			if(game.isCPU() && game.getCurrentPlayer() == 2){
-	    		move = game.aiDropToken();
-	    		row = game.dropToken(move);
-	    		System.out.println("move "+ move +" Row "+ row);
-	    		if(row != -1){
-		        	gui.set(move, row, game.getCurrentPlayer());
-	    		}
-			}
-
-			win = game.checkForWin();
-		    if(win == true){
-			    	game.win(game.getCurrentPlayer());
-		    }
-		}
+		
 	}
 
 }
