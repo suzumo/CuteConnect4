@@ -2,6 +2,7 @@ package Game;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
@@ -82,7 +83,9 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 	}
 
 	public void viewGamePanel(MainFrame mainFrame, int diff){
-		boardMechanics = new BoardMechanics(this, mainFrame, diff);
+		HashMap<Integer, Boolean> cpus = new HashMap<Integer, Boolean>();
+		cpus.put(2, true);
+		boardMechanics = new BoardMechanics(this, mainFrame, diff, cpus);
 	}
 	
 	/**

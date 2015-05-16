@@ -29,10 +29,9 @@ public class ConnectFourListener implements MouseListener{
 	    if(row != -1){
         	gui.set(column, row, game.getCurrentPlayer());
 	    }
-	    win = game.checkForWin();
-	    if(win == true){
-	    	game.win(game.getCurrentPlayer());
-	    }
+	    
+		game.update();
+
 	}
 
 	

@@ -11,8 +11,8 @@ public class AI {
 	public int makeAIMove(BoardMechanics b) {
 		int move = -1;
 		switch (difficulty) {
-		case 0: move = makeBongoMove(b); break;
-		case 1: move = makeEasyMove(b); break;
+			case 0: move = makeBongoMove(b); break;
+			case 1: move = makeEasyMove(b); break;
 		}
 		
 		return move;

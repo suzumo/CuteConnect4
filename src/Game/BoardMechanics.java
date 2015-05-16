@@ -6,11 +6,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import GUI.ConnectFourListener;
 import GUI.GamePanel;
@@ -23,27 +25,57 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private MainFrame mainFrame;
 	private GamePanel gamePanel;
 	private ConnectFourListener listener;
-	private AI ai;
-	private int currentPlayer;
-	private ArrayList<ArrayList<Cell>> board;
-	private int turn;
-	private int curr_row;
-	private int difficulty;
 	
-	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff) {
+	//players
+	private int current_player;	// 1 for player 1, 2 for player 2, etc
+	private int players; // 2 minimum
+	
+	private int moves_made;
+	
+	private HashMap<Integer, Boolean> cpu_players;	// player -> isAI?
+	private int ai_difficulty;
+	AI ai;
+	
+	private ArrayList<ArrayList<Cell>> board;
+	private int curr_row;
+	 
+	
+	
+	/*
+	 * 0	game over
+	 * 1	in play
+	 */
+	private int state;	
+	
+	/**
+	 * @param connectFourGame
+	 * @param mFrame
+	 * @param diff difficulty of ai players
+	 * @param cpu_players
+	 */
+	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff, HashMap<Integer, Boolean> cpu_players) {
 		//Initializing board
-		initilize();
+
+		
+		initialise();
+		
 		this.mainFrame = mFrame;
 		this.c4Game = connectFourGame;
-		this.ai = new AI(diff);
+		
+		// AI setting up
+		this.cpu_players = cpu_players;
+		ai_difficulty = diff;
+		ai = new AI(diff);
+
 		gamePanel = new GamePanel(mainFrame);
 		listener = new ConnectFourListener(this, this.gamePanel);
 		for(JButton button : gamePanel.getButtons()){
 			button.addActionListener(this);
 		}
+		
 	}
 	
-	private void initilize(){
+	private void initialise(){
 		board = new ArrayList<ArrayList<Cell>>();
 		
 		//Populating the board with cells
@@ -52,11 +84,19 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			for(int col = 0; col < 7;col++){
 				board.get(row).add(new Cell(row,col,0));
 			}
+			
 		}
 		//this.print();
 		
-		turn = 0;
+		current_player = 1;
+		players = 2;	
+		
+		moves_made = 0;
+		
 		curr_row = 0;
+		
+		state = 1;
+		
 	}
 	
 	/**
@@ -69,28 +109,61 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		if(checkMoveValid(col)){
 			for(int i = 5; i >=0; i--){
 				if(board.get(i).get(col).getValue() == 0){
-					board.get(i).get(col).setValue(this.getCurrentPlayer());
+					board.get(i).get(col).setValue(current_player);
 					curr_row = i;
 					break;
 				}
 			}
-			turn++;
+			nextPlayer();
+			moves_made++;
+			
 			return curr_row;
 		}
 		return dRow;
 	}
 	
+	/**
+	 * 
+	 */
+	private void nextPlayer() {
+		current_player++;
+		if (current_player > players)
+			current_player = 1;
+	}
+	
+	private int getPreviousPlayer(){
+		int p = current_player-1;
+		if (p == 0)
+			return players;
+		return p;
+	}
+
 	public int aiDropToken(){
 		int row = this.ai.makeAIMove(this);
 		return row;
+	}
+	public void doAIMove(){
+		
+		int col = aiDropToken();
+		int row = dropToken(col);
+		System.out.println("col: "+ col +" Row "+ row + " current player: " + current_player);
+		if (row != -1)
+			gamePanel.set(col, row, current_player);
+
+		update();
+	}
+	
+	public boolean isPlayerAI(int p){
+		if (cpu_players.get(p) != null && cpu_players.get(p) == true)
+			return true;
+		return false;
 	}
 	
 	/**
 	 * Calculates the current player with turns
 	 */
 	public int getCurrentPlayer() {
-		currentPlayer = (turn%2)+1;
-		return currentPlayer;
+		return current_player;
 	}
 	
 	public void print() {
@@ -105,7 +178,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	public boolean isCPU(){
 		boolean isCPU = false;
-		if(this.difficulty != -1){
+		if(this.ai_difficulty != -1){
 			isCPU = true;
 		}
 		return isCPU;
@@ -140,61 +213,60 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 */
 	public boolean checkForWin(){
 		
-		if (turn < 7) return false;		
+		if (moves_made < 7) return false;		
 		
-		     
 		// check for a horizontal win 
-		    for (int row =0; row<6; row++) { 
-		    	for (int column=0; column<4; column++) { 
-		    		if (board.get(row).get(column).getValue()!= 0 && board.get(row).get(column).getValue() == board.get(row).get(column+1).getValue() && board.get(row).get(column).getValue() == board.get(row).get(column+2).getValue() && board.get(row).get(column).getValue() == board.get(row).get(column+3).getValue()) { 
-		    			return true; 
-		            }        
-		    	}      
-		    }
-		 
-		 
+	    for (int row =0; row<6; row++) { 
+	    	for (int column=0; column<4; column++) { 
+	    		if (board.get(row).get(column).getValue()!= 0 && board.get(row).get(column).getValue() == board.get(row).get(column+1).getValue() && board.get(row).get(column).getValue() == board.get(row).get(column+2).getValue() && board.get(row).get(column).getValue() == board.get(row).get(column+3).getValue()) { 
+	    			return true; 
+	            }        
+	    	}      
+	    }
 		  // check for a vertical win 
-		    for (int row=0; row<3; row++) { 
-		       for (int column=0; column<7; column++) { 
-		          if (board.get(row).get(column).getValue() != 0 && 
-		        	 board.get(row).get(column).getValue() == board.get(row+1).get(column).getValue() && 
-		        	 board.get(row).get(column).getValue() == board.get(row+2).get(column).getValue() && 
-		        	 board.get(row).get(column).getValue() == board.get(row+3).get(column).getValue()) { 
-		        	 return true; 
-		          }  
-		       }       
-		    }    
+	    for (int row=0; row<3; row++) { 
+	       for (int column=0; column<7; column++) { 
+	          if (board.get(row).get(column).getValue() != 0 && 
+	        	 board.get(row).get(column).getValue() == board.get(row+1).get(column).getValue() && 
+	        	 board.get(row).get(column).getValue() == board.get(row+2).get(column).getValue() && 
+	        	 board.get(row).get(column).getValue() == board.get(row+3).get(column).getValue()) { 
+	        	 return true; 
+	          }  
+	       }       
+	    }    
 		     
-		    // check for a diagonal win (positive slope) 
-		    for (int row=0; row<3; row++) { 
-		    	for (int column=0; column<4; column++) { 
-		    		if (board.get(row).get(column).getValue() != 0 && 
-	    				board.get(row).get(column).getValue() == board.get(row+1).get(column+1).getValue() && 
-						board.get(row).get(column).getValue() == board.get(row+2).get(column+2).getValue() && 
-						board.get(row).get(column).getValue() == board.get(row+3).get(column+3).getValue()) { 
-			           return true; 
-			        }        
-		    	}      
-			}    
+	    // check for a diagonal win (positive slope) 
+	    for (int row=0; row<3; row++) { 
+	    	for (int column=0; column<4; column++) { 
+	    		if (board.get(row).get(column).getValue() != 0 && 
+    				board.get(row).get(column).getValue() == board.get(row+1).get(column+1).getValue() && 
+					board.get(row).get(column).getValue() == board.get(row+2).get(column+2).getValue() && 
+					board.get(row).get(column).getValue() == board.get(row+3).get(column+3).getValue()) { 
+		           return true; 
+		        }        
+	    	}      
+		}    
 		     
-		    // check for a diagonal win (negative slope) 
-		    for (int row=3; row<6; row++) { 
-		      for (int column=0; column<4; column++) { 
-		    	  if (board.get(row).get(column).getValue() != 0 && 
-					  board.get(row).get(column).getValue() == board.get(row-1).get(column+1).getValue() && 
-					  board.get(row).get(column).getValue() == board.get(row-2).get(column+2).getValue() && 
-					  board.get(row).get(column).getValue() == board.get(row-3).get(column+3).getValue()) { 
-				      return true; 
-			      }        
-		      }      
-		    }    
-		     
-		    return false; 
+	    // check for a diagonal win (negative slope) 
+	    for (int row=3; row<6; row++) { 
+	      for (int column=0; column<4; column++) { 
+	    	  if (board.get(row).get(column).getValue() != 0 && 
+				  board.get(row).get(column).getValue() == board.get(row-1).get(column+1).getValue() && 
+				  board.get(row).get(column).getValue() == board.get(row-2).get(column+2).getValue() && 
+				  board.get(row).get(column).getValue() == board.get(row-3).get(column+3).getValue()) { 
+			      return true; 
+		      }        
+	      }      
+	    }    
+	     
+	    return false; 
 	}  
 		
 	
 	public void win(int player) {
-		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"Player " + player + " Won!!!\n" + "Would you like to play again?","Winner",JOptionPane.YES_NO_OPTION);
+		
+		state = 0;
+		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"Player " + getPreviousPlayer() + " Won!!!\n" + "Would you like to play again?","Winner",JOptionPane.YES_NO_OPTION);
 		if(playAgain == 0){		//yes
 			restart();
 		} else if(playAgain == 1){		//no
@@ -208,7 +280,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 * 
 	 */
 	public void restart(){
-		initilize();
+		initialise();
 		
 		gamePanel.setVisible(true);
 		gamePanel.setFocusable(true);
@@ -246,48 +318,61 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		// 
 		
 	}
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		// 
 		
 	}
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		int row = -1;
-		int move = -1;
-		boolean win = false;
-		if(event.getActionCommand().equalsIgnoreCase("Drop")){
-			System.out.println("AI");
-			if(isCPU() && getCurrentPlayer() == 2){
-	    		move = aiDropToken();
-	    		row = dropToken(move);
-	    		System.out.println("move "+ move +" Row "+ row);
-	    		if(row != -1){
-	    			gamePanel.set(move, row, getCurrentPlayer());
-	    		}
-	    		win = checkForWin();
-			    if(win == true){
-				    	win(getCurrentPlayer());
-			    }
-			}
-
-		}
-}
+					
+		update();
 		
+//		int row = -1;
+//		int col = -1;
+//		boolean win = false;
+//		if(event.getActionCommand().equalsIgnoreCase("Drop")){
+//			System.out.println("AI");
+//			if(isCPU() && getCurrentPlayer() == 2){
+//	    		col = aiDropToken();
+//	    		row = dropToken(col);
+//	    		System.out.println("move "+ col +" Row "+ row);
+//	    		if(row != -1){
+//	    			gamePanel.set(col, row, getCurrentPlayer());
+//	    		}
+//	    		win = checkForWin();
+//			    if(win == true){
+//				    win(getCurrentPlayer());
+//			    }
+//			}
+//		}
+	}
 
-
-
-
-
-
-
-
-
-
+	public boolean isInPlay() {
+		if (state == 1)
+			return true;
+		return false;
+	}
 	
-	
-	
+	/**
+	 * regular checks and updates to game
+	 * 
+	 * @return
+	 */
+	public void update() {
+		
+		System.out.println("update running.....");
+		
+		//check if need to do player move
+		if ( isPlayerAI(getCurrentPlayer()) )
+				doAIMove();
+		
+		//win checking
+	    if(checkForWin())
+		    win(getCurrentPlayer());		
+	}
 }
