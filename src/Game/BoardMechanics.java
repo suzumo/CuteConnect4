@@ -30,6 +30,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private int current_player;	// 1 for player 1, 2 for player 2, etc
 	private int players; // 2 minimum
 	
+	private int winning_player;
+	
 	private int moves_made;
 	
 	private HashMap<Integer, Boolean> cpu_players;	// player -> isAI?
@@ -85,11 +87,13 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				board.get(row).add(new Cell(row,col,0));
 			}
 			
+			
 		}
 		//this.print();
 		
 		current_player = 1;
 		players = 2;	
+		winning_player = 0;
 		
 		moves_made = 0;
 		
@@ -149,8 +153,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		System.out.println("col: "+ col +" Row "+ row + " current player: " + current_player);
 		if (row != -1)
 			gamePanel.set(col, row, current_player);
-
-		update();
 	}
 	
 	public boolean isPlayerAI(int p){
@@ -219,6 +221,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	    for (int row =0; row<6; row++) { 
 	    	for (int column=0; column<4; column++) { 
 	    		if (board.get(row).get(column).getValue()!= 0 && board.get(row).get(column).getValue() == board.get(row).get(column+1).getValue() && board.get(row).get(column).getValue() == board.get(row).get(column+2).getValue() && board.get(row).get(column).getValue() == board.get(row).get(column+3).getValue()) { 
+	    		
+		        	  winning_player = board.get(row).get(column).getValue();
+
 	    			return true; 
 	            }        
 	    	}      
@@ -230,7 +235,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	        	 board.get(row).get(column).getValue() == board.get(row+1).get(column).getValue() && 
 	        	 board.get(row).get(column).getValue() == board.get(row+2).get(column).getValue() && 
 	        	 board.get(row).get(column).getValue() == board.get(row+3).get(column).getValue()) { 
-	        	 return true; 
+	        	 
+	        	  winning_player = board.get(row).get(column).getValue();
+	        	  return true; 
 	          }  
 	       }       
 	    }    
@@ -242,7 +249,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
     				board.get(row).get(column).getValue() == board.get(row+1).get(column+1).getValue() && 
 					board.get(row).get(column).getValue() == board.get(row+2).get(column+2).getValue() && 
 					board.get(row).get(column).getValue() == board.get(row+3).get(column+3).getValue()) { 
-		           return true; 
+		           
+	    			winning_player = board.get(row).get(column).getValue();
+	    			return true; 
 		        }        
 	    	}      
 		}    
@@ -254,10 +263,14 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				  board.get(row).get(column).getValue() == board.get(row-1).get(column+1).getValue() && 
 				  board.get(row).get(column).getValue() == board.get(row-2).get(column+2).getValue() && 
 				  board.get(row).get(column).getValue() == board.get(row-3).get(column+3).getValue()) { 
-			      return true; 
+
+	    		  winning_player = board.get(row).get(column).getValue();
+
+	    		  return true; 
 		      }        
 	      }      
 	    }    
+	    
 	     
 	    return false; 
 	}  
@@ -266,7 +279,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	public void win(int player) {
 		
 		state = 0;
-		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"Player " + getPreviousPlayer() + " Won!!!\n" + "Would you like to play again?","Winner",JOptionPane.YES_NO_OPTION);
+		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"Player " + winning_player + " Won!!!\n" + "Would you like to play again?","Winner",JOptionPane.YES_NO_OPTION);
 		if(playAgain == 0){		//yes
 			restart();
 		} else if(playAgain == 1){		//no
