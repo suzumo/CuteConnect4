@@ -39,26 +39,21 @@ public class DifficultyPanel extends JPanel {
 		
 		
 		//game label
-		label = new JLabel(new ImageIcon(this.getClass().getResource("resource/selectLabel.png")));
-		gbc.insets = new Insets(0, 0, 5, 5);
+		label = new JLabel(new ImageIcon(this.getClass().getResource("resource/select-difficulty.png")));
+		gbc.insets = new Insets(0, 0, 50, 0);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		add(label, gbc);
-		
-		//options label
-		label = new JLabel(new ImageIcon(this.getClass().getResource("resource/difficultyLabel.png")));
-		gbc.insets = new Insets(0, 0, 5, 5);
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		add(label, gbc);
-		
+		add(label, gbc);		
 		
 		//PvP
-		button = new JButton("Easy");
+		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-easy.png")));
 		button.setActionCommand("Easy");
-		gbc.insets = new Insets(1,1,1,1);
+		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-easy-hover.png")));
+		button.setPressedIcon(new ImageIcon(getClass().getResource("resource/difficulty-easy-pressed.png")));
+		gbc.insets = new Insets(0,0,0,0);
 		gbc.gridx = 0;
-		gbc.gridy = 2;
+		gbc.gridy = 1;
+		button.setContentAreaFilled(false);
 		add(button,gbc);
 		buttons.add(button);
 		

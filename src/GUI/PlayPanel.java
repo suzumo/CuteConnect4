@@ -41,37 +41,49 @@ public class PlayPanel extends JPanel {
 		
 		
 		//game label
-		label = new JLabel(new ImageIcon(this.getClass().getResource("resource/gameLabel.png")));
-		gbc.insets = new Insets(0, 0, 5, 5);
+		label = new JLabel(new ImageIcon(this.getClass().getResource("resource/game-options.png")));
+		gbc.insets = new Insets(50, 0, 50, 0);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		add(label, gbc);
 		
-		//options label
-		label = new JLabel(new ImageIcon(this.getClass().getResource("resource/optionsLabel.png")));
-		gbc.insets = new Insets(0, 0, 5, 5);
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		add(label, gbc);
-		
-		
-		//PvP
-		button = new JButton("PvP");
-		button.setActionCommand("PvP");
-		gbc.insets = new Insets(1,1,1,1);
+		//PvAI
+		button = new JButton(new ImageIcon(getClass().getResource("resource/menu-players1.png")));
+		button.setActionCommand("PvAI");
+		button.setToolTipText("Play versus the computer!");
+		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/menu-players1-hover.png")));
+		gbc.insets = new Insets(0,10,0,0);
+		gbc.anchor = GridBagConstraints.NORTH;
 		gbc.gridx = 0;
 		gbc.gridy = 2;
+		button.setContentAreaFilled(false);
 		add(button,gbc);
 		buttons.add(button);
 		
-		//PvAI
-		button = new JButton("PvAI");
-		button.setActionCommand("PvAI");
-		gbc.insets = new Insets(1,1,1,1);
+		//PvP
+		button = new JButton(new ImageIcon(getClass().getResource("resource/menu-players2.png")));
+		button.setActionCommand("PvP");
+		button.setToolTipText("Play with your friend!");
+		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/menu-players2-hover.png")));
+		gbc.insets = new Insets(1,10,0,0);
 		gbc.gridx = 0;
 		gbc.gridy = 3;
+		button.setContentAreaFilled(false);
 		add(button,gbc);
 		buttons.add(button);
+		
+		//Exit game
+		button = new JButton(new ImageIcon(getClass().getResource("resource/menu-exitgame.png")));
+		button.setActionCommand("Quit");
+		button.setToolTipText("Exit game");
+		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/menu-exitgame-hover.png")));
+		gbc.insets = new Insets(1,10,0,0);
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		button.setContentAreaFilled(false);
+		add(button,gbc);
+		buttons.add(button);
+		
 	}
 	
 	private void validateToMainFrame(JFrame frame) {
