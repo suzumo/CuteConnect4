@@ -16,19 +16,14 @@ import javax.swing.SwingUtilities;
 
 import GUI.ConnectFourListener;
 import GUI.GamePanel;
-import GUI.LeftPanel;
 import GUI.MainFrame;
-import GUI.SidePanel;
 import Game.ConnectFourGame;
 
 
 public class BoardMechanics implements ActionListener, KeyListener{
-	
 	private ConnectFourGame c4Game;
 	private MainFrame mainFrame;
 	private GamePanel gamePanel;
-	private SidePanel rightPanel;
-	private LeftPanel leftPanel;
 	private ConnectFourListener listener;
 	
 	//players
@@ -54,19 +49,28 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 */
 	private int state;	
 	
+	
 	/**
 	 * @param connectFourGame
 	 * @param mFrame
-	 * @param diff difficulty of ai players
+	 * @param diff
 	 * @param cpu_players
+	 * @param players number of players in this game
 	 */
+<<<<<<< HEAD
 	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff, HashMap<Integer, Boolean> cpu_players) {
 		//Initializing board
+=======
+	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff, HashMap<Integer, Boolean> cpu_players, int players) {
+>>>>>>> b8450c0d32abcd875716ed9088568d818700dc0b
 		
+		//Initializing board
 		initialise();
 		
 		this.mainFrame = mFrame;
 		this.c4Game = connectFourGame;
+		
+		this.players = players;	
 		
 		// AI setting up
 		this.cpu_players = cpu_players;
@@ -98,7 +102,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		//this.print();
 		
 		current_player = 1;
-		players = 2;	
 		winning_player = 0;
 		
 		moves_made = 0;
@@ -277,7 +280,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	      }      
 	    }    
 	    
-	     
 	    return false; 
 	}  
 		

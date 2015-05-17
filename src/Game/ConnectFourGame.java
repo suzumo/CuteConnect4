@@ -85,7 +85,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 	public void viewGamePanel(MainFrame mainFrame, int diff){
 		HashMap<Integer, Boolean> cpus = new HashMap<Integer, Boolean>();
 		cpus.put(2, true);
-		boardMechanics = new BoardMechanics(this, mainFrame, diff, cpus);
+		boardMechanics = new BoardMechanics(this, mainFrame, diff, cpus, 2);
 	}
 	
 	/**
