@@ -16,7 +16,9 @@ import javax.swing.SwingUtilities;
 
 import GUI.ConnectFourListener;
 import GUI.GamePanel;
+import GUI.LeftPanel;
 import GUI.MainFrame;
+import GUI.SidePanel;
 import Game.ConnectFourGame;
 
 
@@ -24,6 +26,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private ConnectFourGame c4Game;
 	private MainFrame mainFrame;
 	private GamePanel gamePanel;
+	private SidePanel rightPanel;
+	private LeftPanel leftPanel;
 	private ConnectFourListener listener;
 	
 	//players
@@ -57,12 +61,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 * @param cpu_players
 	 * @param players number of players in this game
 	 */
-<<<<<<< HEAD
-	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff, HashMap<Integer, Boolean> cpu_players) {
-		//Initializing board
-=======
+
 	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff, HashMap<Integer, Boolean> cpu_players, int players) {
->>>>>>> b8450c0d32abcd875716ed9088568d818700dc0b
+
 		
 		//Initializing board
 		initialise();
