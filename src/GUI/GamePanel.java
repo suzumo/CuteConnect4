@@ -1,6 +1,5 @@
 package GUI;
 
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -23,8 +22,10 @@ public class GamePanel extends JPanel {
 	}
 	
 	private void drawBoard(){
-		setMinimumSize(new Dimension(700,700));
-		setSize(600,600);
+		
+		this.setBackground(Color.BLACK);
+		//setMinimumSize(new Dimension(700,700));
+		//setSize(600,600);
 		JButton button;
 		setLayout(new GridLayout(6,7));
 		
@@ -34,12 +35,13 @@ public class GamePanel extends JPanel {
 				button.setActionCommand("Drop");
 				button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/CellHover.png")));
 				button.setPressedIcon(new ImageIcon(getClass().getResource("resource/CellSelect.png")));
+				button.setMinimumSize(new Dimension(90,90));
 				slots[row][col] = button;
 				buttons.add(button);
 				this.add(button);
 			}
 		}
-		this.setBackground(Color.BLACK);
+
 	}
 	
 	/**
@@ -48,8 +50,8 @@ public class GamePanel extends JPanel {
 	 */
 	private void validateToMainFrame(MainFrame mainFrame) {
 		GridBagConstraints gbc = new GridBagConstraints();		//creating new gridbagconstraints for the panel
-		gbc.insets = new Insets(60, 60, 60, 60);
-		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.insets = new Insets(80, 250, 80, 250);
+		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.weightx = 1.0;

@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
 	public void initialize()
 	{
 		setTitle("Connect Four");
-		setBounds(100, 100, 1000, 750);
+		setBounds(100, 100, 1200, 750);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);	
 		setVisible(true);

@@ -17,15 +17,13 @@ import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 
-
-
 public class PlayPanel extends JPanel {
 	private ArrayList<JButton> buttons;
 	
 	
 	public PlayPanel(JFrame mainFrame){
+		
 		buttons = new ArrayList<JButton>();
-
 		
 		//creating a gridbaglayout
 		GridBagLayout gridBagLayout = new GridBagLayout();

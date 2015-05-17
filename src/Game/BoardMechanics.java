@@ -16,14 +16,19 @@ import javax.swing.SwingUtilities;
 
 import GUI.ConnectFourListener;
 import GUI.GamePanel;
+import GUI.LeftPanel;
 import GUI.MainFrame;
+import GUI.SidePanel;
 import Game.ConnectFourGame;
 
 
 public class BoardMechanics implements ActionListener, KeyListener{
+	
 	private ConnectFourGame c4Game;
 	private MainFrame mainFrame;
 	private GamePanel gamePanel;
+	private SidePanel rightPanel;
+	private LeftPanel leftPanel;
 	private ConnectFourListener listener;
 	
 	//players
@@ -57,7 +62,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 */
 	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff, HashMap<Integer, Boolean> cpu_players) {
 		//Initializing board
-
 		
 		initialise();
 		
@@ -70,6 +74,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		ai = new AI(diff);
 
 		gamePanel = new GamePanel(mainFrame);
+		leftPanel = new LeftPanel(mainFrame);
+		rightPanel = new SidePanel(mainFrame);
 		listener = new ConnectFourListener(this, this.gamePanel);
 		for(JButton button : gamePanel.getButtons()){
 			button.addActionListener(this);
@@ -285,6 +291,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		} else if(playAgain == 1){		//no
 			c4Game.viewMenuPanel(mainFrame);
 			gamePanel.setVisible(false);
+			rightPanel.setVisible(false);
+			leftPanel.setVisible(false);
 		}
 	}
 	
