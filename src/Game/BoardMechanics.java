@@ -85,6 +85,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		for(JButton button : gamePanel.getButtons()){
 			button.addActionListener(this);
 		}
+		for (JButton button : rightPanel.getButtons()) {
+			button.addActionListener(this);
+		}
 		
 	}
 	
@@ -354,7 +357,26 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 					
-		update();
+		if (event.getActionCommand().equals("Quit")) {
+			//check to make sure user really wants to quit
+			int quit = JOptionPane.showConfirmDialog(mainFrame,
+					"You want to quit this game and return to title screen?",
+					"Quit Message", JOptionPane.YES_NO_OPTION);
+			if(quit == 0) { //yes
+				c4Game.viewMenuPanel(mainFrame);
+				gamePanel.setVisible(false);
+				rightPanel.setVisible(false);
+				leftPanel.setVisible(false);
+			}
+		} else if (event.getActionCommand().equals("Help")) { 
+			// CREATE HELP SCREEN
+		} else if (event.getActionCommand().equals("Difficulty")) {
+			// CREATE ADJUST DIFFICULTY SCREEN? POP UP?
+		} else if (event.getActionCommand().equals("Sound")) {
+			// CREATE TOGGLE SOUND
+		} else {
+			update();
+		}
 		
 //		int row = -1;
 //		int col = -1;

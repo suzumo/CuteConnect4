@@ -17,15 +17,17 @@ import GUI.MenuPanel;
 import GUI.PlayPanel;
 import GUI.MainFrame;
 import GUI.DifficultyPanel;
+import GUI.SidePanel;
 
 
 public class ConnectFourGame extends JFrame implements ActionListener{
+	private MainFrame mainFrame;
 	private GamePanel gamePanel;
 	private HelpPanel helpPanel;
 	private MenuPanel menuPanel;
-	private MainFrame mainFrame;
 	private PlayPanel playPanel;
 	private DifficultyPanel diffPanel;
+	private SidePanel rightPanel;
 	private BoardMechanics boardMechanics;
 
 	
