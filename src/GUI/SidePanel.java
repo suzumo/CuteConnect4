@@ -12,6 +12,8 @@ import javax.swing.border.Border;
 
 public class SidePanel extends JPanel {
 
+	JLabel turnDisplay;
+	
 	private ArrayList<JButton> buttons;
 	
 	public SidePanel(JFrame mainframe) {
@@ -31,18 +33,14 @@ public class SidePanel extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(0,0,0,0);
 
-		//cat button - this is temporary holder for player1/player2 turn
-		JButton catButton = new JButton(new ImageIcon(getClass().getResource("resource/button-cat-player-turn.png")));
-		//exitButton.setActionCommand("Exit");
-		catButton.setToolTipText("Random button");
-		catButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/button-cat-pc.png")));
-		catButton.setContentAreaFilled(false);
-		catButton.setBorder(null);
+		//player 1 or 2 turn display
+		turnDisplay = new JLabel(new ImageIcon(getClass().getResource("resource/player1-turn.png")));
+		turnDisplay.setToolTipText("Player turn");
+		turnDisplay.setBorder(null);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.anchor = GridBagConstraints.FIRST_LINE_END;
-		add(catButton, gbc);
-		buttons.add(catButton);
+		gbc.anchor = GridBagConstraints.CENTER;
+		add(turnDisplay, gbc);
 		
 		// this is where other buttons should go
 		JLabel padding1 = new JLabel();
@@ -124,4 +122,12 @@ public class SidePanel extends JPanel {
 		return buttons;
 	}
 	
+	public void updateTurnDisplay(int playerNum) {
+		
+		if (playerNum == 1) {
+			turnDisplay.setIcon(new ImageIcon(getClass().getResource("resource/player1-turn.png")));
+		} else {
+			turnDisplay.setIcon(new ImageIcon(getClass().getResource("resource/player2-turn.png")));
+		}
+	}
 }

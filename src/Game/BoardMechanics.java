@@ -390,10 +390,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	public void update() {
 		
 		System.out.println("update running.....");
-		
+		rightPanel.updateTurnDisplay(getCurrentPlayer());
 		//check if need to do player move
-		if ( isPlayerAI(getCurrentPlayer()) )
-				doAIMove();
+		if ( isPlayerAI(getCurrentPlayer()) ) {
+			doAIMove();
+			rightPanel.updateTurnDisplay(getCurrentPlayer());
+		}
 		
 		//win checking
 	    if(checkForWin())
