@@ -33,6 +33,7 @@ public class GamePanel extends JPanel {
 			for(int col = 0; col < 7; col++){
 				button = new JButton(new ImageIcon(this.getClass().getResource("resource/Cell.png")));
 				button.setActionCommand("Drop");
+				button.setBorderPainted(true);
 				button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/CellHover.png")));
 				button.setPressedIcon(new ImageIcon(getClass().getResource("resource/CellSelect.png")));
 				button.setMinimumSize(new Dimension(90,90));
@@ -82,10 +83,12 @@ public class GamePanel extends JPanel {
 
 	public void set(int column, int row, int player) {
 	    if (player == 1) { 
-	      slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/player1.png")));
+	    	slots[row][column].setBackground(Color.RED);
+	      //slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/player1.png")));
 	 
-	    } else { 
-	      slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/player2.png")));
+	    } else {
+	    	slots[row][column].setBackground(Color.GREEN);
+	      //slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/player2.png")));
 	    }    		
 	}
 
