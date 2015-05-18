@@ -423,4 +423,16 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	    if(checkForWin())
 		    win(getCurrentPlayer());		
 	}
+	
+	public ArrayList<ArrayList<Cell>> getBoard() {
+		return board;
+	}
+	
+	public void switchCurrentPlayer() {
+		if (current_player == 1) current_player = 2;
+		else if (current_player == 2) current_player = 1;
+	}
+	public void customDropToken(int row, int col, int player) {
+		board.get(row).get(col).setValue(player);
+	}
 }
