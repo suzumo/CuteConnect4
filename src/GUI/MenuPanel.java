@@ -1,5 +1,6 @@
 package GUI;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,8 +11,13 @@ import java.awt.GridBagLayout;
 import javax.swing.JButton;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -19,6 +25,7 @@ import java.util.ArrayList;
 public class MenuPanel extends JPanel {
 	
 	private ArrayList<JButton> buttons;
+	private BufferedImage background_image;
 	
 	public MenuPanel(JFrame frame) {
 		buttons = new ArrayList<JButton>();
@@ -31,8 +38,15 @@ public class MenuPanel extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 
 		setLayout(new GridBagLayout());
-		gbc.insets = new Insets(0,0,0,0);
+		
+		//set background
 		this.setBackground(Color.BLACK);
+		try {
+			background_image = ImageIO.read(getClass().getResource("resource/bg-sky.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		JLabel label = new JLabel(new ImageIcon(this.getClass().getResource("resource/title.png"))); 
 		gbc.gridx = 1;
@@ -77,19 +91,28 @@ public class MenuPanel extends JPanel {
 		this.add(helpButton, gbc);
 		buttons.add(helpButton);
 		
-	}	
+	}
 	
 	private void validateToMainFrame(JFrame frame) {
 		
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 3;
-		gbc.gridy = 2;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
 		gbc.insets = new Insets(0, 0, 0, 0);
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.BOTH;
 		
 		frame.getContentPane().add(this, gbc);
 		frame.validate();
+	}
+	
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(background_image, 0, 0, this);
 	}
 	
 	/**

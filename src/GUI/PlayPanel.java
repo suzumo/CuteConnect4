@@ -90,10 +90,12 @@ public class PlayPanel extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(0, 0, 0, 0);
 		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.gridx = 3;
-		gbc.gridy = 2;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
 		frame.getContentPane().add(this, gbc);
-		frame.validate();	
+		frame.validate();
 	}
 	
 	/**

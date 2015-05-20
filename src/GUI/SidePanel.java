@@ -2,13 +2,17 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -16,6 +20,7 @@ public class SidePanel extends JPanel {
 
 	JLabel turnDisplay;
 	private ArrayList<JButton> buttons;
+	private BufferedImage background_image;
 	
 	public SidePanel(JFrame mainframe) {
 		buttons = new ArrayList<JButton>();
@@ -25,9 +30,16 @@ public class SidePanel extends JPanel {
 	
 	public void initialise() {
 		
+		//set background
 		setLayout(new GridBagLayout());
-		setMinimumSize(new Dimension(250,750));	
+		setMinimumSize(new Dimension(250,750));
 		this.setBackground(Color.white);
+		try {
+			background_image = ImageIO.read(getClass().getResource("resource/bg-sky.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(0,0,0,0);
@@ -134,6 +146,12 @@ public class SidePanel extends JPanel {
 		}
 	}
 
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(background_image, 0, 0, this);
+	}
+	
 	public void toggleSound () {
 		
 		//TURN OFF ON SOUND SOMEHOW

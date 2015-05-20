@@ -1,5 +1,6 @@
 package Game;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -46,12 +47,13 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		if(menuPanel == null)
 		{
 			menuPanel = new MenuPanel(mainFrame);
-			
+			mainFrame.setSize(new Dimension(465,750));
 			//adding actions listeners to the buttons within the menu panel
 			for(JButton button : menuPanel.getButtons()){
 				button.addActionListener(this);
 			}
 		} else {
+			mainFrame.setSize(new Dimension(465,750));
 			menuPanel.setVisible(true);		//showing the menu panel
 		}
 	}
@@ -60,13 +62,14 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		if(playPanel == null)
 		{
 			playPanel = new PlayPanel(mainFrame);
-			
+			mainFrame.setSize(new Dimension(465,750));
 			//adding action listeners to buttons
 			for(JButton button : playPanel.getButtons()){
 				button.addActionListener(this);
 			}
 		}
 		else
+			mainFrame.setSize(new Dimension(465,750));
 			showPlayPanel();		//show play panel
 	}
 	
@@ -74,17 +77,19 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		if(diffPanel == null)
 		{
 			diffPanel = new DifficultyPanel(mainFrame);
-			
+			mainFrame.setSize(new Dimension(465,750));
 			//adding action listeners to buttons
 			for(JButton button : diffPanel.getButtons()){
 				button.addActionListener(this);
 			}
 		}
 		else
+			mainFrame.setSize(new Dimension(465,750));
 			showDiffPanel();		//show play panel
 	}
 
 	public void viewGamePanel(MainFrame mainFrame, int diff){
+		mainFrame.setSize(new Dimension(1200,750));
 		HashMap<Integer, Boolean> cpus = new HashMap<Integer, Boolean>();
 		cpus.put(2, true);
 		boardMechanics = new BoardMechanics(this, mainFrame, diff, cpus, 2);
@@ -139,10 +144,13 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		} else if(event.getActionCommand().equalsIgnoreCase("Easy")){
 			hideDiffPanel();
 			viewGamePanel(mainFrame, 0);
-		} else if(event.getActionCommand().equalsIgnoreCase("Quit")) {				//when quit button is pressed
-			int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?","Quit Message",JOptionPane.YES_NO_OPTION);		//check to make sure user really wants to quit
-			
-			if(quit == 0){		//yes
+		} else if(event.getActionCommand().equalsIgnoreCase("Quit")) {
+			//when quit button is pressed
+			int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",
+						"Quit Message",JOptionPane.YES_NO_OPTION);
+
+			//yes, user really wants to quit
+			if(quit == 0){		
 				System.exit(0);
 			}
 		}
