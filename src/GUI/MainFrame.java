@@ -1,10 +1,15 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class MainFrame extends JFrame {
 
@@ -30,8 +35,14 @@ public class MainFrame extends JFrame {
 		setVisible(true);
 		setLocationRelativeTo(null);
 		setIconImage(new ImageIcon(getClass().getResource("resource/icon.png")).getImage());
-
-		getContentPane().setBackground(Color.BLACK);
+		//setting background
+		try {
+			this.setContentPane(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("resource/bg-dark5.png")))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("File not found.");
+			e.printStackTrace();
+		}
 		
 		//adding a gridbaglayout to the frame
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -41,4 +52,5 @@ public class MainFrame extends JFrame {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 	}
+	
 }

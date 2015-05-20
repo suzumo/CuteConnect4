@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -291,14 +292,25 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	public void win(int player) {
 		
 		state = 0;
-		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"Player " + winning_player + " Won!!!\n" + "Would you like to play again?","Winner",JOptionPane.YES_NO_OPTION);
+		ImageIcon icon = null;
+		
+		if (winning_player == 1) {
+			icon = new ImageIcon(getClass().getResource("../GUI/resource/player1-won.png"));
+		} else
+			icon = new ImageIcon(getClass().getResource("../GUI/resource/player2-won.png"));
+	
+		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"Player " 
+							+ winning_player + " Won!!!\n" 
+							+ "Would you like to play again?",
+							"Winner", 0, JOptionPane.YES_NO_OPTION, icon);
 		if(playAgain == 0){		//yes
 			restart();
 		} else if(playAgain == 1){		//no
-			c4Game.viewMenuPanel(mainFrame);
+			//think about installing glassPane and doing nothing
+			c4Game.viewPlayPanel(mainFrame);
 			gamePanel.setVisible(false);
-			rightPanel.setVisible(false);
 			leftPanel.setVisible(false);
+			rightPanel.setVisible(false);
 		}
 	}
 	
@@ -308,7 +320,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 */
 	public void restart(){
 		initialise();
-		
+		gamePanel.setEnabled(true);
 		gamePanel.setVisible(true);
 		gamePanel.setFocusable(true);
 		gamePanel.requestFocusInWindow();
@@ -357,21 +369,36 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 					
-		if (event.getActionCommand().equals("Quit")) {
+		if (event.getActionCommand().equals("MainMenu")) {
 			//check to make sure user really wants to quit
 			int quit = JOptionPane.showConfirmDialog(mainFrame,
-					"You want to quit this game and return to title screen?",
+					"You sure you want to quit this game\n and return to main menu?",
 					"Quit Message", JOptionPane.YES_NO_OPTION);
 			if(quit == 0) { //yes
-				c4Game.viewMenuPanel(mainFrame);
+				c4Game.viewPlayPanel(mainFrame);
 				gamePanel.setVisible(false);
 				rightPanel.setVisible(false);
 				leftPanel.setVisible(false);
 			}
+		} else if (event.getActionCommand().equals("NewGame")) {
+			int quit = JOptionPane.showConfirmDialog(mainFrame,
+					"Start a new game?", "New Game", JOptionPane.YES_NO_OPTION);
+			if(quit == 0) { //yes
+				restart();
+			}
 		} else if (event.getActionCommand().equals("Help")) { 
 			// CREATE HELP SCREEN
 		} else if (event.getActionCommand().equals("Difficulty")) {
-			// CREATE ADJUST DIFFICULTY SCREEN? POP UP?
+			//check to make sure user really wants to quit
+			int quit = JOptionPane.showConfirmDialog(mainFrame,
+					"You sure you want to quit this game\n and choose a different difficulty?",
+					"Quit Message", JOptionPane.YES_NO_OPTION);
+			if(quit == 0) { //yes
+				c4Game.viewDiffPanel(mainFrame);
+				gamePanel.setVisible(false);
+				rightPanel.setVisible(false);
+				leftPanel.setVisible(false);
+			}
 		} else if (event.getActionCommand().equals("Sound")) {
 			// CREATE TOGGLE SOUND
 		} else {

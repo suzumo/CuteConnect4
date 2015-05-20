@@ -1,6 +1,7 @@
 package Game;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -89,7 +90,16 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 	}
 
 	public void viewGamePanel(MainFrame mainFrame, int diff){
-		mainFrame.setSize(new Dimension(1200,750));
+		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+		int x = 0, y = 0;
+		if (screen_height > 750) {
+			y = (screen_height - 750)/2;
+		}
+		if (screen_width > 1200) {
+			x = (screen_width - 1200)/2;
+		}
+		mainFrame.setBounds(x, y, 1200, 750);
 		HashMap<Integer, Boolean> cpus = new HashMap<Integer, Boolean>();
 		cpus.put(2, true);
 		boardMechanics = new BoardMechanics(this, mainFrame, diff, cpus, 2);
@@ -134,7 +144,16 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		if(event.getActionCommand().equalsIgnoreCase("Start")){
 			menuPanel.setVisible(false);
 			viewPlayPanel(mainFrame);
-			//viewGamePanel(mainFrame);
+			if (diffPanel != null)
+				hideDiffPanel();
+		} else if (event.getActionCommand().equalsIgnoreCase("TitleScreen")){
+			if (playPanel != null)
+				hidePlayPanel();
+			if (gamePanel != null)
+				hideGamePanel();
+			if (diffPanel != null)
+				hideDiffPanel();
+			viewMenuPanel(mainFrame);
 		} else if(event.getActionCommand().equalsIgnoreCase("PvP")){
 			hidePlayPanel();
 			viewGamePanel(mainFrame, -1);

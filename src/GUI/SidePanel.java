@@ -35,7 +35,7 @@ public class SidePanel extends JPanel {
 		setMinimumSize(new Dimension(250,750));
 		this.setBackground(Color.white);
 		try {
-			background_image = ImageIO.read(getClass().getResource("resource/bg-sky.png"));
+			background_image = ImageIO.read(getClass().getResource("resource/bg-sidepanel.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,27 +44,40 @@ public class SidePanel extends JPanel {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(0,0,0,0);
 
-		//quit button
-		JButton exitButton = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-quit.png")));
+		//back to menu button
+		JButton exitButton = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-backmenu.png")));
 		exitButton.setToolTipText("Quit this game and return to Main Menu");
-		exitButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-quit-hover.png")));
-		exitButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-quit-pressed.png")));
+		exitButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-backmenu-hover.png")));
+		exitButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-backmenu-pressed.png")));
 		exitButton.setContentAreaFilled(false);
-		exitButton.setActionCommand("Quit");
+		exitButton.setActionCommand("MainMenu");
 		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.insets = new Insets(50,0,100,0);
+		gbc.insets = new Insets(50,0,0,0);
 		add(exitButton, gbc);
 		buttons.add(exitButton);
 		
+		//replay button
+		JButton newGameButton = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-newgame.png")));
+		newGameButton.setToolTipText("Start a new game");
+		newGameButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-newgame-hover.png")));
+		newGameButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-newgame-pressed.png")));
+		newGameButton.setContentAreaFilled(false);
+		newGameButton.setActionCommand("NewGame");
+		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.insets = new Insets(0,0,50,0);
+		add(newGameButton, gbc);
+		buttons.add(newGameButton);
 		
 		//player 1 or 2 turn display
 		turnDisplay = new JLabel(new ImageIcon(getClass().getResource("resource/player1-turn.png")));
 		turnDisplay.setToolTipText("Player turn");
 		turnDisplay.setBorder(null);
 		gbc.gridx = 0;
-		gbc.gridy = 1;
+		gbc.gridy = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.insets = new Insets(100,0,100,0);
 		add(turnDisplay, gbc);
@@ -91,7 +104,7 @@ public class SidePanel extends JPanel {
 	
 		//difficulty button
 		JButton difficultyButton = new JButton(new ImageIcon(getClass().getResource("resource/button-diff.png")));
-		difficultyButton.setToolTipText("Change difficulty");
+		difficultyButton.setToolTipText("Quit this game and go back to difficulty setting");
 		difficultyButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/button-diff-hover.png")));
 		difficultyButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/button-diff-pressed.png")));
 		difficultyButton.setContentAreaFilled(false);

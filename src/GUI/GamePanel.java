@@ -1,31 +1,37 @@
 package GUI;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import Game.Cell;
 import Game.BoardMechanics;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
+	
 	private JButton[][] slots;
 	private ArrayList<JButton> buttons;
 	
 	public GamePanel(MainFrame mainFrame) {
-		//setFocusable(true);				//sets the focus of the keypress events to the game board
 		buttons = new ArrayList<JButton>();
 		slots = new JButton[6][7];
+
+		//setMinimumSize(new Dimension(700,700));
+		//setSize(600,600);
+		//sets the focus of the keypress events to the game board
+		//setFocusable(true);
 		drawBoard();
 		validateToMainFrame(mainFrame);
 	}
 	
 	private void drawBoard(){
 		
-		this.setBackground(Color.BLACK);
-		//setMinimumSize(new Dimension(700,700));
-		//setSize(600,600);
 		JButton button;
 		setLayout(new GridLayout(6,7));
 		
@@ -49,9 +55,9 @@ public class GamePanel extends JPanel {
 	 * Adds the gamePanel to the mainframe
 	 * @param mainFrame
 	 */
-	private void validateToMainFrame(MainFrame mainFrame) {
+	private void validateToMainFrame(MainFrame mainFrame) {		
 		GridBagConstraints gbc = new GridBagConstraints();		//creating new gridbagconstraints for the panel
-		gbc.insets = new Insets(80, 250, 80, 250);
+		gbc.insets = new Insets(80, 270, 80, 250);
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -91,13 +97,19 @@ public class GamePanel extends JPanel {
 	      //slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/player2.png")));
 	    }    		
 	}
+	
+//	@Override
+//	public void paintComponent(Graphics g) {
+//		super.paintComponent(g);
+//	}
+	
 
 	public void restart(MainFrame mainFrame) {
 		this.removeAll();
 		drawBoard();	
 		validateToMainFrame(mainFrame);
 	}
-
+	
 	public ArrayList<JButton> getButtons() {
 		return buttons;
 	}

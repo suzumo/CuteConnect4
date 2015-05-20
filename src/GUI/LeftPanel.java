@@ -11,7 +11,7 @@ import javax.swing.*;
 public class LeftPanel extends JPanel{
 	
 	public LeftPanel(JFrame frame) {
-		setMinimumSize(new Dimension(180,750));
+		setMinimumSize(new Dimension(215,750));
 		initialise();
 		validateToMainFrame(frame);
 	}
@@ -20,10 +20,10 @@ public class LeftPanel extends JPanel{
 		GridBagConstraints gbc = new GridBagConstraints();
 		setLayout(new GridBagLayout());
 		gbc.insets = new Insets(0,0,0,0);
-		gbc.fill = GridBagConstraints.VERTICAL;	
+		gbc.fill = GridBagConstraints.BOTH;	
 		this.setBackground(Color.blue);
 		
-		JLabel label = new JLabel(new ImageIcon(this.getClass().getResource("resource/fake-panel.png"))); 
+		JLabel label = new JLabel(new ImageIcon(this.getClass().getResource("resource/bg-leftpanel.png"))); 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		this.add(label, gbc);
