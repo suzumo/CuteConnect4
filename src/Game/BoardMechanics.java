@@ -299,17 +299,32 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	public void win(int player) {
 		
 		state = 0;
+		int playAgain = 1;
 		ImageIcon icon = null;
-		
-		if (winning_player == 1) {
-			icon = new ImageIcon(getClass().getResource("../GUI/resource/player1-won.png"));
-		} else
-			icon = new ImageIcon(getClass().getResource("../GUI/resource/player2-won.png"));
-	
-		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"Player " 
-							+ winning_player + " Won!!!\n" 
-							+ "Would you like to play again?",
-							"WINNER", 0, JOptionPane.YES_NO_OPTION, icon);
+		if(isCPU() == true){
+			if (winning_player == 1) {
+				icon = new ImageIcon(getClass().getResource("../GUI/resource/player1-won.png"));
+				playAgain = JOptionPane.showConfirmDialog(gamePanel,"You Won!!!\n" 
+						+ "Would you like to play again?",
+						"WINNER", 0, JOptionPane.YES_NO_OPTION, icon);
+			} else {
+				icon = new ImageIcon(getClass().getResource("../GUI/resource/player2-won.png"));
+				playAgain = JOptionPane.showConfirmDialog(gamePanel,"The Computer Won!!!\n" 
+						+ "Would you like to play again?",
+						"WINNER", 0, JOptionPane.YES_NO_OPTION, icon);
+			}
+		} else {
+			if (winning_player == 1) {
+				icon = new ImageIcon(getClass().getResource("../GUI/resource/player1-won.png"));
+			} else {
+				icon = new ImageIcon(getClass().getResource("../GUI/resource/player2-won.png"));
+			}
+			playAgain = JOptionPane.showConfirmDialog(gamePanel,"Player " 
+					+ winning_player + " Won!!!\n" 
+					+ "Would you like to play again?",
+					"WINNER", 0, JOptionPane.YES_NO_OPTION, icon);
+		}
+
 		if(playAgain == 0){		//yes
 			restart();
 		} else if(playAgain == 1){		//no
@@ -422,7 +437,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 					"You sure you want to quit this game\n and choose a different difficulty?",
 					"Quit Message", JOptionPane.YES_NO_OPTION);
 			if(quit == 0) { //yes
-				c4Game.viewDiffPanel(mainFrame);
+				c4Game.viewPlayPanel(mainFrame);
 				gamePanel.setVisible(false);
 				rightPanel.setVisible(false);
 				leftPanel.setVisible(false);

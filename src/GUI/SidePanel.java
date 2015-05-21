@@ -109,7 +109,7 @@ public class SidePanel extends JPanel {
 	
 		//difficulty button
 		JButton difficultyButton = new JButton(new ImageIcon(getClass().getResource("resource/button-diff.png")));
-		difficultyButton.setToolTipText("Quit this game and go back to difficulty setting");
+		difficultyButton.setToolTipText("Quit this game and go back to Game Menu");
 		difficultyButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/button-diff-hover.png")));
 		difficultyButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/button-diff-pressed.png")));
 		difficultyButton.setContentAreaFilled(false);
