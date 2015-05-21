@@ -1,37 +1,44 @@
 package GUI;
 
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import java.awt.GridBagLayout;
-
 import javax.swing.JLabel;
-
+import javax.swing.ImageIcon;
+import java.awt.GridBagLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
-import java.awt.Font;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-
 public class DifficultyPanel extends JPanel {
-	
+
+	/**
+	 * @param buttons	List of buttons in DifficultyPanel
+	 * @param background_image	File which refers to background image.
+	 */
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
-	
+
+	/**
+	 * Constructor for DifficultyPanel.
+	 * @pre		JFrame for this JPanel must exist.
+	 * @param mainFrame	JFrame for which DifficultyPanel is set in.
+	 * @post	DifficultyPanel is set in center of JFrame.
+	 */
 	public DifficultyPanel(JFrame mainFrame){
 		buttons = new ArrayList<JButton>();
 		initialize();
 		validateToMainFrame(mainFrame);
 	}
 
+	/**
+	 * Initialises the setting for DifficultyPanel with specified layout.
+	 * @pre		None.
+	 * @post	DifficultyPanel is initialised with specified layout.
+	 */
 	private void initialize() {
 		JButton button;
 		JLabel label;
@@ -40,21 +47,15 @@ public class DifficultyPanel extends JPanel {
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.setBackground(Color.BLACK);
-//		try {
-//			background_image = ImageIO.read(getClass().getResource("resource/bg-dark6a.png"));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		//Select Difficulty label
+
+		//select difficulty label
 		label = new JLabel(new ImageIcon(this.getClass().getResource("resource/select-difficulty.png")));
 		gbc.insets = new Insets(0, 0, 60, 0);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		add(label, gbc);		
 		
-		//Easy
+		//easy difficulty button
 		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-easy.png")));
 		button.setActionCommand("Easy");
 		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-easy-hover.png")));
@@ -66,7 +67,7 @@ public class DifficultyPanel extends JPanel {
 		add(button,gbc);
 		buttons.add(button);
 		
-		//Normal
+		//normal difficulty button
 		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-normal.png")));
 		button.setActionCommand("Normal");
 		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-normal-hover.png")));
@@ -78,7 +79,7 @@ public class DifficultyPanel extends JPanel {
 		add(button,gbc);
 		buttons.add(button);
 		
-		//Monochrome
+		//monochrome difficulty button
 		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-monochrome.png")));
 		button.setActionCommand("Monochrome");
 		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-monochrome-hover.png")));
@@ -90,7 +91,7 @@ public class DifficultyPanel extends JPanel {
 		add(button,gbc);
 		buttons.add(button);
 		
-		//Back to Menu
+		//back to menu button
 		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-goback.png")));
 		button.setActionCommand("Start");
 		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-goback-hover.png")));
@@ -103,6 +104,12 @@ public class DifficultyPanel extends JPanel {
 		buttons.add(button);
 	}
 	
+	/**
+	 * Sets DifficultyPanel in JFrame.
+	 * @pre		JFrame must exist.
+	 * @param frame	JFrame for which DifficultyPanel is set.
+	 * @post	JFrame is set with DifficultyPanel.
+	 */
 	private void validateToMainFrame(JFrame frame) {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(0, 0, 0, 0);
@@ -115,7 +122,13 @@ public class DifficultyPanel extends JPanel {
 		frame.getContentPane().add(this, gbc);
 		frame.validate();	
 	}
-	
+
+	/**
+	 * Sets background with background_image.
+	 * @pre	background_image must exist.
+	 * @param g	Inherited Graphics object.
+	 * @post	DifficultyPanel is set with background_image.
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -123,14 +136,12 @@ public class DifficultyPanel extends JPanel {
 	}
 	
 	/**
-	 * Getting the list of buttons in this panel
-	 * 
-	 * @return buttons
+	 * Returns the list of buttons in this panel.
+	 * @pre		None
+	 * @return	List of buttons in DifficultyPanel.
 	 */
-	public ArrayList<JButton> getButtons() 
-	{
+	public ArrayList<JButton> getButtons() {
 		return buttons;
 	}
 
 }
-

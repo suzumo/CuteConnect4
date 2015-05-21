@@ -6,38 +6,49 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 public class SidePanel extends JPanel {
 
+	/**
+	 * @param turnDisplay	JLabel object that displays player turn.
+	 * @param buttons		List of buttons in this SidePanel.
+	 * @param background_image	The image file of background image.
+	 */
 	JLabel turnDisplay;
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
 	
+	/**
+	 * Constructor.
+	 * @pre				Mainframe for this JPanel must exist.
+	 * @param mainframe	JFrame for which this JPanel will be set in.
+	 * @post			A SidePanel object is created with specified size and layout.
+	 */
 	public SidePanel(JFrame mainframe) {
 		buttons = new ArrayList<JButton>();
 		initialise();
 		validateToMainFrame(mainframe);
 	}
 	
-	public void initialise() {
-		
-		//set background
+	/**
+	 * Initialises the SidePanel with specific size and layout.
+	 * @pre		None.
+	 * @post	The SidePanel is initialised with buttons, background, and layout.
+	 */
+	public void initialise() {		
+		//set background, size and layout style
 		setLayout(new GridBagLayout());
 		setMinimumSize(new Dimension(250,750));
 		this.setBackground(Color.white);
 		try {
 			background_image = ImageIO.read(getClass().getResource("resource/bg-sidepanel.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -72,7 +83,7 @@ public class SidePanel extends JPanel {
 		add(newGameButton, gbc);
 		buttons.add(newGameButton);
 		
-		//player 1 or 2 turn display
+		//player 1/2 turn display
 		turnDisplay = new JLabel(new ImageIcon(getClass().getResource("resource/player1-turn.png")));
 		turnDisplay.setToolTipText("Player turn");
 		turnDisplay.setBorder(null);
@@ -82,12 +93,6 @@ public class SidePanel extends JPanel {
 		gbc.insets = new Insets(100,0,100,0);
 		add(turnDisplay, gbc);
 		
-		// TO DO - ADD MORE FUNCTIONS/BUTTONS HERE
-//		JLabel padding1 = new JLabel();
-//		Border padding1Border = BorderFactory.createEmptyBorder(500,0,0,0);
-//		padding1.setBorder(BorderFactory.createCompoundBorder(getBorder(), padding1Border));
-//		add(padding1);
-
 		//info button
 		JButton infoButton = new JButton(new ImageIcon(getClass().getResource("resource/button-info.png")));
 		infoButton.setToolTipText("How to play");
@@ -129,9 +134,14 @@ public class SidePanel extends JPanel {
 		gbc.anchor = GridBagConstraints.LAST_LINE_END;
 		add(soundButton, gbc);
 		buttons.add(soundButton);
-		
 	}
 
+	/**
+	 * Sets SidePanel to the mainframe.
+	 * @pre			JFrame for this SidePanel object must exist.
+	 * @param frame	The JFrame for this SidePanel.
+	 * @post		SidePanel is set to the right of the JFrame, with specified size.
+	 */
 	public void validateToMainFrame(JFrame frame) {
 		//creating new GridBagConstraints for the panel
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -146,19 +156,34 @@ public class SidePanel extends JPanel {
 		frame.validate();
 	}
 	
+	/**
+	 * Returns the list of buttons in SidePanel.
+	 * @pre		None.
+	 * @return	Returns the list of buttons.
+	 */
 	public ArrayList<JButton> getButtons() {
 		return buttons;
 	}
 	
+	/**
+	 * Changes the display of player turn, green for Player 1 and red for Player 2.
+	 * @pre		There must be two players, indicated by 1 or 2.
+	 * @param playerNum	The current player number.
+	 * @post	The turn highlights green is it's player 1 turn and red if it's player 2.
+	 */
 	public void updateTurnDisplay(int playerNum) {
-		
-		if (playerNum == 1) {
+		if (playerNum == 1)
 			turnDisplay.setIcon(new ImageIcon(getClass().getResource("resource/player1-turn.png")));
-		} else {
+		else
 			turnDisplay.setIcon(new ImageIcon(getClass().getResource("resource/player2-turn.png")));
-		}
 	}
 
+	/**
+	 * Paints the background of this JPanel.
+	 * @pre		background_image must not be null.
+	 * @param g	Inherited Graphics object.
+	 * @post	SidePanel is painted with background_image.
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -166,8 +191,7 @@ public class SidePanel extends JPanel {
 	}
 	
 	public void toggleSound () {
-		
-		//TURN OFF ON SOUND SOMEHOW
+		//TO IMPLEMENT?
 	}
 	
 }

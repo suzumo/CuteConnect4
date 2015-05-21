@@ -1,37 +1,44 @@
 package GUI;
 
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import java.awt.GridBagLayout;
-
 import javax.swing.JLabel;
-
+import javax.swing.ImageIcon;
+import java.awt.GridBagLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
-import java.awt.Font;
 import java.awt.Insets;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 
 public class PlayPanel extends JPanel {
 	
+	/**
+	 * @param buttons	The list of buttons in PlayPanel.
+	 * @param background_image	The image file for the background of this PlayPanel.
+	 */
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
 	
+	/**
+	 * Constructor for PlayPanel.
+	 * @pre		JFrame for this PlayPanel object must exist.
+	 * @param mainFrame	The JFrame where this PlayPanel is set.
+	 * @post	JFrame contains an initialised PlayPanel.
+	 */
 	public PlayPanel(JFrame mainFrame){	
 		buttons = new ArrayList<JButton>();
 		initialize();
 		validateToMainFrame(mainFrame);
 	}
 
+	/**
+	 * Initialises the parameters for PlayPanel with specific size, layout.
+	 * @pre		None.
+	 * @post	PlayPanel is initialised with specified size and layout.
+	 */
 	private void initialize() {
 		JButton button;
 		JLabel label;
@@ -40,21 +47,15 @@ public class PlayPanel extends JPanel {
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		this.setBackground(Color.BLACK);
-//		try {
-//			background_image = ImageIO.read(getClass().getResource("resource/bg-dark4a.png"));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		
-		//game label
+		//game options label
 		label = new JLabel(new ImageIcon(this.getClass().getResource("resource/game-options.png")));
 		gbc.insets = new Insets(50, 0, 50, 0);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		add(label, gbc);
 		
-		//PvAI
+		//PvAI (single player) button
 		button = new JButton(new ImageIcon(getClass().getResource("resource/menu-players1.png")));
 		button.setActionCommand("PvAI");
 		button.setToolTipText("Play versus the computer!");
@@ -67,7 +68,7 @@ public class PlayPanel extends JPanel {
 		add(button,gbc);
 		buttons.add(button);
 		
-		//PvP
+		//PvP (two player) button
 		button = new JButton(new ImageIcon(getClass().getResource("resource/menu-players2.png")));
 		button.setActionCommand("PvP");
 		button.setToolTipText("Play with your friend!");
@@ -79,7 +80,7 @@ public class PlayPanel extends JPanel {
 		add(button,gbc);
 		buttons.add(button);
 		
-		//How to play
+		//Information button
 		button = new JButton(new ImageIcon(getClass().getResource("resource/menu-howto.png")));
 		button.setActionCommand("Help");
 		button.setToolTipText("Read about rules of the game");
@@ -91,7 +92,7 @@ public class PlayPanel extends JPanel {
 		add(button,gbc);
 		buttons.add(button);
 				
-		//Return to title
+		//Return to title button
 		button = new JButton(new ImageIcon(getClass().getResource("resource/menu-returnmain.png")));
 		button.setActionCommand("TitleScreen");
 		button.setToolTipText("Return to title screen");
@@ -102,10 +103,15 @@ public class PlayPanel extends JPanel {
 		button.setContentAreaFilled(false);
 		add(button,gbc);
 		buttons.add(button);
-		
 	}
 	
-	private void validateToMainFrame(JFrame frame) {
+	/**
+	 * Sets this PlayPanel in the JFrame.
+	 * @pre		JFrame must exist.
+	 * @param mainframe	JFrame that this PlayPanel is set in.
+	 * @post	JFrame sets this PlayPanel in the center.
+	 */
+	private void validateToMainFrame(JFrame mainframe) {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(0, 0, 0, 0);
 		gbc.anchor = GridBagConstraints.CENTER;
@@ -114,10 +120,16 @@ public class PlayPanel extends JPanel {
 		gbc.gridy = 0;
 		gbc.weightx = 1.0;
 		gbc.weighty = 1.0;
-		frame.getContentPane().add(this, gbc);
-		frame.validate();
+		mainframe.getContentPane().add(this, gbc);
+		mainframe.validate();
 	}
 	
+	/**
+	 * Paints the background of this JPanel.
+	 * @pre		background_image must not be null.
+	 * @param g	Inherited Graphics object.
+	 * @post	PlayPanel is painted with background_image.
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -125,12 +137,11 @@ public class PlayPanel extends JPanel {
 	}
 	
 	/**
-	 * Getting the list of buttons in this panel
-	 * 
-	 * @return buttons
+	 * Returns the list of buttons in PlayPanel.
+	 * @pre		None.
+	 * @return 	Returns the list of buttons.
 	 */
-	public ArrayList<JButton> getButtons() 
-	{
+	public ArrayList<JButton> getButtons() {
 		return buttons;
 	}
 

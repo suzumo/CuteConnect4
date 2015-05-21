@@ -1,13 +1,14 @@
 package GUI;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import Game.Cell;
 import Game.BoardMechanics;
@@ -15,9 +16,19 @@ import Game.BoardMechanics;
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 	
+	/**
+	 * @param slots		Game cells.
+	 * @param buttons	List of buttons in GamePanel.
+	 */
 	private JButton[][] slots;
 	private ArrayList<JButton> buttons;
-	
+
+	/**
+	 * Constructor for GamePanel.
+	 * @pre		JFrame for which this GamePanel is set must exist.
+	 * @param mainFrame	JFrame where this GamePanel will be set.
+	 * @post	JFrame is set with GamePanel.
+	 */
 	public GamePanel(MainFrame mainFrame) {
 		buttons = new ArrayList<JButton>();
 		slots = new JButton[6][7];
@@ -30,6 +41,11 @@ public class GamePanel extends JPanel {
 		validateToMainFrame(mainFrame);
 	}
 	
+	/**
+	 * Creates the connect 4 game board.
+	 * @pre		None.
+	 * @post	A Connect 4 game board is created in GamePanel.
+	 */
 	private void drawBoard(){
 		
 		JButton button;
@@ -52,8 +68,10 @@ public class GamePanel extends JPanel {
 	}
 	
 	/**
-	 * Adds the gamePanel to the mainframe
-	 * @param mainFrame
+	 * Adds the GamePanel to the mainframe.
+	 * @pre		JFrame where GamePanel is to be set must exist.
+	 * @param mainFrame	JFrame to which this GamePanel will be set.
+	 * @post	JFrame is set in the center with this GamePanel.
 	 */
 	private void validateToMainFrame(MainFrame mainFrame) {		
 		GridBagConstraints gbc = new GridBagConstraints();		//creating new gridbagconstraints for the panel
@@ -67,6 +85,12 @@ public class GamePanel extends JPanel {
 		mainFrame.validate();
 	}
 
+	/**
+	 * Add ConnectFourListener object to every cell.
+	 * @param	ConnectFourListener must exist.
+	 * @param connectFourListener	ConnectFourListener which will listen to activities in GamePanel.
+	 * @post	GamePanel adds listener object.
+	 */
 	public void addListener(ConnectFourListener connectFourListener) {
 	    for (int row=0; row<6; row++) { 
 	        for (int col = 0; col < 7; col++){ 
@@ -75,6 +99,12 @@ public class GamePanel extends JPanel {
 	    } 		
 	}
 
+	/**
+	 * Returns the column number for a certain cell in game board.
+	 * @pre		Button parameter must be valid and within limits of game board.
+	 * @param button	Cell for which column information is required of.
+	 * @return	Returns the column number of cell.
+	 */
 	public int getColumn(JButton button) {
 		int returnColumn = -1; 
 		for (int row=0; row<6; row++) { 
@@ -87,6 +117,15 @@ public class GamePanel extends JPanel {
 		return returnColumn; 
 	}
 
+	/**
+	 * Sets the cell with coin for specified player number.
+	 * @pre		Inputs must be within cell board array and player number must be valid.
+	 * @param column	Cell column number.
+	 * @param row		Cell row number.
+	 * @param player	Player number who is putting in the coin at this location.
+	 * @isMonoChrome	Boolean flag for Monochrome game.
+	 * @post			The Cell with specified column and row is highlighted with player's coin.
+	 */
 	public void set(int column, int row, int player, boolean isMonoChrome) {
 	    if(isMonoChrome == true){
 	    	slots[row][column].setBackground(Color.DARK_GRAY);
@@ -99,13 +138,23 @@ public class GamePanel extends JPanel {
 	    }
 	}
 	
-
+	/**
+	 * Restarts the game by re-drawing the GamePanel.
+	 * @pre		JFrame for which this GamePanel is set must exist.
+	 * @param mainFrame	JFrame where this GamePanel is set.
+	 * @post	JFrame re-draws GamePanel.
+	 */
 	public void restart(MainFrame mainFrame) {
 		this.removeAll();
 		drawBoard();	
 		validateToMainFrame(mainFrame);
 	}
-	
+
+	/**
+	 * Returns all the buttons in GamePanel.
+	 * @pre		None.
+	 * @return	List of buttons in GamePanel.
+	 */
 	public ArrayList<JButton> getButtons() {
 		return buttons;
 	}

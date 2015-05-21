@@ -1,11 +1,7 @@
 package GUI;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridBagLayout;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -17,17 +13,20 @@ public class MainFrame extends JFrame {
 
 	/**
 	 * Constructor to create the frame.
+	 * @pre		None.
+	 * @post	MainFrame is created and initialised.
 	 */
 	public MainFrame() {
 		initialize();
 	}
 	
 	/**
-	 * Intialising the main frame GUI
-	 * 
+	 * Intialising the main frame GUI.
+	 * @pre		None.
+	 * @post	Initialises the frame with specified size and layout.
 	 */
-	public void initialize()
-	{
+	public void initialize() {
+		//sets title, size and layout
 		setTitle("Connect Four");
 		setBounds(100, 100, 1200, 750);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,12 +38,10 @@ public class MainFrame extends JFrame {
 		try {
 			this.setContentPane(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("resource/bg-dark5.png")))));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("File not found.");
 			e.printStackTrace();
 		}
 		
-		//adding a gridbaglayout to the frame
+		//setting GridBagLayout
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[]{10, 0, 0, 0, 0};
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
