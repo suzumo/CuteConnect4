@@ -112,7 +112,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		showDiffPanel();
 	}
 
-	public void viewGamePanel(MainFrame mainFrame, int diff){
+	public void viewGamePanel(MainFrame mainFrame, int diff, boolean isMonoChrome){
 		//centralise frame in screen
 		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -126,7 +126,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		mainFrame.setBounds(x, y, 1200, 750);
 		HashMap<Integer, Boolean> cpus = new HashMap<Integer, Boolean>();
 		cpus.put(2, true);
-		boardMechanics = new BoardMechanics(this, mainFrame, diff, cpus, 2);
+		boardMechanics = new BoardMechanics(this, mainFrame, diff, cpus, 2, isMonoChrome);
 	}
 	
 	/**
@@ -180,13 +180,19 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			viewMenuPanel(mainFrame);
 		} else if(event.getActionCommand().equalsIgnoreCase("PvP")){
 			hidePlayPanel();
-			viewGamePanel(mainFrame, -1);
+			viewGamePanel(mainFrame, -1, false);
 		} else if(event.getActionCommand().equalsIgnoreCase("PvAI")){
 			hidePlayPanel();
 			viewDiffPanel(mainFrame);
 		} else if(event.getActionCommand().equalsIgnoreCase("Easy")){
 			hideDiffPanel();
-			viewGamePanel(mainFrame, 0);
+			viewGamePanel(mainFrame, 0, false);
+		} else if(event.getActionCommand().equalsIgnoreCase("Normal")){
+			hideDiffPanel();
+			viewGamePanel(mainFrame, 2, false);
+		} else if(event.getActionCommand().equalsIgnoreCase("Monochrome")){
+			hideDiffPanel();
+			viewGamePanel(mainFrame, 0, true);
 		} else if(event.getActionCommand().equalsIgnoreCase("Quit")) {
 			//when quit button is pressed
 			int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",

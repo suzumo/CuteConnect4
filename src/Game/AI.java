@@ -197,6 +197,7 @@ public class AI {
 				tokenStore = null;
 				storeValue = 0;
 				for (trow = 5; trow > 1; trow --) {
+					System.out.println("trow : " + trow + " Col: " + col);
 					tokenStore.add(boardCopy.get(trow).get(col).getValue());
 				}
 				for (trow = 1; trow >= 0; trow --) {

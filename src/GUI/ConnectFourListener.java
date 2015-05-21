@@ -27,21 +27,13 @@ public class ConnectFourListener implements MouseListener{
     	row = game.dropToken(column);
     	System.out.println("row: " + row + " col " + column);
 	    if(row != -1){
-        	gui.set(column, row, game.getCurrentPlayer());
+        	gui.set(column, row, game.getCurrentPlayer(), game.checkMonoChrome());
 	    }
 	    
 		game.update();
 
 	}
 
-	
-//	if(game.getCurrentPlayer() == 2 && game.isCPU()){
-//    	move = game.aiDropToken();
-//		row = game.dropToken(move);
-//		System.out.println("move "+ move +" Row "+ row);
-//		if(row != -1){
-//        	gui.set(move, row, game.getCurrentPlayer());
-//	    }
 	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {

@@ -30,6 +30,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private SidePanel rightPanel;
 	private LeftPanel leftPanel;
 	private ConnectFourListener listener;
+	private Timer timer;
+	private int checkTime;
 	
 	//players
 	private int current_player;	// 1 for player 1, 2 for player 2, etc
@@ -45,6 +47,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	private ArrayList<ArrayList<Cell>> board;
 	private int curr_row;
+	private boolean isMonoChrome;
 	 
 	
 	
@@ -63,7 +66,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 * @param players number of players in this game
 	 */
 
-	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff, HashMap<Integer, Boolean> cpu_players, int players) {
+	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff, HashMap<Integer, Boolean> cpu_players, int players, boolean isMChrome) {
 
 		
 		//Initializing board
@@ -71,7 +74,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 		this.mainFrame = mFrame;
 		this.c4Game = connectFourGame;
-		
+		this.isMonoChrome = isMChrome;
 		this.players = players;	
 		
 		// AI setting up
@@ -105,13 +108,15 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			
 		}
 		//this.print();
-		
+		timer = new Timer();
+		checkTime = 1000;
 		current_player = 1;
 		winning_player = 0;
 		moves_made = 0;
 		curr_row = 0;
 		state = 1;
 	}
+	
 	
 	/**
 	 * Drops in a token into the board
@@ -162,7 +167,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		int row = dropToken(col);
 		System.out.println("col: "+ col +" Row "+ row + " current player: " + current_player);
 		if (row != -1)
-			gamePanel.set(col, row, current_player);
+			gamePanel.set(col, row, current_player, checkMonoChrome());
 	}
 	
 	public boolean isPlayerAI(int p){
@@ -209,7 +214,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		} else {
 			if(board.get(0).get(col).getValue() != 0){
 				System.out.println("Full"); //Need to put a label after adding side panels to indicate that the column is full
-				JOptionPane.showMessageDialog(gamePanel,"SENPAI! What are you doing!?\n" + "This Column is Full!\n");
+				if(getCurrentPlayer() == 1){
+					JOptionPane.showMessageDialog(gamePanel,"SENPAI! What are you doing!?\n" + "This Column is Full!\n");
+				}
 				valid = false;
 			}
 		}
@@ -302,7 +309,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"Player " 
 							+ winning_player + " Won!!!\n" 
 							+ "Would you like to play again?",
-							"NO WINNERS", 0, JOptionPane.YES_NO_OPTION, icon);
+							"WINNER", 0, JOptionPane.YES_NO_OPTION, icon);
 		if(playAgain == 0){		//yes
 			restart();
 		} else if(playAgain == 1){		//no
@@ -320,10 +327,10 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private void tie() {
 		state = 0;
 		ImageIcon icon = null;
-		
+		icon = new ImageIcon(getClass().getResource("../GUI/resource/player1-lost.png"));
 		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"IT'S A TIE!!!\n" 
 				+ "Would you like to play again?",
-				"Winner", 0, JOptionPane.YES_NO_OPTION, icon);
+				"No Winners", 0, JOptionPane.YES_NO_OPTION, icon);
 		
 		if(playAgain == 0){		//yes
 			restart();
@@ -366,7 +373,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			if(checkMoveValid(k)){
 				int row = dropToken(k);  
 			    if(row != -1){
-		        	gamePanel.set(k, row, getCurrentPlayer());
+		        	gamePanel.set(k, row, getCurrentPlayer(), checkMonoChrome());
 			    }
 			    win = checkForWin();
 			    if(win == true){
@@ -396,7 +403,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 					"You sure you want to quit this game\n and return to main menu?",
 					"Quit Message", JOptionPane.YES_NO_OPTION);
 			if(quit == 0) { //yes
-				c4Game.viewPlayPanel(mainFrame);
+				c4Game.viewMenuPanel(mainFrame);
 				gamePanel.setVisible(false);
 				rightPanel.setVisible(false);
 				leftPanel.setVisible(false);
@@ -452,6 +459,14 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 	}
 	
+	/**
+	 *	
+	 */
+	public boolean checkMonoChrome() {
+		return isMonoChrome;
+	}
+
+
 	public ArrayList<ArrayList<Cell>> getBoard() {
 		return board;
 	}

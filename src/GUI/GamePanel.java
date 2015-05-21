@@ -87,21 +87,17 @@ public class GamePanel extends JPanel {
 		return returnColumn; 
 	}
 
-	public void set(int column, int row, int player) {
-	    if (player == 1) { 
-	    	slots[row][column].setBackground(Color.RED);
-	      //slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/player1.png")));
-	 
+	public void set(int column, int row, int player, boolean isMonoChrome) {
+	    if(isMonoChrome == true){
+	    	slots[row][column].setBackground(Color.DARK_GRAY);
 	    } else {
-	    	slots[row][column].setBackground(Color.GREEN);
-	      //slots[row][column].setIcon(new ImageIcon(this.getClass().getResource("resource/player2.png")));
-	    }    		
+			if (player == 1) { 
+		    	slots[row][column].setBackground(Color.RED); 
+		    } else {
+		    	slots[row][column].setBackground(Color.GREEN);
+		    }    		
+	    }
 	}
-	
-//	@Override
-//	public void paintComponent(Graphics g) {
-//		super.paintComponent(g);
-//	}
 	
 
 	public void restart(MainFrame mainFrame) {
