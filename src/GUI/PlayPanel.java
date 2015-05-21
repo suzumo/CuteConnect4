@@ -103,16 +103,6 @@ public class PlayPanel extends JPanel {
 		add(button,gbc);
 		buttons.add(button);
 		
-		//Exit game
-		button = new JButton(new ImageIcon(getClass().getResource("resource/menu-exitgame.png")));
-		button.setActionCommand("Quit");
-		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/menu-exitgame-hover.png")));
-		gbc.insets = new Insets(1,10,0,0);
-		gbc.gridx = 0;
-		gbc.gridy = 6;
-		button.setContentAreaFilled(false);
-		add(button,gbc);
-		buttons.add(button);
 	}
 	
 	private void validateToMainFrame(JFrame frame) {

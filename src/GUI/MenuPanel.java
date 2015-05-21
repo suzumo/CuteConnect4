@@ -73,7 +73,7 @@ public class MenuPanel extends JPanel {
 		quitButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/quitPressed.png")));
 		quitButton.setContentAreaFilled(false);
 		gbc.gridx = 1;
-		gbc.gridy = 2;
+		gbc.gridy = 3;
 		this.add(quitButton, gbc);
 		buttons.add(quitButton);
 		
@@ -85,7 +85,7 @@ public class MenuPanel extends JPanel {
 		helpButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/aboutPressed.png")));
 		helpButton.setContentAreaFilled(false);
 		gbc.gridx = 1;
-		gbc.gridy = 3;
+		gbc.gridy = 2;
 		this.add(helpButton, gbc);
 		buttons.add(helpButton);
 		

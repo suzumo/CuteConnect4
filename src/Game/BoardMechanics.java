@@ -108,13 +108,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 		current_player = 1;
 		winning_player = 0;
-		
 		moves_made = 0;
-		
 		curr_row = 0;
-		
 		state = 1;
-		
 	}
 	
 	/**
@@ -326,6 +322,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		gamePanel.requestFocusInWindow();
 		gamePanel.restart(mainFrame);
 		listener = new ConnectFourListener(this, gamePanel);
+		rightPanel.updateTurnDisplay(getCurrentPlayer());
 //		new BoardMechanics(c4Game, mainFrame);
 	}
 	
@@ -443,8 +440,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		//check if need to do player move
 		if ( isPlayerAI(getCurrentPlayer()) ) {
 			doAIMove();
-			rightPanel.updateTurnDisplay(getCurrentPlayer());
 		}
+		rightPanel.updateTurnDisplay(getCurrentPlayer());
 		
 		//win checking
 	    if(checkForWin())

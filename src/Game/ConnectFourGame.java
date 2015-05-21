@@ -48,48 +48,72 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		if(menuPanel == null)
 		{
 			menuPanel = new MenuPanel(mainFrame);
-			mainFrame.setSize(new Dimension(465,750));
 			//adding actions listeners to the buttons within the menu panel
-			for(JButton button : menuPanel.getButtons()){
+			for (JButton button : menuPanel.getButtons())
 				button.addActionListener(this);
-			}
-		} else {
-			mainFrame.setSize(new Dimension(465,750));
-			menuPanel.setVisible(true);		//showing the menu panel
 		}
+		//centralise panel in screen
+		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+		int x = 0, y = 0;
+		if (screen_height > 750) {
+			y = (screen_height - 750)/2;
+		}
+		if (screen_width > 465) {
+			x = (screen_width - 465)/2;
+		}
+		mainFrame.setBounds(x, y, 465, 750);
+		menuPanel.setVisible(true);		//showing the menu panel
 	}
 	
 	public void viewPlayPanel(JFrame mainFrame){
 		if(playPanel == null)
 		{
 			playPanel = new PlayPanel(mainFrame);
-			mainFrame.setSize(new Dimension(465,750));
 			//adding action listeners to buttons
 			for(JButton button : playPanel.getButtons()){
 				button.addActionListener(this);
 			}
 		}
-		else
-			mainFrame.setSize(new Dimension(465,750));
-			showPlayPanel();		//show play panel
+		//centralise panel in screen
+		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+		int x = 0, y = 0;
+		if (screen_height > 750) {
+			y = (screen_height - 750)/2;
+		}
+		if (screen_width > 465) {
+			x = (screen_width - 465)/2;
+		}
+		mainFrame.setBounds(x, y, 465, 750);
+		showPlayPanel();
 	}
 	
 	public void viewDiffPanel(JFrame mainFrame){
 		if(diffPanel == null)
 		{
 			diffPanel = new DifficultyPanel(mainFrame);
-			mainFrame.setSize(new Dimension(465,750));
 			//adding action listeners to buttons
 			for(JButton button : diffPanel.getButtons()){
 				button.addActionListener(this);
 			}
 		}
-		else
-			mainFrame.setSize(new Dimension(465,750));
-			showDiffPanel();		//show play panel
+		//centralise panel in screen
+		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+		int x = 0, y = 0;
+		if (screen_height > 750) {
+			y = (screen_height - 750)/2;
+		}
+		if (screen_width > 465) {
+			x = (screen_width - 465)/2;
+		}
+		mainFrame.setBounds(x, y, 465, 750);
+		showDiffPanel();
 	}
 
 	public void viewGamePanel(MainFrame mainFrame, int diff){
+		//centralise frame in screen
 		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 		int x = 0, y = 0;
