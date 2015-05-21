@@ -209,6 +209,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		} else {
 			if(board.get(0).get(col).getValue() != 0){
 				System.out.println("Full"); //Need to put a label after adding side panels to indicate that the column is full
+				JOptionPane.showMessageDialog(gamePanel,"SENPAI! What are you doing!?\n" + "This Column is Full!\n");
 				valid = false;
 			}
 		}
@@ -283,8 +284,11 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	    
 	    return false; 
 	}  
-		
 	
+	/**
+	 * 
+	 * @param player 
+	 */
 	public void win(int player) {
 		
 		state = 0;
@@ -298,7 +302,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"Player " 
 							+ winning_player + " Won!!!\n" 
 							+ "Would you like to play again?",
-							"Winner", 0, JOptionPane.YES_NO_OPTION, icon);
+							"NO WINNERS", 0, JOptionPane.YES_NO_OPTION, icon);
 		if(playAgain == 0){		//yes
 			restart();
 		} else if(playAgain == 1){		//no
@@ -308,6 +312,30 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			leftPanel.setVisible(false);
 			rightPanel.setVisible(false);
 		}
+	}
+	
+	/**
+	 * 
+	 */
+	private void tie() {
+		state = 0;
+		ImageIcon icon = null;
+		
+		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"IT'S A TIE!!!\n" 
+				+ "Would you like to play again?",
+				"Winner", 0, JOptionPane.YES_NO_OPTION, icon);
+		
+		if(playAgain == 0){		//yes
+			restart();
+		} else if(playAgain == 1){		//no
+			//think about installing glassPane and doing nothing
+			c4Game.viewPlayPanel(mainFrame);
+			gamePanel.setVisible(false);
+			leftPanel.setVisible(false);
+			rightPanel.setVisible(false);
+		}
+		
+		
 	}
 	
 	/**
@@ -323,7 +351,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		gamePanel.restart(mainFrame);
 		listener = new ConnectFourListener(this, gamePanel);
 		rightPanel.updateTurnDisplay(getCurrentPlayer());
-//		new BoardMechanics(c4Game, mainFrame);
 	}
 	
 	
@@ -338,13 +365,10 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		if (k >= 0 && k < 8 ) {
 			if(checkMoveValid(k)){
 				int row = dropToken(k);  
-//			    print();
 			    if(row != -1){
 		        	gamePanel.set(k, row, getCurrentPlayer());
 			    }
 			    win = checkForWin();
-//				System.out.println("Player " + win + " Wins!");
-//			    win = true;
 			    if(win == true){
 			    	win(getCurrentPlayer());
 			    }
@@ -401,25 +425,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		} else {
 			update();
 		}
-		
-//		int row = -1;
-//		int col = -1;
-//		boolean win = false;
-//		if(event.getActionCommand().equalsIgnoreCase("Drop")){
-//			System.out.println("AI");
-//			if(isCPU() && getCurrentPlayer() == 2){
-//	    		col = aiDropToken();
-//	    		row = dropToken(col);
-//	    		System.out.println("move "+ col +" Row "+ row);
-//	    		if(row != -1){
-//	    			gamePanel.set(col, row, getCurrentPlayer());
-//	    		}
-//	    		win = checkForWin();
-//			    if(win == true){
-//				    win(getCurrentPlayer());
-//			    }
-//			}
-//		}
 	}
 
 	public boolean isInPlay() {
@@ -436,16 +441,15 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	public void update() {
 		
 		System.out.println("update running.....");
-		rightPanel.updateTurnDisplay(getCurrentPlayer());
 		//check if need to do player move
 		if ( isPlayerAI(getCurrentPlayer()) ) {
 			doAIMove();
 		}
+		//win checking
+	    if(checkForWin()) win(getCurrentPlayer());
+	    if(moves_made == 42 && !checkForWin()) tie();
 		rightPanel.updateTurnDisplay(getCurrentPlayer());
 		
-		//win checking
-	    if(checkForWin())
-		    win(getCurrentPlayer());		
 	}
 	
 	public ArrayList<ArrayList<Cell>> getBoard() {
