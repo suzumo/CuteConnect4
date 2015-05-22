@@ -145,7 +145,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	/**
 	 * 
 	 */
-	private void nextPlayer() {
+	public void nextPlayer() {
 		current_player++;
 		if (current_player > players)
 			current_player = 1;
@@ -492,5 +492,18 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	public void customDropToken(int row, int col, int player) {
 		board.get(row).get(col).setValue(player);
+	}
+	
+	public void undoDropToken(int col) {
+		for (int i = 5; i >= 0; i--) {
+			if(board.get(i).get(col).getValue() == 0) {
+				board.get(i+1).get(col).setValue(0);
+				break;
+			}
+		}
+		board.get(0).get(col).setValue(0);
+	}
+	public void resetWin() {
+		winning_player = 0;
 	}
 }
