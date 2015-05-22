@@ -197,7 +197,7 @@ public class AI {
 			heuristics.add(new ArrayList<Integer>());
 		}
 		
-		System.out.println("heuristics");
+		System.out.println("board input");
 		for (ArrayList<Cell> ac: boardCopy) {
 			for (Cell ce : ac) {
 				System.out.print(ce.getValue() + " ");
@@ -245,11 +245,13 @@ public class AI {
 					copy.customDropToken(row - 1, col, player);
 					if (copy.checkForWin()) {
 						heuristics.get(row).add(col,1);
+						copy.customDropToken(row - 1, col, 0);
 						continue;
 					}
 					copy.customDropToken(row - 1, col, otherPlayer);
 					if (copy.checkForWin()) {
 						heuristics.get(row).add(col,1);
+						copy.customDropToken(row - 1, col, 0);
 						continue;
 					}
 					copy.customDropToken(row - 1, col, 0);

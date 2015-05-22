@@ -234,7 +234,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 */
 	public boolean checkForWin(){
 		
-		if (moves_made < 7) return false;		
+		if (moves_made < 5) return false;		
 		
 		// check for a horizontal win 
 	    for (int row =0; row<6; row++) { 
@@ -244,7 +244,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		        	  winning_player = board.get(row).get(column).getValue();
 
 	    			return true; 
-	            }        
+	            }
 	    	}      
 	    }
 		  // check for a vertical win 
