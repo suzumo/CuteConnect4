@@ -23,6 +23,9 @@ import GUI.MainFrame;
 import GUI.SidePanel;
 import Game.ConnectFourGame;
 
+import Audio.Music;
+import Audio.Sounds;
+
 
 public class BoardMechanics implements ActionListener, KeyListener{
 	private ConnectFourGame c4Game;
@@ -33,6 +36,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private ConnectFourListener listener;
 	private Timer timer;
 	private int checkTime;
+	
+	private Music music;
+	private Sounds sound;
 	
 	//players
 	private int current_player;	// 1 for player 1, 2 for player 2, etc
@@ -82,6 +88,10 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		this.cpu_players = cpu_players;
 		ai_difficulty = diff;
 		ai = new AI(diff);
+		
+		//set up music
+		music = new Music();
+		sound = new Sounds();
 
 		gamePanel = new GamePanel(mainFrame);
 		leftPanel = new LeftPanel(mainFrame);
@@ -93,6 +103,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		for (JButton button : rightPanel.getButtons()) {
 			button.addActionListener(this);
 		}
+		
+		//start music
+		music.playTrack(0);
 		
 	}
 	
