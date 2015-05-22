@@ -135,6 +135,17 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 	 */
 	public void	showPlayPanel() 
 	{
+		//centralise panel in screen
+		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+		int x = 0, y = 0;
+		if (screen_height > 750) {
+			y = (screen_height - 750)/2;
+		}
+		if (screen_width > 465) {
+			x = (screen_width - 465)/2;
+		}
+		mainFrame.setBounds(x, y, 465, 750);
 		playPanel.setVisible(true);
 	}
 	

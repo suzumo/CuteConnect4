@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -418,7 +419,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 					"You sure you want to quit this game\n and return to main menu?",
 					"Quit Message", JOptionPane.YES_NO_OPTION);
 			if(quit == 0) { //yes
-				c4Game.viewMenuPanel(mainFrame);
+				c4Game.showPlayPanel();
 				gamePanel.setVisible(false);
 				rightPanel.setVisible(false);
 				leftPanel.setVisible(false);
@@ -461,17 +462,16 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 * @return
 	 */
 	public void update() {
-		
 		System.out.println("update running.....");
 		//check if need to do player move
 		if ( isPlayerAI(getCurrentPlayer()) ) {
 			doAIMove();
 		}
+		
 		//win checking
 	    if(checkForWin()) win(getCurrentPlayer());
 	    if(moves_made == 42 && !checkForWin()) tie();
-		rightPanel.updateTurnDisplay(getCurrentPlayer());
-		
+	    rightPanel.updateTurnDisplay(current_player);
 	}
 	
 	/**
