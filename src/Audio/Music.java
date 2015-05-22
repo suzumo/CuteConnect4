@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -40,14 +42,17 @@ public class Music {
 	
 	/**
 	 * plays the current track from the given offset
-	 * @param offset an integer representing the start point of the track. usually 0 if starting from beginning of track
 	 */
 	public void playTrack(){
 		if (!neverplay){
 			
 			try {
 				audioIn = AudioSystem.getAudioInputStream(new File(tracks.get(currenttrack)));
-				currentclip = AudioSystem.getClip();
+				AudioFormat format = audioIn.getFormat();
+				DataLine.Info info = new DataLine.Info(Clip.class, format);
+				System.out.println(format.toString());
+				
+				currentclip = (Clip)AudioSystem.getLine(info);
 				currentclip.open(audioIn);
 				currentclip.loop(10);
 			} catch (UnsupportedAudioFileException | IOException e) {
