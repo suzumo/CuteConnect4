@@ -105,7 +105,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		}
 		
 		//start music
-		music.playTrack(0);
+		music.playTrack();
 		
 	}
 	

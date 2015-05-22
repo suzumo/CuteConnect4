@@ -1,53 +1,67 @@
 package Audio;
 
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 
 public class Music {
 	
-	// music clips
-	static private String track0name = "bin/Audio/resource/nicedaytodie.mp3";
+	// music clip names
+	static private String track0name = "bin/Audio/resource/nicedaytodie.wav";
 	
-	private ArrayList<Media> tracks;
+	// tracks
+	private ArrayList<String> tracks;
 	private int currenttrack;
 	
-	//player
-	private MediaPlayer mediaPlayer;
-
+	// player
+	private AudioInputStream audioIn;
+	private Clip currentclip;
+	
+	// never play
 	boolean neverplay;
 	
 	public Music(){
-		new JFXPanel(); // this will prepare JavaFX toolkit and environment
-		
+	
 		// add tracks
-		tracks = new ArrayList<Media>();
-		tracks.add(new Media(Paths.get(track0name).toUri().toString()));
-		
+		tracks = new ArrayList<String>();
+		tracks.add(track0name);
 		currenttrack = 0;
 		
-		mediaPlayer = new MediaPlayer(tracks.get(currenttrack));
-		
 		neverplay = false;
-		
+			
 	}
 	
 	/**
 	 * plays the current track from the given offset
 	 * @param offset an integer representing the start point of the track. usually 0 if starting from beginning of track
 	 */
-	public void playTrack(int offset){
+	public void playTrack(){
 		if (!neverplay){
-			mediaPlayer.stop();
-			mediaPlayer.play();
-
+			
+			try {
+				audioIn = AudioSystem.getAudioInputStream(new File(tracks.get(currenttrack)));
+				currentclip = AudioSystem.getClip();
+				currentclip.open(audioIn);
+				currentclip.loop(10);
+			} catch (UnsupportedAudioFileException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (LineUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	public void stop(){
-		mediaPlayer.stop();
+		currentclip.stop();
 	}
 	
 	public void nextTrack(){
@@ -55,8 +69,6 @@ public class Music {
 		if (currenttrack == tracks.size()){
 			currenttrack = 0;
 		}
-		mediaPlayer.stop();
-		mediaPlayer = new MediaPlayer(tracks.get(currenttrack));
-		mediaPlayer.play();
+		playTrack();
 	}
 }
