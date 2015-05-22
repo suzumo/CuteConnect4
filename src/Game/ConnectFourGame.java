@@ -197,13 +197,13 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			viewDiffPanel(mainFrame);
 		} else if(event.getActionCommand().equalsIgnoreCase("Easy")){
 			hideDiffPanel();
-			viewGamePanel(mainFrame, 0, false);
+			viewGamePanel(mainFrame, 1, false);
 		} else if(event.getActionCommand().equalsIgnoreCase("Normal")){
 			hideDiffPanel();
 			viewGamePanel(mainFrame, 2, false);
 		} else if(event.getActionCommand().equalsIgnoreCase("Monochrome")){
 			hideDiffPanel();
-			viewGamePanel(mainFrame, 0, true);
+			viewGamePanel(mainFrame, 2, true);
 		} else if(event.getActionCommand().equalsIgnoreCase("Quit")) {
 			//when quit button is pressed
 			int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",
