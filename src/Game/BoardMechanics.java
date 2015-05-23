@@ -438,8 +438,11 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			if(quit == 0) { //yes
 				restart();
 			}
-		} else if (event.getActionCommand().equals("Help")) { 
-			// CREATE HELP SCREEN
+		} else if (event.getActionCommand().equals("Help")) {
+			if (c4Game.getHelpDialogStatus() != null)
+				c4Game.hideHelpDialog();
+			else
+				c4Game.viewHelpDialog();
 		} else if (event.getActionCommand().equals("Difficulty")) {
 			//check to make sure user really wants to quit
 			int quit = JOptionPane.showConfirmDialog(mainFrame,

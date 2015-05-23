@@ -9,6 +9,7 @@ import java.util.HashMap;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
@@ -27,7 +28,7 @@ import GUI.SidePanel;
 public class ConnectFourGame extends JFrame implements ActionListener{
 	private MainFrame mainFrame;
 	private GamePanel gamePanel;
-	private HelpPanel helpPanel;
+	private JDialog helpDialog;
 	private MenuPanel menuPanel;
 	private PlayPanel playPanel;
 	private DifficultyPanel diffPanel;
@@ -85,18 +86,34 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 				button.addActionListener(this);
 			}
 		}
-		//centralise panel in screen
-		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-		int x = 0, y = 0;
-		if (screen_height > 750) {
-			y = (screen_height - 750)/2;
-		}
-		if (screen_width > 465) {
-			x = (screen_width - 465)/2;
-		}
-		mainFrame.setBounds(x, y, 465, 750);
 		showPlayPanel();
+	}
+	
+	public void viewHelpDialog() {
+		helpDialog = new JDialog();
+		HelpPanel helpPanel = new HelpPanel(mainFrame);
+		helpDialog = new JDialog();
+		helpDialog.setContentPane(helpPanel);
+		helpDialog.pack();
+		//put panel to the right of main panel
+		int x = 0;
+		int top_x = (int)mainFrame.getLocationOnScreen().getX();
+		if (mainFrame.getWidth() > 465)
+			x = top_x;
+		else
+			x = top_x + mainFrame.getWidth() + 5;
+		int top_y = (int)mainFrame.getLocationOnScreen().getY();
+		helpDialog.setBounds(x, top_y, 450, 750);
+		helpDialog.setVisible(true);
+	}
+	
+	public void hideHelpDialog() {
+		helpDialog.dispose();
+		helpDialog = null;
+	} 
+	
+	public JDialog getHelpDialogStatus() {
+		return helpDialog;
 	}
 	
 	public void viewDiffPanel(JFrame mainFrame){
@@ -254,6 +271,12 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 				menuPanel.setSoundOnButton();
 			if (playPanel != null)
 				playPanel.setSoundOnButton();
+		} else if (event.getActionCommand().equalsIgnoreCase("Help")) {
+			if (helpDialog != null) {
+				hideHelpDialog();
+			} else {
+				viewHelpDialog();
+			}
 		} else if(event.getActionCommand().equalsIgnoreCase("Quit")) {
 			//when quit button is pressed
 			int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",
@@ -264,6 +287,6 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 				System.exit(0);
 			}
 		}
-	} 
-
+	}
+	
 }
