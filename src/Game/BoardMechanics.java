@@ -22,7 +22,6 @@ import GUI.LeftPanel;
 import GUI.MainFrame;
 import GUI.SidePanel;
 import Game.ConnectFourGame;
-
 import Audio.Music;
 import Audio.Sounds;
 
@@ -37,13 +36,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private Timer timer;
 	private int checkTime;
 	
-	private Music music;
-	private Sounds sound;
+//	private Music music;
+//	private Sounds sound;
 	
 	//players
 	private int current_player;	// 1 for player 1, 2 for player 2, etc
 	private int players; // 2 minimum
-	
 	private int winning_player;
 	
 	private int moves_made;
@@ -55,8 +53,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private ArrayList<ArrayList<Cell>> board;
 	private int curr_row;
 	private boolean isMonoChrome;
-	 
 	
+	private int music_on;
 	
 	/*
 	 * 0	game over
@@ -83,19 +81,18 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		this.c4Game = connectFourGame;
 		this.isMonoChrome = isMChrome;
 		this.players = players;	
+	
+		//setting music status
+		music_on = connectFourGame.getMusicStatus();
 		
 		// AI setting up
 		this.cpu_players = cpu_players;
 		ai_difficulty = diff;
 		ai = new AI(diff);
 		
-		//set up music
-		music = new Music();
-		sound = new Sounds();
-
 		gamePanel = new GamePanel(mainFrame);
 		leftPanel = new LeftPanel(mainFrame);
-		rightPanel = new SidePanel(mainFrame);
+		rightPanel = new SidePanel(mainFrame, music_on);
 		listener = new ConnectFourListener(this, this.gamePanel);
 		for(JButton button : gamePanel.getButtons()){
 			button.addActionListener(this);
@@ -104,9 +101,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			button.addActionListener(this);
 		}
 		
-		//start music
-		music.playTrack();
-		
+
 	}
 	
 	private void initialise(){
@@ -456,8 +451,20 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				rightPanel.setVisible(false);
 				leftPanel.setVisible(false);
 			}
-		} else if (event.getActionCommand().equals("Sound")) {
-			// CREATE TOGGLE SOUND
+		} else if (event.getActionCommand().equals("Sound On")) {
+			c4Game.startMusic();
+			rightPanel.toggleSound();
+		} else if (event.getActionCommand().equals("Sound Off")) {
+			c4Game.stopMusic();
+			rightPanel.toggleSound();
+		} else if (event.getActionCommand().equalsIgnoreCase("Quit")) {
+				//when quit button is pressed
+				int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",
+							"Quit Message",JOptionPane.YES_NO_OPTION);
+				//yes, user really wants to quit
+				if(quit == 0){		
+					System.exit(0);
+				}
 		} else {
 			update();
 		}
@@ -484,7 +491,13 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		//win checking
 	    if(checkForWin()) win(getCurrentPlayer());
 	    if(moves_made == 42 && !checkForWin()) tie();
-	    rightPanel.updateTurnDisplay(current_player);
+	    
+//		isPlayerAI(int) does not work? 
+//	    if (isPlayerAI(current_player))
+//		    // if AI turn, it will update to show it's PC's turn in right panel
+//	    	rightPanel.updateTurnDisplay(0);
+//	    else
+	    	rightPanel.updateTurnDisplay(current_player);
 	}
 	
 	/**

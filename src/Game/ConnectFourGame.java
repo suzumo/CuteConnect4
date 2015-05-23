@@ -13,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
+import Audio.Music;
+import Audio.Sounds;
 import GUI.GamePanel;
 import GUI.HelpPanel;
 import GUI.MenuPanel;
@@ -31,11 +33,19 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 	private DifficultyPanel diffPanel;
 	private SidePanel rightPanel;
 	private BoardMechanics boardMechanics;
-
+	private Music music;
+	private Sounds sound;
+	private int music_on;
 	
 	public ConnectFourGame() {
 		mainFrame = new MainFrame();	//creating new main JFrame	
-		viewMenuPanel(mainFrame);	
+		viewMenuPanel(mainFrame);
+		//set up music
+		music = new Music();
+		sound = new Sounds();
+		//start music
+		music.playTrack();
+		music_on = 1; //if music on = 1, otherwise 0
 	}
 	
 	/**
@@ -129,6 +139,24 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		boardMechanics = new BoardMechanics(this, mainFrame, diff, cpus, 2, isMonoChrome);
 	}
 	
+	public void startMusic() {
+		if (music_on == 0) {
+			music.playTrack();
+			music_on = 1;
+		}
+	}
+	
+	public void stopMusic() {
+		if (music_on == 1) {
+			music.stop();
+			music_on = 0;
+		}
+	}
+	
+	public int getMusicStatus() {
+		return music_on;
+	}
+	
 	/**
 	 * Enable the play panel
 	 * 
@@ -204,6 +232,12 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		} else if(event.getActionCommand().equalsIgnoreCase("Monochrome")){
 			hideDiffPanel();
 			viewGamePanel(mainFrame, 2, true);
+		} else if (event.getActionCommand().equalsIgnoreCase("Sound Off")) {
+			stopMusic();
+			menuPanel.toggleSound();
+		} else if (event.getActionCommand().equalsIgnoreCase("Sound On")) {
+			startMusic();
+			menuPanel.toggleSound();
 		} else if(event.getActionCommand().equalsIgnoreCase("Quit")) {
 			//when quit button is pressed
 			int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",

@@ -9,8 +9,11 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import Game.BoardMechanics;
 
 public class SidePanel extends JPanel {
 
@@ -22,6 +25,7 @@ public class SidePanel extends JPanel {
 	JLabel turnDisplay;
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
+	private JButton soundButton_on, soundButton_off;
 	
 	/**
 	 * Constructor.
@@ -29,9 +33,9 @@ public class SidePanel extends JPanel {
 	 * @param mainframe	JFrame for which this JPanel will be set in.
 	 * @post			A SidePanel object is created with specified size and layout.
 	 */
-	public SidePanel(JFrame mainframe) {
+	public SidePanel(JFrame mainframe, int music_status) {
 		buttons = new ArrayList<JButton>();
-		initialise();
+		initialise(music_status);
 		validateToMainFrame(mainframe);
 	}
 	
@@ -40,7 +44,7 @@ public class SidePanel extends JPanel {
 	 * @pre		None.
 	 * @post	The SidePanel is initialised with buttons, background, and layout.
 	 */
-	public void initialise() {		
+	public void initialise(int music_status) {		
 		//set background, size and layout style
 		setLayout(new GridBagLayout());
 		setMinimumSize(new Dimension(250,750));
@@ -94,10 +98,10 @@ public class SidePanel extends JPanel {
 		add(turnDisplay, gbc);
 		
 		//info button
-		JButton infoButton = new JButton(new ImageIcon(getClass().getResource("resource/button-info.png")));
+		JButton infoButton = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-help.png")));
 		infoButton.setToolTipText("How to play");
-		infoButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/button-info-hover.png")));
-		infoButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/button-info-pressed.png")));
+		infoButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-help-hover.png")));
+		infoButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-help-pressed.png")));
 		infoButton.setContentAreaFilled(false);
 		infoButton.setActionCommand("Help");
 		gbc.gridx = 0;
@@ -107,13 +111,13 @@ public class SidePanel extends JPanel {
 		add(infoButton, gbc);
 		buttons.add(infoButton);
 	
-		//difficulty button
-		JButton difficultyButton = new JButton(new ImageIcon(getClass().getResource("resource/button-diff.png")));
-		difficultyButton.setToolTipText("Quit this game and go back to Game Menu");
-		difficultyButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/button-diff-hover.png")));
-		difficultyButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/button-diff-pressed.png")));
+		//quit button
+		JButton difficultyButton = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-quit.png")));
+		difficultyButton.setToolTipText("Quit this game");
+		difficultyButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-quit-hover.png")));
+		difficultyButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-quit-pressed.png")));
 		difficultyButton.setContentAreaFilled(false);
-		difficultyButton.setActionCommand("Difficulty");
+		difficultyButton.setActionCommand("Quit");
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		gbc.anchor = GridBagConstraints.CENTER;
@@ -121,19 +125,42 @@ public class SidePanel extends JPanel {
 		add(difficultyButton, gbc);
 		buttons.add(difficultyButton);
 		
-		//sound button
-		JButton soundButton = new JButton(new ImageIcon(getClass().getResource("resource/button-sound.png")));
-		soundButton.setToolTipText("Turn on/off sound");
-		soundButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/button-sound-hover.png")));
-		soundButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/button-sound-pressed.png")));
-		soundButton.setContentAreaFilled(false);
-		soundButton.setActionCommand("Sound");
+		//sound on button
+		soundButton_on = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-sound_on.png")));
+		soundButton_on.setToolTipText("Turn off sound");
+		soundButton_on.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-sound_on_hover.png")));
+		soundButton_on.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-sound_on_pressed.png")));
+		soundButton_on.setContentAreaFilled(false);
+		soundButton_on.setActionCommand("Sound Off");
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		gbc.weightx = 0.33;
 		gbc.anchor = GridBagConstraints.LAST_LINE_END;
-		add(soundButton, gbc);
-		buttons.add(soundButton);
+		add(soundButton_on, gbc);
+		buttons.add(soundButton_on);
+		
+		//sound off button
+		soundButton_off = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-sound_off.png")));
+		soundButton_off.setToolTipText("Turn on sound");
+		soundButton_off.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-sound_off_hover.png")));
+		soundButton_off.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-sound_off_pressed.png")));
+		soundButton_off.setContentAreaFilled(false);
+		soundButton_off.setActionCommand("Sound On");
+		soundButton_off.setVisible(false);
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		gbc.weightx = 0.33;
+		gbc.anchor = GridBagConstraints.LAST_LINE_END;
+		add(soundButton_off, gbc);
+		buttons.add(soundButton_off);
+		
+		if (music_status == 0) {
+			soundButton_off.setVisible(true);
+			soundButton_on.setVisible(false);
+		} else {
+			soundButton_off.setVisible(false);
+			soundButton_on.setVisible(true);
+		}
 	}
 
 	/**
@@ -174,6 +201,8 @@ public class SidePanel extends JPanel {
 	public void updateTurnDisplay(int playerNum) {
 		if (playerNum == 1)
 			turnDisplay.setIcon(new ImageIcon(getClass().getResource("resource/player1-turn.png")));
+		else if (playerNum == 0)
+			turnDisplay.setIcon(new ImageIcon(getClass().getResource("resource/player-ai-turn.png")));
 		else
 			turnDisplay.setIcon(new ImageIcon(getClass().getResource("resource/player2-turn.png")));
 	}
@@ -191,7 +220,13 @@ public class SidePanel extends JPanel {
 	}
 	
 	public void toggleSound () {
-		//TO IMPLEMENT?
+		if (soundButton_off.isVisible()) {
+			soundButton_off.setVisible(false);
+			soundButton_on.setVisible(true);
+		} else {
+			soundButton_off.setVisible(true);
+			soundButton_on.setVisible(false);
+		}
 	}
 	
 }

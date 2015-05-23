@@ -94,8 +94,8 @@ public class DifficultyPanel extends JPanel {
 		//back to menu button
 		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-goback.png")));
 		button.setActionCommand("Start");
+		button.setToolTipText("Go back to previous menu");
 		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-goback-hover.png")));
-		button.setPressedIcon(new ImageIcon(getClass().getResource("resource/difficulty-goback-pressed.png")));
 		gbc.insets = new Insets(40,0,0,0);
 		gbc.gridx = 0;
 		gbc.gridy = 4;

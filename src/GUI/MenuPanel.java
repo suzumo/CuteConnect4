@@ -23,6 +23,7 @@ public class MenuPanel extends JPanel {
 	 */
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
+	private JButton soundButton_on, soundButton_off;
 	
 	/**
 	 * Constructor for MenuPanel.
@@ -62,6 +63,7 @@ public class MenuPanel extends JPanel {
 		//start button
 		JButton startButton = new JButton(new ImageIcon(getClass().getResource("resource/startButton.png")));
 		startButton.setActionCommand("Start");
+		startButton.setToolTipText("Start playing!");
 		startButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/startHover.png")));
 		startButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/startPressed.png")));
 		startButton.setContentAreaFilled(false);
@@ -70,17 +72,6 @@ public class MenuPanel extends JPanel {
 		gbc.insets = new Insets(0,0,0,0);
 		this.add(startButton, gbc);
 		buttons.add(startButton);
-			
-		//exit button
-		JButton quitButton = new JButton(new ImageIcon(getClass().getResource("resource/quitButton.png")));
-		quitButton.setActionCommand("Quit");
-		quitButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/quitHover.png")));
-		quitButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/quitPressed.png")));
-		quitButton.setContentAreaFilled(false);
-		gbc.gridx = 1;
-		gbc.gridy = 3;
-		this.add(quitButton, gbc);
-		buttons.add(quitButton);
 		
 		//info button
 		JButton helpButton = new JButton(new ImageIcon(getClass().getResource("resource/aboutButton.png")));
@@ -93,6 +84,52 @@ public class MenuPanel extends JPanel {
 		gbc.gridy = 2;
 		this.add(helpButton, gbc);
 		buttons.add(helpButton);
+		
+		//exit button
+		JButton quitButton = new JButton(new ImageIcon(getClass().getResource("resource/quitButton.png")));
+		quitButton.setActionCommand("Quit");
+		quitButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/quitHover.png")));
+		quitButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/quitPressed.png")));
+		quitButton.setContentAreaFilled(false);
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		this.add(quitButton, gbc);
+		buttons.add(quitButton);
+		
+		//sound button
+		soundButton_on = new JButton(new ImageIcon(getClass().getResource("resource/titlescreen_sound_on.png")));
+		soundButton_on.setActionCommand("Sound Off");
+		soundButton_on.setSelectedIcon(new ImageIcon(getClass().getResource("resource/titlescreen_sound_on_hover.png")));
+		soundButton_on.setToolTipText("Turn sound off");
+		soundButton_on.setContentAreaFilled(false);
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		gbc.insets = new Insets(20,0,0,0);
+		this.add(soundButton_on, gbc);
+		buttons.add(soundButton_on);
+		
+		//sound button
+		soundButton_off = new JButton(new ImageIcon(getClass().getResource("resource/titlescreen_sound_off.png")));
+		soundButton_off.setActionCommand("Sound On");
+		soundButton_off.setSelectedIcon(new ImageIcon(getClass().getResource("resource/titlescreen_sound_off_hover.png")));
+		soundButton_off.setToolTipText("Turn sound on");
+		soundButton_off.setContentAreaFilled(false);
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		gbc.insets = new Insets(20,0,0,0);
+		soundButton_off.setVisible(false);
+		this.add(soundButton_off, gbc);
+		buttons.add(soundButton_off);
+	}
+	
+	public void toggleSound() {
+		if (soundButton_on.isVisible()) {
+			soundButton_on.setVisible(false);
+			soundButton_off.setVisible(true);
+		} else {
+			soundButton_on.setVisible(true);
+			soundButton_off.setVisible(false);
+		}
 	}
 	
 	/**
