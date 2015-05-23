@@ -79,7 +79,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 	public void viewPlayPanel(JFrame mainFrame){
 		if(playPanel == null)
 		{
-			playPanel = new PlayPanel(mainFrame);
+			playPanel = new PlayPanel(mainFrame, music_on);
 			//adding action listeners to buttons
 			for(JButton button : playPanel.getButtons()){
 				button.addActionListener(this);
@@ -144,6 +144,10 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			music.playTrack();
 			music_on = 1;
 			menuPanel.setSoundOnButton();
+			if (playPanel != null)
+				playPanel.setSoundOnButton();
+			if (rightPanel != null)
+				rightPanel.setSoundOnButton();
 		}
 	}
 	
@@ -152,6 +156,10 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			music.stop();
 			music_on = 0;
 			menuPanel.setSoundOffButton();
+			if (playPanel != null)
+				playPanel.setSoundOffButton();
+			if (rightPanel != null)
+				rightPanel.setSoundOffButton();
 		}
 	}
 	
@@ -236,10 +244,16 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			viewGamePanel(mainFrame, 2, true);
 		} else if (event.getActionCommand().equalsIgnoreCase("Sound Off")) {
 			stopMusic();
-			menuPanel.setSoundOffButton();
+			if (menuPanel != null)
+				menuPanel.setSoundOffButton();
+			if (playPanel != null)
+				playPanel.setSoundOffButton();
 		} else if (event.getActionCommand().equalsIgnoreCase("Sound On")) {
 			startMusic();
-			menuPanel.setSoundOnButton();
+			if (menuPanel != null)
+				menuPanel.setSoundOnButton();
+			if (playPanel != null)
+				playPanel.setSoundOnButton();
 		} else if(event.getActionCommand().equalsIgnoreCase("Quit")) {
 			//when quit button is pressed
 			int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",

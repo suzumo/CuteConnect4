@@ -219,14 +219,14 @@ public class SidePanel extends JPanel {
 		g.drawImage(background_image, 0, 0, this);
 	}
 	
-	public void toggleSound () {
-		if (soundButton_off.isVisible()) {
-			soundButton_off.setVisible(false);
-			soundButton_on.setVisible(true);
-		} else {
-			soundButton_off.setVisible(true);
-			soundButton_on.setVisible(false);
-		}
+	public void setSoundOnButton() {
+		soundButton_off.setVisible(false);
+		soundButton_on.setVisible(true);
+	}
+
+	public void setSoundOffButton() {
+		soundButton_off.setVisible(true);
+		soundButton_on.setVisible(false);
 	}
 	
 }

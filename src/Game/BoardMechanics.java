@@ -453,10 +453,10 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			}
 		} else if (event.getActionCommand().equals("Sound On")) {
 			c4Game.startMusic();
-			rightPanel.toggleSound();
+			rightPanel.setSoundOnButton();
 		} else if (event.getActionCommand().equals("Sound Off")) {
 			c4Game.stopMusic();
-			rightPanel.toggleSound();
+			rightPanel.setSoundOffButton();
 		} else if (event.getActionCommand().equalsIgnoreCase("Quit")) {
 				//when quit button is pressed
 				int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",

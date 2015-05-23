@@ -21,6 +21,7 @@ public class PlayPanel extends JPanel {
 	 */
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
+	private JButton sound_on, sound_off;
 	
 	/**
 	 * Constructor for PlayPanel.
@@ -28,9 +29,9 @@ public class PlayPanel extends JPanel {
 	 * @param mainFrame	The JFrame where this PlayPanel is set.
 	 * @post	JFrame contains an initialised PlayPanel.
 	 */
-	public PlayPanel(JFrame mainFrame){	
+	public PlayPanel(JFrame mainFrame, int sound_status){	
 		buttons = new ArrayList<JButton>();
-		initialize();
+		initialize(sound_status);
 		validateToMainFrame(mainFrame);
 	}
 
@@ -39,7 +40,7 @@ public class PlayPanel extends JPanel {
 	 * @pre		None.
 	 * @post	PlayPanel is initialised with specified size and layout.
 	 */
-	private void initialize() {
+	private void initialize(int sound_status) {
 		JButton button;
 		JLabel label;
 
@@ -99,10 +100,40 @@ public class PlayPanel extends JPanel {
 		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/menu-returnmain-hover.png")));
 		gbc.insets = new Insets(1,10,0,0);
 		gbc.gridx = 0;
-		gbc.gridy = 5;
+		gbc.gridy = 6;
 		button.setContentAreaFilled(false);
 		add(button,gbc);
 		buttons.add(button);
+		
+		//sound on button
+		sound_on = new JButton(new ImageIcon(getClass().getResource("resource/menu-sound-on.png")));
+		sound_on.setActionCommand("Sound Off");
+		sound_on.setToolTipText("Turn sound off");
+		sound_on.setSelectedIcon(new ImageIcon(getClass().getResource("resource/menu-sound-on-hover.png")));
+		gbc.insets = new Insets(1,10,0,0);
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		sound_on.setContentAreaFilled(false);
+		add(sound_on,gbc);
+		buttons.add(sound_on);
+		
+		//sound off button
+		sound_off = new JButton(new ImageIcon(getClass().getResource("resource/menu-sound-off.png")));
+		sound_off.setActionCommand("Sound On");
+		sound_off.setToolTipText("Turn sound on");
+		sound_off.setSelectedIcon(new ImageIcon(getClass().getResource("resource/menu-sound-off-hover.png")));
+		gbc.insets = new Insets(1,10,0,0);
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		sound_off.setContentAreaFilled(false);
+		add(sound_off,gbc);
+		buttons.add(sound_off);
+		
+		if (sound_status == 1) {
+			sound_off.setVisible(false);
+		} else {
+			sound_on.setVisible(false);
+		}
 	}
 	
 	/**
@@ -145,4 +176,13 @@ public class PlayPanel extends JPanel {
 		return buttons;
 	}
 
+	public void setSoundOffButton() {
+		sound_off.setVisible(true);
+		sound_on.setVisible(false);
+	}
+	
+	public void setSoundOnButton() {
+		sound_off.setVisible(false);
+		sound_on.setVisible(true);
+	}
 }
