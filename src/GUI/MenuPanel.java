@@ -122,14 +122,24 @@ public class MenuPanel extends JPanel {
 		buttons.add(soundButton_off);
 	}
 	
-	public void toggleSound() {
-		if (soundButton_on.isVisible()) {
-			soundButton_on.setVisible(false);
-			soundButton_off.setVisible(true);
-		} else {
-			soundButton_on.setVisible(true);
-			soundButton_off.setVisible(false);
-		}
+	/**
+	 * Turns Sound button to "Off"status.
+	 * @pre		None.
+	 * @post	Changes Sound button to off status.
+	 */
+	public void setSoundOffButton() {
+		soundButton_on.setVisible(false);
+		soundButton_off.setVisible(true);
+	}
+
+	/**
+	 * Turns Sound button to "On" status.
+	 * @pre		None.
+	 * @post	Changes Sound button to on status.
+	 */
+	public void setSoundOnButton() {
+		soundButton_on.setVisible(true);
+		soundButton_off.setVisible(false);
 	}
 	
 	/**
