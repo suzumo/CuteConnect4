@@ -160,7 +160,8 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		if (music_on == 0) {
 			music.playTrack();
 			music_on = 1;
-			menuPanel.setSoundOnButton();
+			if (menuPanel != null)
+				menuPanel.setSoundOnButton();
 			if (playPanel != null)
 				playPanel.setSoundOnButton();
 			if (rightPanel != null)
@@ -172,7 +173,8 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		if (music_on == 1) {
 			music.stop();
 			music_on = 0;
-			menuPanel.setSoundOffButton();
+			if (menuPanel != null)
+				menuPanel.setSoundOffButton();
 			if (playPanel != null)
 				playPanel.setSoundOffButton();
 			if (rightPanel != null)
@@ -261,16 +263,8 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			viewGamePanel(mainFrame, 2, true);
 		} else if (event.getActionCommand().equalsIgnoreCase("Sound Off")) {
 			stopMusic();
-			if (menuPanel != null)
-				menuPanel.setSoundOffButton();
-			if (playPanel != null)
-				playPanel.setSoundOffButton();
 		} else if (event.getActionCommand().equalsIgnoreCase("Sound On")) {
 			startMusic();
-			if (menuPanel != null)
-				menuPanel.setSoundOnButton();
-			if (playPanel != null)
-				playPanel.setSoundOnButton();
 		} else if (event.getActionCommand().equalsIgnoreCase("Help")) {
 			if (helpDialog != null) {
 				hideHelpDialog();
