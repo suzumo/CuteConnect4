@@ -177,6 +177,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		System.out.println("col: "+ col +" Row "+ row + " current player: " + current_player);
 		if (row != -1)
 			gamePanel.set(col, row, current_player, checkMonoChrome());
+		update();
 	}
 	
 	public boolean isPlayerAI(int p){
@@ -486,14 +487,17 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 */
 	public void update() {
 		System.out.println("update running.....");
+		
+
+		//win checking
+	    if(checkForWin()) win(getCurrentPlayer());
+	    if(moves_made == 42 && !checkForWin()) tie();
+	    
 		//check if need to do player move
 		if ( isPlayerAI(getCurrentPlayer()) ) {
 			doAIMove();
 		}
 		
-		//win checking
-	    if(checkForWin()) win(getCurrentPlayer());
-	    if(moves_made == 42 && !checkForWin()) tie();
 	    
 //		isPlayerAI(int) does not work? 
 //	    if (isPlayerAI(current_player))
