@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import Game.BoardMechanics;
-
 public class SidePanel extends JPanel {
 
 	/**

@@ -460,9 +460,10 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			}
 		} else if (event.getActionCommand().equals("Help")) {
 			if (c4Game.getHelpDialog() != null) {
-				if (!c4Game.getHelpDialog().isVisible())
+				if (!c4Game.getHelpDialog().isVisible()) {
+					c4Game.positionHelpDialog();
 					c4Game.getHelpDialog().setVisible(true);
-				else
+				} else
 					c4Game.hideHelpDialog();
 			} else {
 				c4Game.viewHelpDialog();

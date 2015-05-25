@@ -1,18 +1,16 @@
 package Game;
 
-import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 
-import javax.swing.JCheckBox;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
 
 import Audio.Music;
 import Audio.Sounds;
@@ -25,7 +23,7 @@ import GUI.DifficultyPanel;
 import GUI.SidePanel;
 
 
-public class ConnectFourGame extends JFrame implements ActionListener{
+public class ConnectFourGame extends JFrame implements ActionListener, MouseListener{
 	private MainFrame mainFrame;
 	private GamePanel gamePanel;
 	private JDialog helpDialog;
@@ -93,9 +91,15 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 	public void viewHelpDialog() {
 		helpDialog = new JDialog();
 		HelpPanel helpPanel = new HelpPanel(mainFrame);
+		helpPanel.addMouseListener(this);
 		helpDialog = new JDialog();
 		helpDialog.setContentPane(helpPanel);
 		helpDialog.pack();
+		positionHelpDialog();
+		helpDialog.setVisible(true);
+	}
+	
+	public void positionHelpDialog() {
 		//put panel to the right of main panel
 		int x = 0;
 		int top_x = (int)mainFrame.getLocationOnScreen().getX();
@@ -111,7 +115,6 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		}
 		int top_y = (int)mainFrame.getLocationOnScreen().getY();
 		helpDialog.setBounds(x, top_y, 450, 750);
-		helpDialog.setVisible(true);
 	}
 	
 	public void hideHelpDialog() {
@@ -264,9 +267,10 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			startMusic();
 		} else if (event.getActionCommand().equalsIgnoreCase("Help")) {
 			if (helpDialog != null) {
-				if (!helpDialog.isVisible())
+				if (!helpDialog.isVisible()) {
+					positionHelpDialog();
 					helpDialog.setVisible(true);
-				else
+				} else
 					hideHelpDialog();
 			} else {
 				viewHelpDialog();
@@ -281,6 +285,33 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 				System.exit(0);
 			}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		if (helpDialog != null) {
+			if (!helpDialog.isVisible()) {
+				positionHelpDialog();
+				helpDialog.setVisible(true);
+			} else
+				hideHelpDialog();
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
 	}
 	
 }
