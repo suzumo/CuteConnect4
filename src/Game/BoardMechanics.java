@@ -34,6 +34,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private LeftPanel leftPanel;
 	private ConnectFourListener listener;
 	private Timer timer;
+	private javax.swing.Timer hint;
 	private int checkTime;
 	
 //	private Music music;
@@ -56,11 +57,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private int music_on;
 	private int helpButtonPressedNumber;
 	private int fullColumnPressedNumber;
-	/*
-	 * 0	game over
-	 * 1	in play
-	 */
-	private int state;
+	private int numHints;
+	
+	private int state; // 0 for game over, 1 in play
 	private boolean isListenerActive;	
 	
 	
@@ -107,7 +106,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 		helpButtonPressedNumber = 0;
 		fullColumnPressedNumber = 0;
-
+		numHints = 0;
 	}
 	
 	/**
@@ -122,9 +121,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			for(int col = 0; col < 7;col++){
 				board.get(row).add(new Cell(row,col,0));
 			}
-			
-			
 		}
+		
 		//this.print();
 		timer = new Timer();
 		checkTime = 1000;
@@ -271,8 +269,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				valid = false;
 			}
 		}
-		
-		
 		return valid;
 	}
 	
@@ -383,6 +379,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		gamePanel.showWinningTokens(winningTokens);
 		
 		if(isCPU() == true){
+			if (isMonoChrome)
+				revealBoard();
 			if (winning_player == 1) {
 				icon = new ImageIcon(getClass().getResource("../GUI/resource/player1-won.png"));
 				playAgain = JOptionPane.showConfirmDialog(gamePanel,"You Won!!!\n" 
@@ -418,6 +416,17 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			rightPanel.setVisible(false);
 		}
 	}
+
+	private void revealBoard() {
+		for (int row = 0; row < 6; row++) {
+		    for (int col = 0; col < 7; col++) {
+		    	if (board.get(row).get(col).getValue() == 2)
+		    		gamePanel.set(col, row, 1, false);
+		    	else if (board.get(row).get(col).getValue() == 1)
+		    		gamePanel.set(col, row, 2, false);
+		    }
+		}
+	}
 	
 	/**
 	 * 
@@ -425,6 +434,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private void tie() {
 		state = 0;
 		ImageIcon icon = null;
+		if (isMonoChrome)
+			revealBoard();
 		icon = new ImageIcon(getClass().getResource("../GUI/resource/player1-lost.png"));
 		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"IT'S A TIE!!!\n" 
 				+ "Would you like to play again?",
@@ -439,8 +450,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			leftPanel.setVisible(false);
 			rightPanel.setVisible(false);
 		}
-		
-		
 	}
 	
 	/**
@@ -541,7 +550,22 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			c4Game.stopMusic();
 			rightPanel.setSoundOffButton();
 		}  else if (event.getActionCommand().equals("Hint")) {
-			//Implement hint
+			numHints++;
+			if (numHints < 4) { // you get 3 hints
+				int col = getHint();
+				System.out.println(col);
+				int row;
+				for (row = 5; row >= 0; row--) {
+					System.out.println("Hint: row: "+ row+" col: "+col+" value: "+ board.get(row).get(col).getValue());
+					if (board.get(row).get(col).getValue() == 0) {
+						System.out.println("Hint: row: "+ row+" col: "+col);
+						break;
+					}
+				}
+				hint = gamePanel.highlightHint(row, col);
+			} else
+				JOptionPane.showMessageDialog(gamePanel,"No more cookies for jooo!\n", 
+						"MOAR COOKIES?", JOptionPane.WARNING_MESSAGE, new ImageIcon(getClass().getResource("../GUI/resource/red-chip-ai-selected.png")));
 		} else if (event.getActionCommand().equalsIgnoreCase("Quit")) {
 				//when quit button is pressed
 				int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",
@@ -569,6 +593,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	public void update() {
 		System.out.println("update running.....");
 
+		//disable any turned on hints
+		if (hint != null && hint.isRunning()) {
+			hint.stop();
+			gamePanel.repaintHintCell();
+		}
+		
 		//win checking
 	    if(checkForWin()){
 	    	win(getCurrentPlayer());
@@ -581,13 +611,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			doAIMove();
 		}
 		
-	    
-//		isPlayerAI(int) does not work? 
-//	    if (isPlayerAI(current_player))
-//		    // if AI turn, it will update to show it's PC's turn in right panel
-//	    	rightPanel.updateTurnDisplay(0);
-//	    else
-	    	rightPanel.updateTurnDisplay(current_player);
+		rightPanel.updateTurnDisplay(current_player);
 	}
 	
 	/**
@@ -627,9 +651,11 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		}
 		board.get(0).get(col).setValue(0);
 	}
+	
 	public void resetWin() {
 		winning_player = 0;
 	}
+	
 	public int getHint() {
 		if (helpButtonPressedNumber == 1) {
 			dropToken(ai.getHint(this));
