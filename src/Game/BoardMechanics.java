@@ -1,15 +1,20 @@
 package Game;
 
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import GUI.ConnectFourListener;
 import GUI.GamePanel;
@@ -17,6 +22,9 @@ import GUI.LeftPanel;
 import GUI.MainFrame;
 import GUI.SidePanel;
 import Game.ConnectFourGame;
+import Audio.Music;
+import Audio.Sounds;
+
 
 public class BoardMechanics implements ActionListener, KeyListener{
 	private ConnectFourGame c4Game;
@@ -25,9 +33,11 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private SidePanel rightPanel;
 	private LeftPanel leftPanel;
 	private ConnectFourListener listener;
-	private javax.swing.Timer hint;
+	private Timer timer;
 	private int checkTime;
-	private int music_on;
+	
+//	private Music music;
+//	private Sounds sound;
 	
 	//players
 	private int current_player;	// 1 for player 1, 2 for player 2, etc
@@ -44,11 +54,16 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private int curr_row;
 	private boolean isMonoChrome;
 	
-	private int helpButtonPressedNumber;
-	private int fullColumnPressedNumber;
-	private int numHints;
+	private int music_on;
 	
-	private int state; // 0 for game over, 1 for in play
+	private int helpButtonPressedNumber;
+	
+	private int fullColumnPressedNumber;
+	/*
+	 * 0	game over
+	 * 1	in play
+	 */
+	private int state;	
 	
 	
 	/**
@@ -92,7 +107,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 		helpButtonPressedNumber = 0;
 		fullColumnPressedNumber = 0;
-		numHints = 0;
+
 	}
 	
 	private void initialise(){
@@ -104,16 +119,19 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			for(int col = 0; col < 7;col++){
 				board.get(row).add(new Cell(row,col,0));
 			}
+			
+			
 		}
-		
 		//this.print();
+		timer = new Timer();
 		checkTime = 1000;
 		current_player = 1;
 		winning_player = 0;
 		moves_made = 0;
 		curr_row = 0;
 		state = 1;
-	}	
+	}
+	
 	
 	/**
 	 * Drops in a token into the board
@@ -158,8 +176,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		int row = this.ai.makeAIMove(this);
 		return row;
 	}
-	
 	public void doAIMove(){
+		
 		int col = aiDropToken();
 		int row = dropToken(col);
 		System.out.println("col: "+ col +" Row "+ row + " current player: " + current_player);
@@ -225,7 +243,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				}
 				valid = false;
 			}
-		}		
+		}
+		
+		
 		return valid;
 	}
 	
@@ -236,18 +256,18 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 * @return		0 if there is no win, player number (i.e. 1, 2...) if there is a win.
 	 */
 	public boolean checkForWin(){
+		
 		if (winning_player == -1) return false;
 		if (moves_made < 5) return false;		
 		
+		System.out.println("checking for win");
 		// check for a horizontal win 
 	    for (int row =0; row<6; row++) { 
 	    	for (int column=0; column<4; column++) { 
-	    		if (board.get(row).get(column).getValue()!= 0 && board.get(row).get(column).getValue() 
-	    			== board.get(row).get(column+1).getValue() && board.get(row).get(column).getValue() 
-	    			== board.get(row).get(column+2).getValue() && board.get(row).get(column).getValue() 
-	    			== board.get(row).get(column+3).getValue()) { 
+	    		if (board.get(row).get(column).getValue()!= 0 && board.get(row).get(column).getValue() == board.get(row).get(column+1).getValue() && board.get(row).get(column).getValue() == board.get(row).get(column+2).getValue() && board.get(row).get(column).getValue() == board.get(row).get(column+3).getValue()) { 
 	    		
-	    			winning_player = board.get(row).get(column).getValue();
+		        	  winning_player = board.get(row).get(column).getValue();
+
 	    			return true; 
 	            }
 	    	}      
@@ -282,16 +302,17 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		     
 	    // check for a diagonal win (negative slope) 
 	    for (int row=3; row<6; row++) { 
-	    	for (int column=0; column<4; column++) { 
-	    		if (board.get(row).get(column).getValue() != 0 && 
-	    			board.get(row).get(column).getValue() == board.get(row-1).get(column+1).getValue() && 
-	    			board.get(row).get(column).getValue() == board.get(row-2).get(column+2).getValue() && 
-	    			board.get(row).get(column).getValue() == board.get(row-3).get(column+3).getValue()) { 
+	      for (int column=0; column<4; column++) { 
+	    	  if (board.get(row).get(column).getValue() != 0 && 
+				  board.get(row).get(column).getValue() == board.get(row-1).get(column+1).getValue() && 
+				  board.get(row).get(column).getValue() == board.get(row-2).get(column+2).getValue() && 
+				  board.get(row).get(column).getValue() == board.get(row-3).get(column+3).getValue()) { 
 
-	    			winning_player = board.get(row).get(column).getValue();
-	    			return true;
-	    		}        
-	    	}      
+	    		  winning_player = board.get(row).get(column).getValue();
+
+	    		  return true; 
+		      }        
+	      }      
 	    }    
 	    
 	    return false; 
@@ -308,10 +329,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		state = 0;
 		int playAgain = 1;
 		ImageIcon icon = null;
-		
 		if(isCPU() == true){
-			if (isMonoChrome)
-				revealBoard();
 			if (winning_player == 1) {
 				icon = new ImageIcon(getClass().getResource("../GUI/resource/player1-won.png"));
 				playAgain = JOptionPane.showConfirmDialog(gamePanel,"You Won!!!\n" 
@@ -338,6 +356,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		if(playAgain == 0){		//yes
 			restart();
 		} else if(playAgain == 1){		//no
+			//think about installing glassPane and doing nothing
 			c4Game.viewPlayPanel(mainFrame);
 			gamePanel.setVisible(false);
 			leftPanel.setVisible(false);
@@ -345,38 +364,28 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		}
 	}
 	
-	private void revealBoard() {
-		for (int row = 0; row < 6; row++) {
-		    for (int col = 0; col < 7; col++) {
-		    	if (board.get(row).get(col).getValue() == 2)
-		    		gamePanel.set(col, row, 1, false);
-		    	else if (board.get(row).get(col).getValue() == 1)
-		    		gamePanel.set(col, row, 2, false);
-		    }
-		}
-	}
-
 	/**
 	 * 
 	 */
 	private void tie() {
 		state = 0;
 		ImageIcon icon = null;
-		if (isMonoChrome)
-			revealBoard();
 		icon = new ImageIcon(getClass().getResource("../GUI/resource/player1-lost.png"));
 		int playAgain = JOptionPane.showConfirmDialog(gamePanel,"IT'S A TIE!!!\n" 
 				+ "Would you like to play again?",
 				"No Winners", 0, JOptionPane.YES_NO_OPTION, icon);
-	
+		
 		if(playAgain == 0){		//yes
 			restart();
 		} else if(playAgain == 1){		//no
+			//think about installing glassPane and doing nothing
 			c4Game.viewPlayPanel(mainFrame);
 			gamePanel.setVisible(false);
 			leftPanel.setVisible(false);
 			rightPanel.setVisible(false);
 		}
+		
+		
 	}
 	
 	/**
@@ -433,6 +442,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	public void actionPerformed(ActionEvent event) {
 					
 		if (event.getActionCommand().equals("GameOptions")) {
+			//check to make sure user really wants to quit
 			int quit = JOptionPane.showConfirmDialog(mainFrame,
 					"You sure you want to quit this game\n and return to Game Options?",
 					"Quit Message", JOptionPane.YES_NO_OPTION);
@@ -457,8 +467,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 					c4Game.hideHelpDialog();
 			} else {
 				c4Game.viewHelpDialog();
-			}			
+			}
 		} else if (event.getActionCommand().equals("Difficulty")) {
+			//check to make sure user really wants to quit
 			int quit = JOptionPane.showConfirmDialog(mainFrame,
 					"You sure you want to quit this game\n and choose a different difficulty?",
 					"Quit Message", JOptionPane.YES_NO_OPTION);
@@ -475,29 +486,15 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			c4Game.stopMusic();
 			rightPanel.setSoundOffButton();
 		}  else if (event.getActionCommand().equals("Hint")) {
-			numHints++;
-			if (numHints < 4) { // you get 3 hints
-				int col = getHint();
-				System.out.println(col);
-				int row;
-				for (row = 5; row >= 0; row--) {
-					System.out.println("Hint: row: "+ row+" col: "+col+" value: "+ board.get(row).get(col).getValue());
-					if (board.get(row).get(col).getValue() == 0) {
-						System.out.println("Hint: row: "+ row+" col: "+col);
-						break;
-					}
-				}
-				hint = gamePanel.highlightHint(row, col);
-			} else
-				JOptionPane.showMessageDialog(gamePanel,"No more cookies for jooo!\n", 
-						"MOAR COOKIES?", JOptionPane.WARNING_MESSAGE, new ImageIcon(getClass().getResource("../GUI/resource/red-chip-ai-selected.png")));
+			//Implement hint
 		} else if (event.getActionCommand().equalsIgnoreCase("Quit")) {
-			int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",
-						"Quit Message",JOptionPane.YES_NO_OPTION);
-
-			if(quit == 0){ //yes
-				System.exit(0);
-			}
+				//when quit button is pressed
+				int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",
+							"Quit Message",JOptionPane.YES_NO_OPTION);
+				//yes, user really wants to quit
+				if(quit == 0){		
+					System.exit(0);
+				}
 		} else {
 			update();
 		}
@@ -516,27 +513,26 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 */
 	public void update() {
 		System.out.println("update running.....");
-		
-		//disable any turned on hints
-		if (hint != null && hint.isRunning()) {
-			hint.stop();
-			gamePanel.repaintHintCell();
-		}
-		
+
 		//win checking
 	    if(checkForWin()){
 	    	win(getCurrentPlayer());
 	    }
 	    
-	    if(moves_made == 42 && !checkForWin())
-	    	tie();
+	    if(moves_made == 42 && !checkForWin()) tie();
 	    
 		//check if need to do player move
 		if ( isPlayerAI(getCurrentPlayer()) && isCPU() ) {
 			doAIMove();
 		}
+		
 	    
-		rightPanel.updateTurnDisplay(current_player);
+//		isPlayerAI(int) does not work? 
+//	    if (isPlayerAI(current_player))
+//		    // if AI turn, it will update to show it's PC's turn in right panel
+//	    	rightPanel.updateTurnDisplay(0);
+//	    else
+	    	rightPanel.updateTurnDisplay(current_player);
 	}
 	
 	/**
@@ -568,11 +564,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		}
 		board.get(0).get(col).setValue(0);
 	}
-	
 	public void resetWin() {
 		winning_player = 0;
 	}
-	
 	public int getHint() {
 		if (helpButtonPressedNumber == 1) {
 			dropToken(ai.getHint(this));
@@ -580,5 +574,4 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		helpButtonPressedNumber = 1;
 		return ai.getHint(this);
 	}
-	
 }

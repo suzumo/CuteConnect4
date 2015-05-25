@@ -5,14 +5,10 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import Game.Cell;
 import Game.BoardMechanics;
@@ -26,7 +22,6 @@ public class GamePanel extends JPanel {
 	 */
 	private JButton[][] slots;
 	private ArrayList<JButton> buttons;
-	private int hint_row, hint_col;
 
 	/**
 	 * Constructor for GamePanel.
@@ -136,7 +131,7 @@ public class GamePanel extends JPanel {
 	    	slots[row][column].setBackground(Color.DARK_GRAY);
 	    } else {
 			if (player == 1) { 
-		    	slots[row][column].setBackground(Color.RED);
+		    	slots[row][column].setBackground(Color.RED); 
 		    } else {
 		    	slots[row][column].setBackground(Color.GREEN);
 		    }    		
@@ -162,30 +157,6 @@ public class GamePanel extends JPanel {
 	 */
 	public ArrayList<JButton> getButtons() {
 		return buttons;
-	}
-
-	public Timer highlightHint(int row, int col) {
-		hint_row = row;
-		hint_col = col;
-		
-		Timer hint = new Timer(300, new ActionListener() {
-			boolean blinking = false; 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				blinking = !blinking;
-				if (blinking) {
-					slots[row][col].setIcon(new ImageIcon(this.getClass().getResource("resource/CellWin-noblush-nostars.png")));
-				} else {
-					slots[row][col].setIcon(new ImageIcon(this.getClass().getResource("resource/Cell.png")));
-				} 
-			}
-		});
-		hint.start();
-		return hint;
-	}
-
-	public void repaintHintCell() {
-		slots[hint_row][hint_col].setIcon(new ImageIcon(this.getClass().getResource("resource/Cell.png")));
 	}
 	
 }
