@@ -59,9 +59,10 @@ public class AI {
 	public int makeAIMove(BoardMechanics bm) {
 		int move = -1;
 		switch (difficulty) {
-		case 0: move = makeBongoMove(bm); break;
+		case 0: move = makeBogoMove(bm); break;
 		case 1: move = makeEasyMove(bm); break;
-		case 2: move = makeHardMove(bm); break;
+		case 2: move = makeNormMove(bm); break;
+		case 3: move = makeHardMove(bm); break;
 		}
 		bm.resetWin();
 		//bm.dropToken(move);
@@ -73,7 +74,7 @@ public class AI {
 	 * @param bm current board mechanics
 	 * @return random column
 	 */
-	private int makeBongoMove(BoardMechanics bm) {
+	private int makeBogoMove(BoardMechanics bm) {
 		int move = (int) Math.ceil(Math.random()* 7);
 		while (!bm.checkMoveValid(move)) move = (int) Math.ceil(Math.random()* 7);
 		return move;
@@ -100,7 +101,7 @@ public class AI {
 			if (bm.getBoard().get(0).get(3).getValue() == 0) {
 				return 3;
 			}
-			col = makeBongoMove(bm);
+			col = makeBogoMove(bm);
 		}
 		return col;
 	}
@@ -151,7 +152,7 @@ public class AI {
 	 * @param bm current board mechanics
 	 * @return column to drop token
 	 */
-	private int makeHardMove(BoardMechanics bm) {
+	private int makeNormMove(BoardMechanics bm) {
 		int currentMax = 0;
 		int currentCol = -1;
 		int c, r;
@@ -169,6 +170,41 @@ public class AI {
 			}
 			//System.out.println("HI");
 		}
+		return currentCol;
+	}
+	
+	/**
+	 * Similar to makeNormMove but will can aggressively force a win
+	 * @param bm board position
+	 * @return column integer
+	 */
+	private int makeHardMove(BoardMechanics bm) {
+		int currentMax = 0;
+		int currentCol = -1;
+		int forceWinCol = -1;
+		int c, r, winPositionsInCol;
+		ArrayList<ArrayList<Integer>> hValues = calculateHeuristics(bm);
+		for (c = 0; c < 7 ; c ++) {
+			r = 0;
+			winPositionsInCol = 0;
+			//System.out.println(r + " " + c);
+			while (r < 5 && hValues.get(r+1).get(c) != 0) {
+				if (r < 5) {
+					if (hValues.get(r).get(c) == 1000 &&
+							hValues.get(r + 1).get(c) == 1000)	
+						winPositionsInCol += 1;
+				}
+				if (hValues.get(r).get(c) == 999) winPositionsInCol = 0;
+				r ++;
+			}
+			if (winPositionsInCol >= 2) forceWinCol = c;
+			if (hValues.get(r).get(c) > currentMax) {
+				currentMax = hValues.get(r).get(c);
+				currentCol = c;
+			}
+			//System.out.println("HI");
+		}
+		if (currentMax < 10 && forceWinCol != -1) return forceWinCol;
 		return currentCol;
 	}
 
@@ -401,25 +437,69 @@ public class AI {
 				storeValue = storeValue * 3;
 				
 				// count surrounding token number
-				if (col < 6) {
+				if (difficulty >= 1) {
+					if (col < 6) {
+						if (row < 5)
+							if (boardCopy.get(row + 1).get(col + 1).getValue() == player) storeValue ++;
+						if (boardCopy.get(row).get(col + 1).getValue() == player) storeValue ++;
+						if (row > 0)
+							if (boardCopy.get(row - 1).get(col + 1).getValue() == player) storeValue ++;
+					}
 					if (row < 5)
-						if (boardCopy.get(row + 1).get(col + 1).getValue() == player) storeValue ++;
-					if (boardCopy.get(row).get(col + 1).getValue() == player) storeValue ++;
+						if (boardCopy.get(row + 1).get(col).getValue() == player) storeValue ++;
 					if (row > 0)
-						if (boardCopy.get(row - 1).get(col + 1).getValue() == player) storeValue ++;
+						if (boardCopy.get(row - 1).get(col).getValue() == player) storeValue ++;
+					if (col > 0) {
+						if (row > 0)
+							if (boardCopy.get(row - 1).get(col - 1).getValue() == player) storeValue ++;
+						if (boardCopy.get(row).get(col - 1).getValue() == player) storeValue ++;
+						if (row < 5)
+							if (boardCopy.get(row + 1).get(col - 1).getValue() == player) storeValue ++;
+					}
 				}
-				if (row < 5)
-					if (boardCopy.get(row + 1).get(col).getValue() == player) storeValue ++;
-				if (row > 0)
-					if (boardCopy.get(row - 1).get(col).getValue() == player) storeValue ++;
-				if (col > 0) {
-					if (row > 0)
-						if (boardCopy.get(row - 1).get(col - 1).getValue() == player) storeValue ++;
-					if (boardCopy.get(row).get(col - 1).getValue() == player) storeValue ++;
-					if (row < 5)
-						if (boardCopy.get(row + 1).get(col - 1).getValue() == player) storeValue ++;
+				if (difficulty == 2) {
+					if (col < 5) {
+						if (row < 4)
+							if (boardCopy.get(row + 1).get(col + 1).getValue() == player &&
+									(boardCopy.get(row + 2).get(col + 2).getValue() == player ||
+									boardCopy.get(row + 2).get(col + 2).getValue() == 0)) 
+								storeValue ++;
+						if (boardCopy.get(row).get(col + 1).getValue() == player && 
+								(boardCopy.get(row).get(col + 2).getValue() == player)) 
+							storeValue ++;
+						if (row > 1)
+							if (boardCopy.get(row - 1).get(col + 1).getValue() == player &&
+									(boardCopy.get(row - 2).get(col + 2).getValue() == player ||
+									boardCopy.get(row - 2).get(col + 2).getValue() == 0)) 
+								storeValue ++;
+					}
+					if (row < 4)
+						if (boardCopy.get(row + 1).get(col).getValue() == player && 
+								(boardCopy.get(row + 2).get(col).getValue() == player ||
+								boardCopy.get(row + 2).get(col).getValue() == 0)) 
+							storeValue ++;
+					if (row > 1)
+						if (boardCopy.get(row - 1).get(col).getValue() == player && 
+								(boardCopy.get(row - 2).get(col).getValue() == player ||
+								boardCopy.get(row - 2).get(col).getValue() == 0)) 
+							storeValue ++;
+					if (col > 1) {
+						if (row > 1)
+							if (boardCopy.get(row - 1).get(col - 1).getValue() == player && 
+									(boardCopy.get(row - 2).get(col - 2).getValue() == player || 
+									boardCopy.get(row - 2).get(col - 2).getValue() == 0)) 
+								storeValue ++;
+						if (boardCopy.get(row).get(col - 1).getValue() == player && 
+								(boardCopy.get(row).get(col - 2).getValue() == player ||
+								boardCopy.get(row).get(col - 2).getValue() == 0)) 
+							storeValue ++;
+						if (row < 4)
+							if (boardCopy.get(row + 1).get(col - 1).getValue() == player &&
+									(boardCopy.get(row + 2).get(col - 2).getValue() == player ||
+									boardCopy.get(row + 2).get(col - 2).getValue() == 0)) 
+								storeValue ++;
+					}
 				}
-				
 				//
 				storeValue += 4 - Math.abs(3 - col);
 				
@@ -434,5 +514,11 @@ public class AI {
 			System.out.println("");
 		}
 		return heuristics;
+	}
+	
+	public int getHint(BoardMechanics bm) {
+		int move = makeHardMove(bm);
+		bm.resetWin();
+		return move;
 	}
 }

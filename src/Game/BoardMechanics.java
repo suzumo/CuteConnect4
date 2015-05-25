@@ -56,6 +56,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	private int music_on;
 	
+	private int helpButtonPressedNumber;
+	
+	private int fullColumnPressedNumber;
 	/*
 	 * 0	game over
 	 * 1	in play
@@ -101,6 +104,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			button.addActionListener(this);
 		}
 		
+		helpButtonPressedNumber = 0;
+		fullColumnPressedNumber = 0;
 
 	}
 	
@@ -144,7 +149,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			}
 			nextPlayer();
 			moves_made++;
-			
+			helpButtonPressedNumber = 0;
 			return curr_row;
 		}
 		return dRow;
@@ -222,10 +227,17 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		if(col > 6 || col < 0){
 			valid = false;
 		} else {
+			
 			if(board.get(0).get(col).getValue() != 0){
 				System.out.println("Full"); //Need to put a label after adding side panels to indicate that the column is full
 				if(getCurrentPlayer() == 1){
-					JOptionPane.showMessageDialog(gamePanel,"SENPAI! What are you doing!?\n" + "This Column is Full!\n");
+					switch (fullColumnPressedNumber) {
+					case 0: JOptionPane.showMessageDialog(gamePanel,"This Column is Full!\n"); break;
+					case 3: JOptionPane.showMessageDialog(gamePanel,"Didn't you see the first message?\n" + "This Column is Full!!!\n"); break;
+					case 6: JOptionPane.showMessageDialog(gamePanel,"Please stop. The column has no space for you\n"); break;
+					case 10: JOptionPane.showMessageDialog(gamePanel,"PLEASE. STOP. YOU MONKEY.\n"); break;
+					}
+					fullColumnPressedNumber += 1;
 				}
 				valid = false;
 			}
@@ -538,5 +550,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	public void resetWin() {
 		winning_player = 0;
+	}
+	public int getHint() {
+		if (helpButtonPressedNumber == 1) {
+			dropToken(ai.getHint(this));
+		}
+		helpButtonPressedNumber = 1;
+		return ai.getHint(this);
 	}
 }
