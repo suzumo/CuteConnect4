@@ -11,7 +11,7 @@ public class Cell {
 	 * @param iv	The value of this Cell.
 	 * @post		Creates a Cell object with the relevant input information.
 	 */
-	public Cell(int iCol, int iRow, int iv){
+	public Cell(int iRow, int iCol, int iv){
 		col = iCol;
 		row = iRow;
 		val = iv;

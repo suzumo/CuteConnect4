@@ -43,27 +43,25 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private int current_player;	// 1 for player 1, 2 for player 2, etc
 	private int players; // 2 minimum
 	private int winning_player;
-	
 	private int moves_made;
+	private int curr_row;
 	
 	private HashMap<Integer, Boolean> cpu_players;	// player -> isAI?
 	private int ai_difficulty;
 	AI ai;
 	
 	private ArrayList<ArrayList<Cell>> board;
-	private int curr_row;
+	private ArrayList<Cell> winningTokens;
 	private boolean isMonoChrome;
-	
 	private int music_on;
-	
 	private int helpButtonPressedNumber;
-	
 	private int fullColumnPressedNumber;
 	/*
 	 * 0	game over
 	 * 1	in play
 	 */
-	private int state;	
+	private int state;
+	private boolean isListenerActive;	
 	
 	
 	/**
@@ -84,7 +82,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		this.c4Game = connectFourGame;
 		this.isMonoChrome = isMChrome;
 		this.players = players;	
-	
+		
 		//setting music status
 		music_on = connectFourGame.getMusicStatus();
 		
@@ -93,6 +91,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		ai_difficulty = diff;
 		ai = new AI(diff);
 		
+		//Activating the Mouse Listeners
+		isListenerActive = true;
 		
 		gamePanel = new GamePanel(mainFrame);
 		leftPanel = new LeftPanel(mainFrame);
@@ -110,9 +110,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 
 	}
 	
+	/**
+	 * 
+	 */
 	private void initialise(){
 		board = new ArrayList<ArrayList<Cell>>();
-		
+		winningTokens = new ArrayList<Cell>();
 		//Populating the board with cells
 		for(int row = 0; row < 6; row++){
 			board.add(new ArrayList<Cell>());
@@ -165,6 +168,10 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			current_player = 1;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	private int getPreviousPlayer(){
 		int p = current_player-1;
 		if (p == 0)
@@ -172,10 +179,18 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		return p;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int aiDropToken(){
 		int row = this.ai.makeAIMove(this);
 		return row;
 	}
+	
+	/**
+	 * 
+	 */
 	public void doAIMove(){
 		
 		int col = aiDropToken();
@@ -186,6 +201,11 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		update();
 	}
 	
+	/**
+	 * 
+	 * @param p
+	 * @return
+	 */
 	public boolean isPlayerAI(int p){
 		if (cpu_players.get(p) != null && cpu_players.get(p) == true)
 			return true;
@@ -199,6 +219,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		return current_player;
 	}
 	
+	/**
+	 * 
+	 */
 	public void print() {
 		for (int row = 0; row < 6; row++) {
 		    for (int col = 0; col < 7; col++) {
@@ -209,6 +232,10 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		System.out.println();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isCPU(){
 		boolean isCPU = false;
 		if(this.ai_difficulty != -1){
@@ -264,10 +291,18 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		// check for a horizontal win 
 	    for (int row =0; row<6; row++) { 
 	    	for (int column=0; column<4; column++) { 
-	    		if (board.get(row).get(column).getValue()!= 0 && board.get(row).get(column).getValue() == board.get(row).get(column+1).getValue() && board.get(row).get(column).getValue() == board.get(row).get(column+2).getValue() && board.get(row).get(column).getValue() == board.get(row).get(column+3).getValue()) { 
-	    		
-		        	  winning_player = board.get(row).get(column).getValue();
-
+	    		if (board.get(row).get(column).getValue()!= 0 &&
+	    			board.get(row).get(column).getValue() == board.get(row).get(column+1).getValue() && 
+	    			board.get(row).get(column).getValue() == board.get(row).get(column+2).getValue() && 
+	    			board.get(row).get(column).getValue() == board.get(row).get(column+3).getValue()) { 
+	    			
+	    			//adding winningTokens to arrayList so we can display them
+	    			winningTokens.add(board.get(row).get(column));
+	    			winningTokens.add(board.get(row).get(column+1));
+	    			winningTokens.add(board.get(row).get(column+2));
+	    			winningTokens.add(board.get(row).get(column+3));
+	    	
+	    			winning_player = board.get(row).get(column).getValue();
 	    			return true; 
 	            }
 	    	}      
@@ -280,8 +315,14 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	        	 board.get(row).get(column).getValue() == board.get(row+2).get(column).getValue() && 
 	        	 board.get(row).get(column).getValue() == board.get(row+3).get(column).getValue()) { 
 	        	 
-	        	  winning_player = board.get(row).get(column).getValue();
-	        	  return true; 
+	        	   
+	        	   winningTokens.add(board.get(row).get(column));
+	        	   winningTokens.add(board.get(row+1).get(column));
+	        	   winningTokens.add(board.get(row+2).get(column));
+	        	   winningTokens.add(board.get(row+3).get(column));
+	        	  
+	        	   winning_player = board.get(row).get(column).getValue();
+	        	   return true; 
 	          }  
 	       }       
 	    }    
@@ -294,6 +335,11 @@ public class BoardMechanics implements ActionListener, KeyListener{
 					board.get(row).get(column).getValue() == board.get(row+2).get(column+2).getValue() && 
 					board.get(row).get(column).getValue() == board.get(row+3).get(column+3).getValue()) { 
 		           
+	    			winningTokens.add(board.get(row).get(column));
+	    			winningTokens.add(board.get(row+1).get(column+1));
+	    			winningTokens.add(board.get(row+2).get(column+2));
+	    			winningTokens.add(board.get(row+3).get(column+3));
+	    			
 	    			winning_player = board.get(row).get(column).getValue();
 	    			return true; 
 		        }        
@@ -308,9 +354,14 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				  board.get(row).get(column).getValue() == board.get(row-2).get(column+2).getValue() && 
 				  board.get(row).get(column).getValue() == board.get(row-3).get(column+3).getValue()) { 
 
-	    		  winning_player = board.get(row).get(column).getValue();
-
-	    		  return true; 
+	    		    
+	    		    winningTokens.add(board.get(row).get(column));
+	    		    winningTokens.add(board.get(row-1).get(column+1));
+	    		    winningTokens.add(board.get(row-2).get(column+2));
+	    		    winningTokens.add(board.get(row-3).get(column+3));
+    		  
+	    		  	winning_player = board.get(row).get(column).getValue();
+	    		  	return true; 
 		      }        
 	      }      
 	    }    
@@ -325,10 +376,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	public void win(int player) {
 		
 		if (winning_player == 0 || state == 0) return;
-		
+		isListenerActive = false;
 		state = 0;
 		int playAgain = 1;
 		ImageIcon icon = null;
+		gamePanel.showWinningTokens(winningTokens);
+		
 		if(isCPU() == true){
 			if (winning_player == 1) {
 				icon = new ImageIcon(getClass().getResource("../GUI/resource/player1-won.png"));
@@ -354,9 +407,11 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		}
 
 		if(playAgain == 0){		//yes
+			isListenerActive = true;
 			restart();
 		} else if(playAgain == 1){		//no
 			//think about installing glassPane and doing nothing
+			isListenerActive = true;
 			c4Game.viewPlayPanel(mainFrame);
 			gamePanel.setVisible(false);
 			leftPanel.setVisible(false);
@@ -541,8 +596,16 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	public boolean checkMonoChrome() {
 		return isMonoChrome;
 	}
-
-
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isListenerActive(){
+		return isListenerActive;
+	}
+	
 	public ArrayList<ArrayList<Cell>> getBoard() {
 		return board;
 	}
