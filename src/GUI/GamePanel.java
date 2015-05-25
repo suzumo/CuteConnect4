@@ -139,6 +139,17 @@ public class GamePanel extends JPanel {
 	}
 	
 	/**
+	 * Displays the winning tokens
+	 */
+	public void showWinningTokens(ArrayList<Cell> tokens){
+		for(Cell token : tokens){
+			System.out.print("row: " + token.getRow() + " col: " + token.getCol() + "/ ");
+			slots[token.getRow()][token.getCol()].setIcon(new ImageIcon(this.getClass().getResource("resource/CellWin.png")));
+			slots[token.getRow()][token.getCol()].setSelectedIcon(new ImageIcon(this.getClass().getResource("resource/CellWin.png")));
+		}
+	}
+	
+	/**
 	 * Restarts the game by re-drawing the GamePanel.
 	 * @pre		JFrame for which this GamePanel is set must exist.
 	 * @param mainFrame	JFrame where this GamePanel is set.

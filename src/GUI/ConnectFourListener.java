@@ -21,17 +21,18 @@ public class ConnectFourListener implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent event) {
 //		System.out.println("Click");
-		JButton button = (JButton) event.getComponent();
-		int row = -1;
-	    int column = gui.getColumn(button); 
-    	row = game.dropToken(column);
-    	System.out.println("row: " + row + " col " + column);
-	    if(row != -1){
-        	gui.set(column, row, game.getCurrentPlayer(), game.checkMonoChrome());
-	    }
-	    
-		game.update();
-
+		if(game.isListenerActive()){
+			JButton button = (JButton) event.getComponent();
+			int row = -1;
+		    int column = gui.getColumn(button); 
+	    	row = game.dropToken(column);
+	    	System.out.println("row: " + row + " col " + column);
+		    if(row != -1){
+	        	gui.set(column, row, game.getCurrentPlayer(), game.checkMonoChrome());
+		    }
+		    
+			game.update();
+		}
 	}
 
 	
