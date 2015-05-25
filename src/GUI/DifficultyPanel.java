@@ -79,6 +79,18 @@ public class DifficultyPanel extends JPanel {
 		add(button,gbc);
 		buttons.add(button);
 		
+		//hard difficulty button
+		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-hard.png")));
+		button.setActionCommand("Hard");
+		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-hard-hover.png")));
+		button.setPressedIcon(new ImageIcon(getClass().getResource("resource/difficulty-hard-pressed.png")));
+		gbc.insets = new Insets(0,0,0,0);
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		button.setContentAreaFilled(false);
+		add(button,gbc);
+		buttons.add(button);
+		
 		//monochrome difficulty button
 		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-monochrome.png")));
 		button.setActionCommand("Monochrome");
@@ -86,7 +98,7 @@ public class DifficultyPanel extends JPanel {
 		button.setPressedIcon(new ImageIcon(getClass().getResource("resource/difficulty-monochrome-pressed.png")));
 		gbc.insets = new Insets(0,0,0,0);
 		gbc.gridx = 0;
-		gbc.gridy = 3;
+		gbc.gridy = 4;
 		button.setContentAreaFilled(false);
 		add(button,gbc);
 		buttons.add(button);
@@ -98,7 +110,7 @@ public class DifficultyPanel extends JPanel {
 		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-goback-hover.png")));
 		gbc.insets = new Insets(40,0,0,0);
 		gbc.gridx = 0;
-		gbc.gridy = 4;
+		gbc.gridy = 5;
 		button.setContentAreaFilled(false);
 		add(button,gbc);
 		buttons.add(button);

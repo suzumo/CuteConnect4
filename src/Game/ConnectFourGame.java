@@ -258,6 +258,9 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 		} else if(event.getActionCommand().equalsIgnoreCase("Normal")){
 			hideDiffPanel();
 			viewGamePanel(mainFrame, 2, false);
+		} else if(event.getActionCommand().equalsIgnoreCase("Hard")){
+			hideDiffPanel();
+			viewGamePanel(mainFrame, 3, false);
 		} else if(event.getActionCommand().equalsIgnoreCase("Monochrome")){
 			hideDiffPanel();
 			viewGamePanel(mainFrame, 2, true);
