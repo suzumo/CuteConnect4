@@ -58,6 +58,7 @@ public class DifficultyPanel extends JPanel {
 		//easy difficulty button
 		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-easy.png")));
 		button.setActionCommand("Easy");
+		button.setToolTipText("For beginners, with 3 hints");
 		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-easy-hover.png")));
 		button.setPressedIcon(new ImageIcon(getClass().getResource("resource/difficulty-easy-pressed.png")));
 		gbc.insets = new Insets(0,0,0,0);
@@ -70,6 +71,7 @@ public class DifficultyPanel extends JPanel {
 		//normal difficulty button
 		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-normal.png")));
 		button.setActionCommand("Normal");
+		button.setToolTipText("Standard game (1 hint included)");
 		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-normal-hover.png")));
 		button.setPressedIcon(new ImageIcon(getClass().getResource("resource/difficulty-normal-pressed.png")));
 		gbc.insets = new Insets(0,0,0,0);
@@ -82,6 +84,7 @@ public class DifficultyPanel extends JPanel {
 		//hard difficulty button
 		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-hard.png")));
 		button.setActionCommand("Hard");
+		button.setToolTipText("For the experienced players, who need no hints!");
 		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-hard-hover.png")));
 		button.setPressedIcon(new ImageIcon(getClass().getResource("resource/difficulty-hard-pressed.png")));
 		gbc.insets = new Insets(0,0,0,0);
@@ -94,6 +97,7 @@ public class DifficultyPanel extends JPanel {
 		//monochrome difficulty button
 		button = new JButton(new ImageIcon(this.getClass().getResource("resource/difficulty-monochrome.png")));
 		button.setActionCommand("Monochrome");
+		button.setToolTipText("The ultimate challenge!");
 		button.setSelectedIcon(new ImageIcon(getClass().getResource("resource/difficulty-monochrome-hover.png")));
 		button.setPressedIcon(new ImageIcon(getClass().getResource("resource/difficulty-monochrome-pressed.png")));
 		gbc.insets = new Insets(0,0,0,0);

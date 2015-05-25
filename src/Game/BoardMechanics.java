@@ -58,7 +58,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private int helpButtonPressedNumber;
 	private int fullColumnPressedNumber;
 	private int numHints;
-	
+	private int hintFlag;
 	private int state; // 0 for game over, 1 in play
 	private boolean isListenerActive;	
 	
@@ -106,7 +106,14 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 		helpButtonPressedNumber = 0;
 		fullColumnPressedNumber = 0;
-		numHints = 0;
+		
+		if (ai_difficulty == 1) //easy difficulty get 3 hints
+			numHints = 3;
+		else if (ai_difficulty == 2 && !isMonoChrome) // normal diff get 1 hint
+			numHints = 1;
+		else
+			numHints = 0; // otherwise 0
+		hintFlag = 0; // 0 for no hints activated, 1 for one active atm 
 	}
 	
 	/**
@@ -466,6 +473,19 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		listener = new ConnectFourListener(this, gamePanel);
 		rightPanel.updateTurnDisplay(getCurrentPlayer());
 		state = 1;
+		if (ai_difficulty == 1) //easy difficulty get 3 hints
+			numHints = 3;
+		else if (ai_difficulty == 2 && !isMonoChrome) // normal diff get 1 hint
+			numHints = 1;
+		else
+			numHints = 0; // otherwise 0
+		hintFlag = 0; // 0 for no hints activated, 1 for one active atm 
+		//disable any turned on hints
+		if (hint != null && hint.isRunning()) {
+			hint.stop();
+			gamePanel.repaintHintCell();
+			hintFlag = 0;
+		}
 	}
 	
 	
@@ -504,7 +524,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-					
+		
 		if (event.getActionCommand().equals("GameOptions")) {
 			//check to make sure user really wants to quit
 			int quit = JOptionPane.showConfirmDialog(mainFrame,
@@ -550,21 +570,21 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			c4Game.stopMusic();
 			rightPanel.setSoundOffButton();
 		}  else if (event.getActionCommand().equals("Hint")) {
-			numHints++;
-			if (numHints < 4) { // you get 3 hints
+			if (hintFlag == 1) {
+				JOptionPane.showMessageDialog(gamePanel, "You already have a hint!\n");
+			} else if (numHints > 0) {
+				numHints--;
+				hintFlag = 1;
 				int col = getHint();
 				System.out.println(col);
 				int row;
 				for (row = 5; row >= 0; row--) {
-					System.out.println("Hint: row: "+ row+" col: "+col+" value: "+ board.get(row).get(col).getValue());
-					if (board.get(row).get(col).getValue() == 0) {
-						System.out.println("Hint: row: "+ row+" col: "+col);
+					if (board.get(row).get(col).getValue() == 0)
 						break;
-					}
 				}
 				hint = gamePanel.highlightHint(row, col);
 			} else
-				JOptionPane.showMessageDialog(gamePanel,"No more cookies for jooo!\n", 
+				JOptionPane.showMessageDialog(gamePanel,"No cookies for youuu!\n", 
 						"MOAR COOKIES?", JOptionPane.WARNING_MESSAGE, new ImageIcon(getClass().getResource("../GUI/resource/red-chip-ai-selected.png")));
 		} else if (event.getActionCommand().equalsIgnoreCase("Quit")) {
 				//when quit button is pressed
@@ -592,11 +612,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 */
 	public void update() {
 		System.out.println("update running.....");
-
+	
 		//disable any turned on hints
 		if (hint != null && hint.isRunning()) {
 			hint.stop();
 			gamePanel.repaintHintCell();
+			hintFlag = 0;
 		}
 		
 		//win checking
