@@ -93,6 +93,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		ai_difficulty = diff;
 		ai = new AI(diff);
 		
+		
 		gamePanel = new GamePanel(mainFrame);
 		leftPanel = new LeftPanel(mainFrame);
 		rightPanel = new SidePanel(mainFrame, music_on);
@@ -229,6 +230,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		} else {
 			
 			if(board.get(0).get(col).getValue() != 0){
+				
 				System.out.println("Full"); //Need to put a label after adding side panels to indicate that the column is full
 				if(getCurrentPlayer() == 1){
 					switch (fullColumnPressedNumber) {
@@ -255,6 +257,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 */
 	public boolean checkForWin(){
 		
+		if (winning_player == -1) return false;
 		if (moves_made < 5) return false;		
 		
 		// check for a horizontal win 
@@ -320,6 +323,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 */
 	public void win(int player) {
 		
+		if (winning_player == 0 || state == 0) return;
+		
 		state = 0;
 		int playAgain = 1;
 		ImageIcon icon = null;
@@ -329,7 +334,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				playAgain = JOptionPane.showConfirmDialog(gamePanel,"You Won!!!\n" 
 						+ "Would you like to play again?",
 						"WINNER", 0, JOptionPane.YES_NO_OPTION, icon);
-			} else {
+			} else if (winning_player == 2){
 				icon = new ImageIcon(getClass().getResource("../GUI/resource/player2-won.png"));
 				playAgain = JOptionPane.showConfirmDialog(gamePanel,"The Computer Won!!!\n" 
 						+ "Would you like to play again?",
@@ -356,6 +361,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			leftPanel.setVisible(false);
 			rightPanel.setVisible(false);
 		}
+		winning_player = -1;
+		state = 0;
 	}
 	
 	/**
@@ -502,11 +509,15 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 
 		//win checking
-	    if(checkForWin()) win(getCurrentPlayer());
+	    if(checkForWin()){
+	    	win(getCurrentPlayer());
+
+	    	state = 0;
+	    }
 	    if(moves_made == 42 && !checkForWin()) tie();
 	    
 		//check if need to do player move
-		if ( isPlayerAI(getCurrentPlayer()) ) {
+		if ( isPlayerAI(getCurrentPlayer()) && isCPU() ) {
 			doAIMove();
 		}
 		
