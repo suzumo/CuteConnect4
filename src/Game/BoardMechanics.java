@@ -260,6 +260,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		if (winning_player == -1) return false;
 		if (moves_made < 5) return false;		
 		
+		System.out.println("checking for win");
 		// check for a horizontal win 
 	    for (int row =0; row<6; row++) { 
 	    	for (int column=0; column<4; column++) { 
@@ -361,8 +362,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			leftPanel.setVisible(false);
 			rightPanel.setVisible(false);
 		}
-		winning_player = -1;
-		state = 0;
 	}
 	
 	/**
@@ -402,6 +401,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		gamePanel.restart(mainFrame);
 		listener = new ConnectFourListener(this, gamePanel);
 		rightPanel.updateTurnDisplay(getCurrentPlayer());
+		state = 1;
 	}
 	
 	
@@ -513,14 +513,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 */
 	public void update() {
 		System.out.println("update running.....");
-		
 
 		//win checking
 	    if(checkForWin()){
 	    	win(getCurrentPlayer());
-
-	    	state = 0;
 	    }
+	    
 	    if(moves_made == 42 && !checkForWin()) tie();
 	    
 		//check if need to do player move
