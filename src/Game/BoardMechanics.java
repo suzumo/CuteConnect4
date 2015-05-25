@@ -90,12 +90,20 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		ai_difficulty = diff;
 		ai = new AI(diff);
 		
+		if (ai_difficulty == 1) //easy difficulty get 3 hints
+			numHints = 3;
+		else if (ai_difficulty == 2 && !isMonoChrome) // normal diff get 1 hint
+			numHints = 1;
+		else
+			numHints = 0; // otherwise 0
+		hintFlag = 0; // 0 for no hints activated, 1 for one active atm 
+		
 		//Activating the Mouse Listeners
 		isListenerActive = true;
 		
 		gamePanel = new GamePanel(mainFrame);
 		leftPanel = new LeftPanel(mainFrame);
-		rightPanel = new SidePanel(mainFrame, music_on);
+		rightPanel = new SidePanel(mainFrame, music_on, numHints);
 		listener = new ConnectFourListener(this, this.gamePanel);
 		for(JButton button : gamePanel.getButtons()){
 			button.addActionListener(this);
@@ -106,14 +114,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 		helpButtonPressedNumber = 0;
 		fullColumnPressedNumber = 0;
-		
-		if (ai_difficulty == 1) //easy difficulty get 3 hints
-			numHints = 3;
-		else if (ai_difficulty == 2 && !isMonoChrome) // normal diff get 1 hint
-			numHints = 1;
-		else
-			numHints = 0; // otherwise 0
-		hintFlag = 0; // 0 for no hints activated, 1 for one active atm 
 	}
 	
 	/**
@@ -479,6 +479,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			numHints = 1;
 		else
 			numHints = 0; // otherwise 0
+		rightPanel.updateHintButtonImage(numHints);
 		hintFlag = 0; // 0 for no hints activated, 1 for one active atm 
 		//disable any turned on hints
 		if (hint != null && hint.isRunning()) {
@@ -583,6 +584,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 						break;
 				}
 				hint = gamePanel.highlightHint(row, col);
+				rightPanel.updateHintButtonImage(numHints);
 			} else
 				JOptionPane.showMessageDialog(gamePanel,"No cookies for youuu!\n", 
 						"MOAR COOKIES?", JOptionPane.WARNING_MESSAGE, new ImageIcon(getClass().getResource("../GUI/resource/red-chip-ai-selected.png")));

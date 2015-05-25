@@ -24,6 +24,7 @@ public class SidePanel extends JPanel {
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
 	private JButton soundButton_on, soundButton_off;
+	private JButton hintButton;
 	
 	/**
 	 * Constructor.
@@ -31,8 +32,10 @@ public class SidePanel extends JPanel {
 	 * @param mainframe	JFrame for which this JPanel will be set in.
 	 * @post			A SidePanel object is created with specified size and layout.
 	 */
-	public SidePanel(JFrame mainframe, int music_status) {
+	public SidePanel(JFrame mainframe, int music_status, int num_hints) {
 		buttons = new ArrayList<JButton>();
+		hintButton = new JButton();
+		updateHintButtonImage(num_hints);
 		initialise(music_status);
 		validateToMainFrame(mainframe);
 	}
@@ -96,10 +99,7 @@ public class SidePanel extends JPanel {
 		add(turnDisplay, gbc);
 		
 		//hint button
-		JButton hintButton = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-hint.png")));
 		hintButton.setToolTipText("Get a hint?");
-		hintButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint-hover.png")));
-		hintButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint-pressed.png")));
 		hintButton.setContentAreaFilled(false);
 		hintButton.setActionCommand("Hint");
 		gbc.anchor = GridBagConstraints.CENTER;
@@ -220,6 +220,26 @@ public class SidePanel extends JPanel {
 			turnDisplay.setIcon(new ImageIcon(getClass().getResource("resource/player2-turn.png")));
 	}
 
+	public void updateHintButtonImage(int num_hints) {
+		if (num_hints == 0) {
+			hintButton.setIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint.png")));
+			hintButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint-hover.png")));
+			hintButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint-pressed.png")));
+		} else if (num_hints == 1) {
+			hintButton.setIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint1.png")));
+			hintButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint1-hover.png")));
+			hintButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint1-pressed.png")));			
+		} else if (num_hints == 2) {
+			hintButton.setIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint2.png")));
+			hintButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint2-hover.png")));
+			hintButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint2-pressed.png")));
+		} else if (num_hints == 3){
+			hintButton.setIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint3.png")));
+			hintButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint3-hover.png")));
+			hintButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint3-pressed.png")));
+		}
+	}
+	
 	/**
 	 * Paints the background of this JPanel.
 	 * @pre		background_image must not be null.
