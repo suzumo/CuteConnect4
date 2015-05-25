@@ -61,15 +61,15 @@ public class SidePanel extends JPanel {
 
 		//back to menu button
 		JButton exitButton = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-backmenu.png")));
-		exitButton.setToolTipText("Quit this game and return to Main Menu");
+		exitButton.setToolTipText("Quit this game and return to Game Options");
 		exitButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-backmenu-hover.png")));
 		exitButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-backmenu-pressed.png")));
 		exitButton.setContentAreaFilled(false);
-		exitButton.setActionCommand("MainMenu");
+		exitButton.setActionCommand("GameOptions");
 		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.insets = new Insets(50,0,0,0);
+		gbc.insets = new Insets(10,0,0,0);
 		add(exitButton, gbc);
 		buttons.add(exitButton);
 		
@@ -94,19 +94,34 @@ public class SidePanel extends JPanel {
 		gbc.gridx = 0;
 		gbc.gridy = 2;
 		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.insets = new Insets(100,0,100,0);
+		gbc.insets = new Insets(80,0,20,0);
 		add(turnDisplay, gbc);
 		
+		//hint button
+		JButton hintButton = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-hint.png")));
+		hintButton.setToolTipText("Get a hint?");
+		hintButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint-hover.png")));
+		hintButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint-pressed.png")));
+		hintButton.setContentAreaFilled(false);
+		hintButton.setActionCommand("Hint");
+		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		gbc.insets = new Insets(0,0,130,0);
+		add(hintButton, gbc);
+		buttons.add(hintButton);
+		
 		//info button
-		JButton infoButton = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-help.png")));
+		JButton infoButton = new JButton(new ImageIcon(getClass().getResource("resource/sidePanel-info.png")));
 		infoButton.setToolTipText("How to play");
-		infoButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-help-hover.png")));
-		infoButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-help-pressed.png")));
+		infoButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-info-hover.png")));
+		infoButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-info-pressed.png")));
 		infoButton.setContentAreaFilled(false);
 		infoButton.setActionCommand("Help");
 		gbc.gridx = 0;
-		gbc.gridy = 3;
+		gbc.gridy = 4;
 		gbc.weightx = 0.33;
+		gbc.insets = new Insets(0,0,10,0);
 		gbc.anchor = GridBagConstraints.LAST_LINE_START;
 		add(infoButton, gbc);
 		buttons.add(infoButton);
@@ -119,7 +134,7 @@ public class SidePanel extends JPanel {
 		difficultyButton.setContentAreaFilled(false);
 		difficultyButton.setActionCommand("Quit");
 		gbc.gridx = 0;
-		gbc.gridy = 3;
+		gbc.gridy = 4;
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.weightx = 0.33;
 		add(difficultyButton, gbc);
@@ -133,7 +148,7 @@ public class SidePanel extends JPanel {
 		soundButton_on.setContentAreaFilled(false);
 		soundButton_on.setActionCommand("Sound Off");
 		gbc.gridx = 0;
-		gbc.gridy = 3;
+		gbc.gridy = 4;
 		gbc.weightx = 0.33;
 		gbc.anchor = GridBagConstraints.LAST_LINE_END;
 		add(soundButton_on, gbc);
@@ -148,7 +163,7 @@ public class SidePanel extends JPanel {
 		soundButton_off.setActionCommand("Sound On");
 		soundButton_off.setVisible(false);
 		gbc.gridx = 0;
-		gbc.gridy = 3;
+		gbc.gridy = 4;
 		gbc.weightx = 0.33;
 		gbc.anchor = GridBagConstraints.LAST_LINE_END;
 		add(soundButton_off, gbc);

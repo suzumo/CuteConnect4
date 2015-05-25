@@ -62,18 +62,19 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			//adding actions listeners to the buttons within the menu panel
 			for (JButton button : menuPanel.getButtons())
 				button.addActionListener(this);
+			//centralise panel in screen if opened for first time//this is title screen
+			int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+			int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+			int x = 0, y = 0;
+			if (screen_height > 750) {
+				y = (screen_height - 750)/2;
+			}
+			if (screen_width > 465) {
+				x = (screen_width - 465)/2;
+			}
+			mainFrame.setBounds(x, y, 465, 750);
 		}
-		//centralise panel in screen
-		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-		int x = 0, y = 0;
-		if (screen_height > 750) {
-			y = (screen_height - 750)/2;
-		}
-		if (screen_width > 465) {
-			x = (screen_width - 465)/2;
-		}
-		mainFrame.setBounds(x, y, 465, 750);
+		mainFrame.setSize(465, 750);
 		menuPanel.setVisible(true);
 	}
 	
@@ -98,10 +99,16 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		//put panel to the right of main panel
 		int x = 0;
 		int top_x = (int)mainFrame.getLocationOnScreen().getX();
-		if (mainFrame.getWidth() > 465)
-			x = top_x;
-		else
+		int screen_width = Toolkit.getDefaultToolkit().getScreenSize().width;
+		// if there's enough space to the right, put it at right of mainframe
+		if ((screen_width - top_x - mainFrame.getWidth()) >= 455) {
 			x = top_x + mainFrame.getWidth() + 5;
+		} else if (top_x > 455) {
+			// otherwise put it to left
+			x = top_x - 455;
+		} else { // else just put it overlapping
+			x = top_x;
+		}
 		int top_y = (int)mainFrame.getLocationOnScreen().getY();
 		helpDialog.setBounds(x, top_y, 450, 750);
 		helpDialog.setVisible(true);
@@ -112,7 +119,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		helpDialog = null;
 	} 
 	
-	public JDialog getHelpDialogStatus() {
+	public JDialog getHelpDialog() {
 		return helpDialog;
 	}
 	
@@ -125,17 +132,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 				button.addActionListener(this);
 			}
 		}
-		//centralise panel in screen
-		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-		int x = 0, y = 0;
-		if (screen_height > 750) {
-			y = (screen_height - 750)/2;
-		}
-		if (screen_width > 465) {
-			x = (screen_width - 465)/2;
-		}
-		mainFrame.setBounds(x, y, 465, 750);
+		mainFrame.setSize(465, 750);
 		showDiffPanel();
 	}
 
@@ -143,12 +140,22 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 		//centralise frame in screen
 		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+		int top_x = (int)mainFrame.getLocationOnScreen().getX();
+		int top_y = (int)mainFrame.getLocationOnScreen().getY();
 		int x = 0, y = 0;
+		//re-adjust big screen positioning that if it sticks out of screen
+		//then re-adjust to center of screen, otherwise leave the position as is
 		if (screen_height > 750) {
-			y = (screen_height - 750)/2;
+			if (top_y + 750 > screen_height)
+				y = (screen_height - 750)/2;
+			else
+				y = top_y;
 		}
 		if (screen_width > 1200) {
-			x = (screen_width - 1200)/2;
+			if (top_x + 1200 > screen_width)
+				x = (screen_width - 1200)/2;
+			else
+				x = top_x;
 		}
 		mainFrame.setBounds(x, y, 1200, 750);
 		HashMap<Integer, Boolean> cpus = new HashMap<Integer, Boolean>();
@@ -192,17 +199,7 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 	 */
 	public void	showPlayPanel() 
 	{
-		//centralise panel in screen
-		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-		int x = 0, y = 0;
-		if (screen_height > 750) {
-			y = (screen_height - 750)/2;
-		}
-		if (screen_width > 465) {
-			x = (screen_width - 465)/2;
-		}
-		mainFrame.setBounds(x, y, 465, 750);
+		mainFrame.setSize(465, 750);
 		playPanel.setVisible(true);
 	}
 	
@@ -267,7 +264,10 @@ public class ConnectFourGame extends JFrame implements ActionListener{
 			startMusic();
 		} else if (event.getActionCommand().equalsIgnoreCase("Help")) {
 			if (helpDialog != null) {
-				hideHelpDialog();
+				if (!helpDialog.isVisible())
+					helpDialog.setVisible(true);
+				else
+					hideHelpDialog();
 			} else {
 				viewHelpDialog();
 			}

@@ -441,10 +441,10 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 					
-		if (event.getActionCommand().equals("MainMenu")) {
+		if (event.getActionCommand().equals("GameOptions")) {
 			//check to make sure user really wants to quit
 			int quit = JOptionPane.showConfirmDialog(mainFrame,
-					"You sure you want to quit this game\n and return to main menu?",
+					"You sure you want to quit this game\n and return to Game Options?",
 					"Quit Message", JOptionPane.YES_NO_OPTION);
 			if(quit == 0) { //yes
 				c4Game.showPlayPanel();
@@ -459,10 +459,14 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				restart();
 			}
 		} else if (event.getActionCommand().equals("Help")) {
-			if (c4Game.getHelpDialogStatus() != null)
-				c4Game.hideHelpDialog();
-			else
+			if (c4Game.getHelpDialog() != null) {
+				if (!c4Game.getHelpDialog().isVisible())
+					c4Game.getHelpDialog().setVisible(true);
+				else
+					c4Game.hideHelpDialog();
+			} else {
 				c4Game.viewHelpDialog();
+			}
 		} else if (event.getActionCommand().equals("Difficulty")) {
 			//check to make sure user really wants to quit
 			int quit = JOptionPane.showConfirmDialog(mainFrame,
@@ -480,6 +484,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		} else if (event.getActionCommand().equals("Sound Off")) {
 			c4Game.stopMusic();
 			rightPanel.setSoundOffButton();
+		}  else if (event.getActionCommand().equals("Hint")) {
+			//Implement hint
 		} else if (event.getActionCommand().equalsIgnoreCase("Quit")) {
 				//when quit button is pressed
 				int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",
