@@ -698,4 +698,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		helpButtonPressedNumber = 1;
 		return ai.getHint(this);
 	}
+	
+	/**
+	 * reset button presses
+	 */
+	public void resetButtonPresses() {
+		helpButtonPressedNumber = 0;
+		fullColumnPressedNumber = 0;
+	}
 }

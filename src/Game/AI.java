@@ -502,7 +502,7 @@ public class AI {
 				}
 				//
 				storeValue += 4 - Math.abs(3 - col);
-				
+				bm.resetButtonPresses();
 				heuristics.get(row).add(storeValue);
 			}
 		}
