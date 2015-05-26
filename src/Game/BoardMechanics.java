@@ -273,12 +273,10 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 * @param col	column number
 	 * @return		0 if there is no win, player number (i.e. 1, 2...) if there is a win.
 	 */
-	public boolean checkForWin(){
+	public boolean checkForWin(boolean isCheck){
 		
 		if (winning_player == -1) return false;
 		if (moves_made < 5) return false;		
-		
-		System.out.println("checking for win");
 		// check for a horizontal win 
 	    for (int row =0; row<6; row++) { 
 	    	for (int column=0; column<4; column++) { 
@@ -288,11 +286,13 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	    			board.get(row).get(column).getValue() == board.get(row).get(column+3).getValue()) { 
 	    			
 	    			//adding winningTokens to arrayList so we can display them
-	    			winningTokens.add(board.get(row).get(column));
-	    			winningTokens.add(board.get(row).get(column+1));
-	    			winningTokens.add(board.get(row).get(column+2));
-	    			winningTokens.add(board.get(row).get(column+3));
-	    	
+	    			if(!isCheck){
+		    			winningTokens.add(board.get(row).get(column));
+		    			winningTokens.add(board.get(row).get(column+1));
+		    			winningTokens.add(board.get(row).get(column+2));
+		    			winningTokens.add(board.get(row).get(column+3));
+	    			}
+		    		
 	    			winning_player = board.get(row).get(column).getValue();
 	    			return true; 
 	            }
@@ -306,14 +306,15 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	        	 board.get(row).get(column).getValue() == board.get(row+2).get(column).getValue() && 
 	        	 board.get(row).get(column).getValue() == board.get(row+3).get(column).getValue()) { 
 	        	 
-	        	   
-	        	   winningTokens.add(board.get(row).get(column));
-	        	   winningTokens.add(board.get(row+1).get(column));
-	        	   winningTokens.add(board.get(row+2).get(column));
-	        	   winningTokens.add(board.get(row+3).get(column));
-	        	  
-	        	   winning_player = board.get(row).get(column).getValue();
-	        	   return true; 
+	        	  if(!isCheck){
+		        	  winningTokens.add(board.get(row).get(column));
+		        	  winningTokens.add(board.get(row+1).get(column));
+		        	  winningTokens.add(board.get(row+2).get(column));
+		        	  winningTokens.add(board.get(row+3).get(column));
+	        	  }
+		        	  
+		          winning_player = board.get(row).get(column).getValue();
+	        	  return true; 
 	          }  
 	       }       
 	    }    
@@ -326,10 +327,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 					board.get(row).get(column).getValue() == board.get(row+2).get(column+2).getValue() && 
 					board.get(row).get(column).getValue() == board.get(row+3).get(column+3).getValue()) { 
 		           
-	    			winningTokens.add(board.get(row).get(column));
-	    			winningTokens.add(board.get(row+1).get(column+1));
-	    			winningTokens.add(board.get(row+2).get(column+2));
-	    			winningTokens.add(board.get(row+3).get(column+3));
+	    			if(!isCheck){
+		    			winningTokens.add(board.get(row).get(column));
+		    			winningTokens.add(board.get(row+1).get(column+1));
+		    			winningTokens.add(board.get(row+2).get(column+2));
+		    			winningTokens.add(board.get(row+3).get(column+3));
+	    			}
 	    			
 	    			winning_player = board.get(row).get(column).getValue();
 	    			return true; 
@@ -345,12 +348,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				  board.get(row).get(column).getValue() == board.get(row-2).get(column+2).getValue() && 
 				  board.get(row).get(column).getValue() == board.get(row-3).get(column+3).getValue()) { 
 
-	    		    
-	    		    winningTokens.add(board.get(row).get(column));
-	    		    winningTokens.add(board.get(row-1).get(column+1));
-	    		    winningTokens.add(board.get(row-2).get(column+2));
-	    		    winningTokens.add(board.get(row-3).get(column+3));
-    		  
+	    		  if(!isCheck){
+						winningTokens.add(board.get(row).get(column));
+						winningTokens.add(board.get(row-1).get(column+1));
+						winningTokens.add(board.get(row-2).get(column+2));
+						winningTokens.add(board.get(row-3).get(column+3));
+	    		  }
 	    		  	winning_player = board.get(row).get(column).getValue();
 	    		  	return true; 
 		      }        
@@ -359,6 +362,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	    
 	    return false; 
 	}  
+	
 	
 	/**
 	 * 
@@ -496,7 +500,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			    if(row != -1){
 		        	gamePanel.set(k, row, getCurrentPlayer(), checkMonoChrome());
 			    }
-			    win = checkForWin();
+			    win = checkForWin(false);
 			    if(win == true){
 			    	win(getCurrentPlayer());
 			    }
@@ -609,11 +613,11 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		}
 		
 		//win checking
-	    if(checkForWin()){
+	    if(checkForWin(false)){
 	    	win(getCurrentPlayer());
 	    }
 	    
-	    if(moves_made == 42 && !checkForWin()) tie();
+	    if(moves_made == 42 && !checkForWin(false)) tie();
 	    
 		//check if need to do player move
 		if ( isPlayerAI(getCurrentPlayer()) && isCPU() ) {

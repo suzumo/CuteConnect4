@@ -122,7 +122,7 @@ public class AI {
 			copy = bm;
 			if (bm.checkMoveValid(i)) {
 				copy.dropToken(i);
-				if (copy.checkForWin()) {
+				if (copy.checkForWin(true)) {
 					cols.add(10);
 					copy.undoDropToken(i);
 					continue;
@@ -130,7 +130,7 @@ public class AI {
 					copy.undoDropToken(i);
 				}
 				copy.dropToken(i);
-				if (copy.checkForWin()) {
+				if (copy.checkForWin(true)) {
 					cols.add(9);
 					copy.undoDropToken(i);
 					continue;
@@ -140,7 +140,7 @@ public class AI {
 			}
 			cols.add(1);
 		}
-		bm.checkForWin();
+		bm.checkForWin(true);
 		// copy board
 		// check if victory occurs by adding into each column
 		if (bm.getCurrentPlayer() != player) bm.nextPlayer();
@@ -262,13 +262,13 @@ public class AI {
 				// check if winning
 				copy = bm;
 				copy.customDropToken(row, col, player);
-				if (copy.checkForWin()) {
+				if (copy.checkForWin(true)) {
 					heuristics.get(row).add(1000);
 					copy.customDropToken(row, col, 0);
 					continue;
 				}
 				copy.customDropToken(row, col, otherPlayer);
-				if (copy.checkForWin()) {
+				if (copy.checkForWin(true)) {
 					heuristics.get(row).add(999);
 					copy.customDropToken(row, col, 0);
 					continue;
@@ -279,13 +279,13 @@ public class AI {
 				if (row > 0) {
 					copy = bm;
 					copy.customDropToken(row - 1, col, player);
-					if (copy.checkForWin()) {
+					if (copy.checkForWin(true)) {
 						heuristics.get(row).add(col,1);
 						copy.customDropToken(row - 1, col, 0);
 						continue;
 					}
 					copy.customDropToken(row - 1, col, otherPlayer);
-					if (copy.checkForWin()) {
+					if (copy.checkForWin(true)) {
 						heuristics.get(row).add(col,1);
 						copy.customDropToken(row - 1, col, 0);
 						continue;
