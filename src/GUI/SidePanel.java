@@ -220,12 +220,14 @@ public class SidePanel extends JPanel {
 			turnDisplay.setIcon(new ImageIcon(getClass().getResource("resource/player2-turn.png")));
 	}
 
+	/**
+	 * Changes the hint display button.
+	 * @pre		None.
+	 * @param num_hints	Number of hints left to player.
+	 * @post	Changes the button appearance to reflect how many hints are left.
+	 */
 	public void updateHintButtonImage(int num_hints) {
-		if (num_hints == 0) {
-			hintButton.setIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint.png")));
-			hintButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint-hover.png")));
-			hintButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint-pressed.png")));
-		} else if (num_hints == 1) {
+		if (num_hints == 1) {
 			hintButton.setIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint1.png")));
 			hintButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint1-hover.png")));
 			hintButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint1-pressed.png")));			
@@ -237,6 +239,10 @@ public class SidePanel extends JPanel {
 			hintButton.setIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint3.png")));
 			hintButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint3-hover.png")));
 			hintButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint3-pressed.png")));
+		} else {
+			hintButton.setIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint.png")));
+			hintButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint-hover.png")));
+			hintButton.setPressedIcon(new ImageIcon(getClass().getResource("resource/sidePanel-hint-pressed.png")));
 		}
 	}
 	
@@ -251,12 +257,22 @@ public class SidePanel extends JPanel {
 		super.paintComponent(g);
 		g.drawImage(background_image, 0, 0, this);
 	}
-	
+
+	/** 
+	 * Changes visibility of Sound On button on.
+	 * @pre		None.
+	 * @post	Turns visibility of Sound-off button off and Sound-on button on.
+	 */
 	public void setSoundOnButton() {
 		soundButton_off.setVisible(false);
 		soundButton_on.setVisible(true);
 	}
 
+	/** 
+	 * Changes visibility of Sound Off button on.
+	 * @pre		None.
+	 * @post	Turns visibility of Sound-on button off and Sound-off button on.
+	 */
 	public void setSoundOffButton() {
 		soundButton_off.setVisible(true);
 		soundButton_on.setVisible(false);

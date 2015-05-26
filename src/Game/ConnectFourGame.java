@@ -56,6 +56,7 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 	{
 		if(menuPanel == null)
 		{
+			mainFrame.setSize(465, 750);
 			menuPanel = new MenuPanel(mainFrame);
 			//adding actions listeners to the buttons within the menu panel
 			for (JButton button : menuPanel.getButtons())
@@ -70,10 +71,11 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 			if (screen_width > 465) {
 				x = (screen_width - 465)/2;
 			}
-			mainFrame.setBounds(x, y, 465, 750);
+			mainFrame.setLocation(x,y);
+		} else {
+			mainFrame.setSize(465, 750);
+			menuPanel.setVisible(true);
 		}
-		mainFrame.setSize(465, 750);
-		menuPanel.setVisible(true);
 	}
 	
 	public void viewPlayPanel(JFrame mainFrame){
@@ -87,7 +89,12 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 		}
 		showPlayPanel();
 	}
-	
+
+	/**
+	 * Generates a Help Panel.
+	 * @pre		None.
+	 * @post	Generates or turns visibility of Help Panel on.
+	 */
 	public void viewHelpDialog() {
 		helpDialog = new JDialog();
 		HelpPanel helpPanel = new HelpPanel(mainFrame);
@@ -99,8 +106,14 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 		helpDialog.setVisible(true);
 	}
 	
+	/**
+	 * Positions Help Panel dynamically to the Main game panel.
+	 * @pre		None.
+	 * @post	Positions help panel that it will appear to the right, left or on top of game panel depending on game panel location.
+	 */
 	public void positionHelpDialog() {
 		//put panel to the right of main panel
+		helpDialog.setSize(450,750);
 		int x = 0;
 		int top_x = (int)mainFrame.getLocationOnScreen().getX();
 		int screen_width = Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -114,18 +127,34 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 			x = top_x;
 		}
 		int top_y = (int)mainFrame.getLocationOnScreen().getY();
-		helpDialog.setBounds(x, top_y, 450, 750);
+		helpDialog.setLocation(x, top_y);
 	}
 	
+	/**
+	 * Destroys Help panel.
+	 * @pre		Help panel must exist.
+	 * @post	Help panel is destroyed.
+	 */
 	public void hideHelpDialog() {
 		helpDialog.dispose();
 		helpDialog = null;
 	} 
 	
+	/**
+	 * Returns game help panel status.
+	 * @pre		None.
+	 * @return	Returns help panel object, null otherwise.
+	 */
 	public JDialog getHelpDialog() {
 		return helpDialog;
 	}
 	
+	/**
+	 * Turns visibility of Difficulty panel on or creates it if it doesn't exist.
+	 * @pre		None.
+	 * @param mainFrame	JFrame in which this panel is component of.
+	 * @post	Turns visibility of Difficulty panel on, and turns off everything else.
+	 */
 	public void viewDiffPanel(JFrame mainFrame){
 		if(diffPanel == null)
 		{
@@ -139,7 +168,16 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 		showDiffPanel();
 	}
 
+	/**
+	 * Creates Game panel with specific options.
+	 * @pre		None.
+	 * @param mainFrame	JFrame in which this panel is component of.
+	 * @param diff		The level of game difficulty; 1 = easy, 2 = normal, 3 = hard.
+	 * @param isMonoChrome	True if it is a Monochrome game, false otherwise.
+	 * @post	Creates a Game panel, and turns visibility of everything else off.
+	 */
 	public void viewGamePanel(MainFrame mainFrame, int diff, boolean isMonoChrome){
+		mainFrame.setSize(1200, 750);
 		//centralise frame in screen
 		int screen_width = (int)Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		int screen_height = (int)(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -160,12 +198,17 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 			else
 				x = top_x;
 		}
-		mainFrame.setBounds(x, y, 1200, 750);
+		mainFrame.setLocation(x, y);
 		HashMap<Integer, Boolean> cpus = new HashMap<Integer, Boolean>();
 		cpus.put(2, true);
 		boardMechanics = new BoardMechanics(this, mainFrame, diff, cpus, 2, isMonoChrome);
 	}
 	
+	/**
+	 * Starts game music if it was on.
+	 * @pre		Game music was turned on.
+	 * @post	Game music turns off.
+	 */
 	public void startMusic() {
 		if (music_on == 0) {
 			music.playTrack();
@@ -179,6 +222,11 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 		}
 	}
 	
+	/**
+	 * Turns off game music if it was on.
+	 * @pre		Game music was on.
+	 * @post	Game music turns off.
+	 */
 	public void stopMusic() {
 		if (music_on == 1) {
 			music.stop();
@@ -192,13 +240,19 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 		}
 	}
 	
+	/**
+	 * Returns game music status; 0 = music off, 1 = music on.
+	 * @pre		None.
+	 * @return	0 = music off, 1 = music on.
+	 */
 	public int getMusicStatus() {
 		return music_on;
 	}
 	
 	/**
-	 * Enable the play panel
-	 * 
+	 * Enable the play panel.
+	 * @pre		Play panel exists.
+	 * @post	Play panel is visible.
 	 */
 	public void	showPlayPanel() 
 	{
@@ -208,30 +262,57 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 	
 	
 	/**
-	 *Hide the play panel
-	 * 
+	 *Hide the play panel.
+	 * @pre		Play panel exists.
+	 * @post	Play panel is not visible.
 	 */
 	public void hidePlayPanel()
 	{
 		playPanel.setVisible(false);
 	}
-	
+
+	/**
+	 * Enable the game panel.
+	 * @pre		Game panel exists.
+	 * @post	Game panel is visible.
+	 */
 	public void showGamePanel(){
 		gamePanel.setVisible(true);
 	}
-	
+
+	/**
+	 * Hide the game panel.
+	 * @pre		Game panel exists.
+	 * @post	Game panel is not visible.
+	 */
 	public void hideGamePanel(){
 		gamePanel.setVisible(false);
 	}
 	
+	/**
+	 * Enable the Difficulty panel.
+	 * @pre		Difficulty panel exists.
+	 * @post	Difficulty panel is visible.
+	 */
 	public void showDiffPanel(){
 		diffPanel.setVisible(true);
 	}
 	
+	/**
+	 * Hide the Difficulty panel.
+	 * @pre		Difficulty panel exists.
+	 * @post	Difficulty panel is not visible.
+	 */
 	public void hideDiffPanel(){
 		diffPanel.setVisible(false);
 	}
-	
+
+	/**
+	 * Action performed by game depending on user choice.
+	 * @pre		User action required in game.
+	 * @param event	User action.
+	 * @post	Depending on user choice, the game will operate various things (self explanatory).
+	 */
 	public void actionPerformed(ActionEvent event) {
 		if(event.getActionCommand().equalsIgnoreCase("Start")){
 			menuPanel.setVisible(false);
@@ -279,17 +360,20 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 				viewHelpDialog();
 			}
 		} else if(event.getActionCommand().equalsIgnoreCase("Quit")) {
-			//when quit button is pressed
 			int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",
 						"Quit Message",JOptionPane.YES_NO_OPTION);
-
-			//yes, user really wants to quit
 			if(quit == 0){		
 				System.exit(0);
 			}
 		}
 	}
 
+	/**
+	 * Used to enable Help Dialog panel close on mouse click.
+	 * @pre		Mouse click on Help Dialog.
+	 * @param arg0	Mouse event (mouse click).
+	 * @post	Help Dialog closes if ouse click was inside Help Dialog panel.
+	 */
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		if (helpDialog != null) {

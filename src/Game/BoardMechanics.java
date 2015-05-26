@@ -1,20 +1,16 @@
 package Game;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import GUI.ConnectFourListener;
 import GUI.GamePanel;
@@ -22,9 +18,6 @@ import GUI.LeftPanel;
 import GUI.MainFrame;
 import GUI.SidePanel;
 import Game.ConnectFourGame;
-import Audio.Music;
-import Audio.Sounds;
-
 
 public class BoardMechanics implements ActionListener, KeyListener{
 	private ConnectFourGame c4Game;
@@ -36,10 +29,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private Timer timer;
 	private javax.swing.Timer hint;
 	private int checkTime;
-	
-//	private Music music;
-//	private Sounds sound;
-	
+		
 	//players
 	private int current_player;	// 1 for player 1, 2 for player 2, etc
 	private int players; // 2 minimum
@@ -57,11 +47,10 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private int music_on;
 	private int helpButtonPressedNumber;
 	private int fullColumnPressedNumber;
-	private int numHints;
-	private int hintFlag;
+	private int numHints; // number of hints left
+	private int hintFlag; // 1 for current hint active, 0 otherwise
 	private int state; // 0 for game over, 1 in play
 	private boolean isListenerActive;	
-	
 	
 	/**
 	 * @param connectFourGame
@@ -70,10 +59,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 * @param cpu_players
 	 * @param players number of players in this game
 	 */
-
 	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff, HashMap<Integer, Boolean> cpu_players, int players, boolean isMChrome) {
 
-		
 		//Initializing board
 		initialise();
 		
@@ -89,7 +76,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		this.cpu_players = cpu_players;
 		ai_difficulty = diff;
 		ai = new AI(diff);
-		
+
+		// set up number of hints depending on ai difficulty
 		if (ai_difficulty == 1) //easy difficulty get 3 hints
 			numHints = 3;
 		else if (ai_difficulty == 2 && !isMonoChrome) // normal diff get 1 hint
@@ -142,7 +130,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	
 	/**
-	 * Drops in a token into the board
+	 * Drops in a token into the board.
 	 * @param col 		column to insert token
 	 * @param player	owner of token -> can be replaced by turn or whatever
 	 */
@@ -386,7 +374,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		gamePanel.showWinningTokens(winningTokens);
 		
 		if(isCPU() == true){
-			if (isMonoChrome)
+			if (isMonoChrome) // if game was Monochrome, reveal board status upon ending game
 				revealBoard();
 			if (winning_player == 1) {
 				icon = new ImageIcon(getClass().getResource("../GUI/resource/player1-won.png"));
@@ -415,7 +403,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			isListenerActive = true;
 			restart();
 		} else if(playAgain == 1){		//no
-			//think about installing glassPane and doing nothing
 			isListenerActive = true;
 			c4Game.viewPlayPanel(mainFrame);
 			gamePanel.setVisible(false);
@@ -424,6 +411,11 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		}
 	}
 
+	/**
+	 * Reveals board status, coin colours (used for Monochrome game).
+	 * @pre		Game must be in Monochrome difficulty.
+	 * @post	Reveals coin colours across entire board.
+	 */
 	private void revealBoard() {
 		for (int row = 0; row < 6; row++) {
 		    for (int col = 0; col < 7; col++) {
@@ -509,18 +501,15 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			    	win(getCurrentPlayer());
 			    }
 			}
-		}
-		
+		}		
 	}
+	
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// 
-		
 	}
+	
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// 
-		
 	}
 	
 	@Override
@@ -571,7 +560,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			c4Game.stopMusic();
 			rightPanel.setSoundOffButton();
 		}  else if (event.getActionCommand().equals("Hint")) {
-			if (hintFlag == 1) {
+			if (hintFlag == 1) { //only enables 1 hint at a time
 				JOptionPane.showMessageDialog(gamePanel, "You already have a hint!\n");
 			} else if (numHints > 0) {
 				numHints--;
@@ -585,17 +574,14 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				}
 				hint = gamePanel.highlightHint(row, col);
 				rightPanel.updateHintButtonImage(numHints);
-			} else
+			} else // no more hints
 				JOptionPane.showMessageDialog(gamePanel,"No cookies for youuu!\n", 
 						"MOAR COOKIES?", JOptionPane.WARNING_MESSAGE, new ImageIcon(getClass().getResource("../GUI/resource/red-chip-ai-selected.png")));
 		} else if (event.getActionCommand().equalsIgnoreCase("Quit")) {
-				//when quit button is pressed
 				int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",
 							"Quit Message",JOptionPane.YES_NO_OPTION);
-				//yes, user really wants to quit
-				if(quit == 0){		
+				if(quit == 0)
 					System.exit(0);
-				}
 		} else {
 			update();
 		}

@@ -176,11 +176,21 @@ public class PlayPanel extends JPanel {
 		return buttons;
 	}
 
+	/** 
+	 * Changes visibility of Sound Off button on.
+	 * @pre		None.
+	 * @post	Turns visibility of Sound-on button off and Sound-off button on.
+	 */
 	public void setSoundOffButton() {
 		sound_off.setVisible(true);
 		sound_on.setVisible(false);
 	}
 	
+	/** 
+	 * Changes visibility of Sound On button on.
+	 * @pre		None.
+	 * @post	Turns visibility of Sound-off button off and Sound-on button on.
+	 */
 	public void setSoundOnButton() {
 		sound_off.setVisible(false);
 		sound_on.setVisible(true);
