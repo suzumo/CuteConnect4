@@ -185,9 +185,9 @@ public class GamePanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				blinking = !blinking;
 				if (blinking) {
-					slots[row][col].setIcon(new ImageIcon(this.getClass().getResource("resource/CellWin-noblush-nostars.png")));
+					slots[hint_row][hint_col].setIcon(new ImageIcon(this.getClass().getResource("resource/CellWin-noblush-nostars.png")));
 				} else {
-					slots[row][col].setIcon(new ImageIcon(this.getClass().getResource("resource/Cell.png")));
+					slots[hint_row][hint_col].setIcon(new ImageIcon(this.getClass().getResource("resource/Cell.png")));
 				} 
 			}
 		});

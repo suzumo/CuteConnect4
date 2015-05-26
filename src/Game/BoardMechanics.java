@@ -102,10 +102,11 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 		helpButtonPressedNumber = 0;
 		fullColumnPressedNumber = 0;
+		if (current_player == 2 && isCPU()) doAIMove();
 	}
 	
 	/**
-	 * 
+	 * initialise board state
 	 */
 	private void initialise(){
 		board = new ArrayList<ArrayList<Cell>>();
@@ -121,7 +122,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		//this.print();
 		timer = new Timer();
 		checkTime = 1000;
-		current_player = 1;
+		current_player = (int) Math.round(Math.random() +1);
 		winning_player = 0;
 		moves_made = 0;
 		curr_row = 0;
@@ -153,7 +154,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * 
+	 * switch players
 	 */
 	public void nextPlayer() {
 		current_player++;
@@ -162,7 +163,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * 
+	 * return the previous player number
 	 * @return
 	 */
 	private int getPreviousPlayer(){
@@ -173,7 +174,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 
 	/**
-	 * 
+	 * use currently set up ai to drop token
 	 * @return
 	 */
 	public int aiDropToken(){
@@ -182,7 +183,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * 
+	 * use currently set up AI to do move
 	 */
 	public void doAIMove(){
 		
@@ -195,9 +196,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * 
-	 * @param p
-	 * @return
+	 * check if current player is ai
+	 * @param p player number
+	 * @return 
 	 */
 	public boolean isPlayerAI(int p){
 		if (cpu_players.get(p) != null && cpu_players.get(p) == true)
@@ -226,7 +227,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * 
+	 * check if CPU
 	 * @return
 	 */
 	public boolean isCPU(){
@@ -457,7 +458,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	/**
 	 * restarting the entire game
-	 * 
 	 */
 	public void restart(){
 		initialise();
@@ -483,6 +483,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			gamePanel.repaintHintCell();
 			hintFlag = 0;
 		}
+		if (current_player == 2 && isCPU()) doAIMove();
 	}
 	
 	
@@ -647,14 +648,28 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		return board;
 	}
 	
+	/**
+	 * switches current player
+	 */
 	public void switchCurrentPlayer() {
 		if (current_player == 1) current_player = 2;
 		else if (current_player == 2) current_player = 1;
 	}
+	
+	/**
+	 * inserts token into open position ( can be floating )
+	 * @param row
+	 * @param col
+	 * @param player
+	 */
 	public void customDropToken(int row, int col, int player) {
 		board.get(row).get(col).setValue(player);
 	}
 	
+	/**
+	 * undoes last dropped token
+	 * @param col column number
+	 */
 	public void undoDropToken(int col) {
 		for (int i = 5; i >= 0; i--) {
 			if(board.get(i).get(col).getValue() == 0) {
@@ -665,10 +680,17 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		board.get(0).get(col).setValue(0);
 	}
 	
+	/**
+	 * resets the win (used in AI)
+	 */
 	public void resetWin() {
 		winning_player = 0;
 	}
 	
+	/**
+	 * Gets a hunt
+	 * @return
+	 */
 	public int getHint() {
 		if (helpButtonPressedNumber == 1) {
 			dropToken(ai.getHint(this));

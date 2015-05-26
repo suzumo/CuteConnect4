@@ -457,7 +457,7 @@ public class AI {
 							if (boardCopy.get(row + 1).get(col - 1).getValue() == player) storeValue ++;
 					}
 				}
-				if (difficulty == 2) {
+				if (difficulty == 3) {
 					if (col < 5) {
 						if (row < 4)
 							if (boardCopy.get(row + 1).get(col + 1).getValue() == player &&
@@ -516,6 +516,11 @@ public class AI {
 		return heuristics;
 	}
 	
+	/**
+	 * Uses AI to get hint
+	 * @param bm current board state
+	 * @return column to drop token
+	 */
 	public int getHint(BoardMechanics bm) {
 		int move = makeHardMove(bm);
 		bm.resetWin();
