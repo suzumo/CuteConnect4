@@ -198,7 +198,7 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 			else
 				x = top_x;
 		}
-		mainFrame.setLocation(x, y);
+		mainFrame.setBounds(x, y, 1200, 750);
 		HashMap<Integer, Boolean> cpus = new HashMap<Integer, Boolean>();
 		cpus.put(2, true);
 		boardMechanics = new BoardMechanics(this, mainFrame, diff, cpus, 2, isMonoChrome);
