@@ -16,17 +16,17 @@ import java.util.ArrayList;
 public class DifficultyPanel extends JPanel {
 
 	/**
-	 * @param buttons	List of buttons in DifficultyPanel
-	 * @param background_image	File which refers to background image.
+	 * @field buttons			List of buttons in DifficultyPanel
+	 * @field background_image	File which refers to background image.
 	 */
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
 
 	/**
 	 * Constructor for DifficultyPanel.
-	 * @pre		JFrame for this JPanel must exist.
+	 * @pre				JFrame for this JPanel must exist.
 	 * @param mainFrame	JFrame for which DifficultyPanel is set in.
-	 * @post	DifficultyPanel is set in center of JFrame.
+	 * @post			DifficultyPanel is set in center of JFrame.
 	 */
 	public DifficultyPanel(JFrame mainFrame){
 		buttons = new ArrayList<JButton>();
@@ -122,9 +122,9 @@ public class DifficultyPanel extends JPanel {
 	
 	/**
 	 * Sets DifficultyPanel in JFrame.
-	 * @pre		JFrame must exist.
+	 * @pre			JFrame must exist.
 	 * @param frame	JFrame for which DifficultyPanel is set.
-	 * @post	JFrame is set with DifficultyPanel.
+	 * @post		JFrame is set with DifficultyPanel.
 	 */
 	private void validateToMainFrame(JFrame frame) {
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -141,7 +141,7 @@ public class DifficultyPanel extends JPanel {
 
 	/**
 	 * Sets background with background_image.
-	 * @pre	background_image must exist.
+	 * @pre		background_image must exist.
 	 * @param g	Inherited Graphics object.
 	 * @post	DifficultyPanel is set with background_image.
 	 */

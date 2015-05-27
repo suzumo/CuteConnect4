@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,39 +19,36 @@ import GUI.SidePanel;
 import Game.ConnectFourGame;
 
 public class BoardMechanics implements ActionListener, KeyListener{
+
 	private ConnectFourGame c4Game;
 	private MainFrame mainFrame;
 	private GamePanel gamePanel;
 	private SidePanel rightPanel;
 	private LeftPanel leftPanel;
 	private ConnectFourListener listener;
-	private Timer timer;
-	private javax.swing.Timer hint;
-	private int checkTime;
-		
-	//players
-	private int current_player;	// 1 for player 1, 2 for player 2, etc
-	private int players; // 2 minimum
-	private int winning_player;
-	private int moves_made;
-	private int curr_row;
-	
-	private HashMap<Integer, Boolean> cpu_players;	// player -> isAI?
-	private int ai_difficulty;
-	AI ai;
-	
 	private ArrayList<ArrayList<Cell>> board;
 	private ArrayList<Cell> winningTokens;
+	private int state; // 0 for game over, 1 in play
 	private boolean isMonoChrome;
 	private int music_on;
+	private javax.swing.Timer hint;
+	private int curr_row;
 	private int helpButtonPressedNumber;
 	private int fullColumnPressedNumber;
 	private int numHints; // number of hints left
 	private int hintFlag; // 1 for current hint active, 0 otherwise
-	private int state; // 0 for game over, 1 in play
-	private boolean isListenerActive;	
+	private boolean isListenerActive;
+
+	private int current_player;	// 1 for player 1, 2 for player 2, etc
+	private int players; // 2 minimum
+	private int winning_player;
+	private int moves_made;
+	private HashMap<Integer, Boolean> cpu_players;	// player -> isAI?
+	private int ai_difficulty;
+	private AI ai;
 	
 	/**
+	 * Constructor.
 	 * @param connectFourGame
 	 * @param mFrame
 	 * @param diff
@@ -119,9 +115,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			}
 		}
 		
-		//this.print();
-		timer = new Timer();
-		checkTime = 1000;
 		current_player = (int) Math.round(Math.random() +1);
 		winning_player = 0;
 		moves_made = 0;
@@ -511,10 +504,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	@Override
 	public void keyReleased(KeyEvent arg0) {
+		
 	}
 	
 	@Override
 	public void keyTyped(KeyEvent arg0) {
+		
 	}
 	
 	@Override
@@ -530,18 +525,22 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				gamePanel.setVisible(false);
 				rightPanel.setVisible(false);
 				leftPanel.setVisible(false);
+				if (c4Game.helpDialogOn())
+					c4Game.hideHelpDialog();
 			}
 		} else if (event.getActionCommand().equals("NewGame")) {
 			int quit = JOptionPane.showConfirmDialog(mainFrame,
 					"Start a new game?", "New Game", JOptionPane.YES_NO_OPTION);
 			if(quit == 0) { //yes
+				if (c4Game.helpDialogOn())
+					c4Game.hideHelpDialog();
 				restart();
 			}
 		} else if (event.getActionCommand().equals("Help")) {
-			if (c4Game.getHelpDialog() != null) {
-				if (!c4Game.getHelpDialog().isVisible()) {
+			if (c4Game.helpDialogOn()) {
+				if (!c4Game.isHelpDialogVisible()) {
 					c4Game.positionHelpDialog();
-					c4Game.getHelpDialog().setVisible(true);
+					c4Game.setHelpDialogVisible(true);
 				} else
 					c4Game.hideHelpDialog();
 			} else {
@@ -557,6 +556,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				gamePanel.setVisible(false);
 				rightPanel.setVisible(false);
 				leftPanel.setVisible(false);
+				if (c4Game.helpDialogOn())
+					c4Game.hideHelpDialog();
 			}
 		} else if (event.getActionCommand().equals("Sound On")) {
 			c4Game.startMusic();
@@ -566,7 +567,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			rightPanel.setSoundOffButton();
 		}  else if (event.getActionCommand().equals("Hint")) {
 			if (hintFlag == 1) { //only enables 1 hint at a time
-				JOptionPane.showMessageDialog(gamePanel, "You already have a hint!\n");
+				JOptionPane.showMessageDialog(gamePanel, "You already have a hint!");
 			} else if (numHints > 0) {
 				numHints--;
 				hintFlag = 1;
@@ -579,9 +580,17 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				}
 				hint = gamePanel.highlightHint(row, col);
 				rightPanel.updateHintButtonImage(numHints);
-			} else // no more hints
-				JOptionPane.showMessageDialog(gamePanel,"No cookies for youuu!\n", 
-						"MOAR COOKIES?", JOptionPane.WARNING_MESSAGE, new ImageIcon(getClass().getResource("../GUI/resource/red-chip-ai-selected.png")));
+			} else { // no hints
+				String message;
+				if (isMonoChrome || ai_difficulty == 3)
+					message = "There are no hints at this level.";
+				else if (!isCPU())
+					message = "Hints are disabled in 2 Player mode.";
+				else
+					message = "There are no more hints!";
+				JOptionPane.showMessageDialog(gamePanel, message + "\nNo cookies for youuu!", 
+						"MOAR HINTS?", JOptionPane.WARNING_MESSAGE, new ImageIcon(getClass().getResource("../GUI/resource/red-chip-ai-selected.png")));
+			}
 		} else if (event.getActionCommand().equalsIgnoreCase("Quit")) {
 				int quit = JOptionPane.showConfirmDialog(mainFrame,"Are you sure you want to quit?",
 							"Quit Message",JOptionPane.YES_NO_OPTION);
@@ -688,7 +697,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * Gets a hunt
+	 * Gets a hint from AI (hardmode).
 	 * @return
 	 */
 	public int getHint() {

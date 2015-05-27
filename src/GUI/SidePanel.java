@@ -9,22 +9,27 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class SidePanel extends JPanel {
 
 	/**
-	 * @param turnDisplay	JLabel object that displays player turn.
-	 * @param buttons		List of buttons in this SidePanel.
-	 * @param background_image	The image file of background image.
+	 * @field turnDisplay		JLabel object that displays player turn.
+	 * @field buttons			List of buttons in this SidePanel.
+	 * @field background_image	The image file of background image.
+	 * @field soundButton_on	Sound-On button
+	 * @field soundButton_off	Sound-Off button
+	 * @field hintButton		Hint button
 	 */
-	JLabel turnDisplay;
+	private JLabel turnDisplay;
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
-	private JButton soundButton_on, soundButton_off;
-	private JButton hintButton;
+	private JButton soundButton_on, soundButton_off, hintButton;
 	
 	/**
 	 * Constructor.
@@ -45,7 +50,7 @@ public class SidePanel extends JPanel {
 	 * @pre		None.
 	 * @post	The SidePanel is initialised with buttons, background, and layout.
 	 */
-	public void initialise(int music_status) {		
+	private void initialise(int music_status) {		
 		//set background, size and layout style
 		setLayout(new GridBagLayout());
 		setMinimumSize(new Dimension(250,750));
@@ -53,7 +58,6 @@ public class SidePanel extends JPanel {
 		try {
 			background_image = ImageIO.read(getClass().getResource("resource/bg-sidepanel.png"));
 		} catch (IOException e) {
-			// Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -90,7 +94,6 @@ public class SidePanel extends JPanel {
 		
 		//player 1/2 turn display
 		turnDisplay = new JLabel(new ImageIcon(getClass().getResource("resource/player1-turn.png")));
-		turnDisplay.setToolTipText("Player turn");
 		turnDisplay.setBorder(null);
 		gbc.gridx = 0;
 		gbc.gridy = 2;
@@ -182,7 +185,7 @@ public class SidePanel extends JPanel {
 	 * @param frame	The JFrame for this SidePanel.
 	 * @post		SidePanel is set to the right of the JFrame, with specified size.
 	 */
-	public void validateToMainFrame(JFrame frame) {
+	private void validateToMainFrame(JFrame frame) {
 		//creating new GridBagConstraints for the panel
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(0, 0, 0, 0);

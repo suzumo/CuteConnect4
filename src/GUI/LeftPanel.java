@@ -27,7 +27,7 @@ public class LeftPanel extends JPanel{
 	 * @pre		None.
 	 * @post	LeftPanel is set with specified size and layout.
 	 */
-	public void initialise() {
+	private void initialise() {
 		//sets layout, size and GridBagLayout
 		setMinimumSize(new Dimension(215,750));
 		setLayout(new GridBagLayout());

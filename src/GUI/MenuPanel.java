@@ -18,8 +18,10 @@ import java.util.ArrayList;
 public class MenuPanel extends JPanel {
 	
 	/**
-	 * @param buttons	List of buttons in this MenuPanel.
-	 * @param background_image	File that stores the background_image for this JPanel.
+	 * @field buttons			List of buttons in this MenuPanel.
+	 * @field background_image	File that stores the background_image for this JPanel.
+	 * @field soundButton_on	Sound-On button
+	 * @field soundButton_off	Sound-Off button
 	 */
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
@@ -123,6 +125,25 @@ public class MenuPanel extends JPanel {
 	}
 	
 	/**
+	 * Sets this MenuPanel in JFrame.
+	 * @pre		JFrame must exist for this object.
+	 * @param frame	JFrame for which this MenuPanel will be set in.
+	 * @post	MenuPanel is set in JFrame with specified size and in the center.
+	 */
+	private void validateToMainFrame(JFrame frame) {		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
+		gbc.insets = new Insets(0, 0, 0, 0);
+		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.fill = GridBagConstraints.BOTH;		
+		frame.getContentPane().add(this, gbc);
+		frame.validate();
+	}
+	
+	/**
 	 * Turns Sound button to "Off"status.
 	 * @pre		None.
 	 * @post	Changes Sound button to off status.
@@ -140,25 +161,6 @@ public class MenuPanel extends JPanel {
 	public void setSoundOnButton() {
 		soundButton_on.setVisible(true);
 		soundButton_off.setVisible(false);
-	}
-	
-	/**
-	 * Sets this MenuPanel in JFrame.
-	 * @pre		JFrame must exist for this object.
-	 * @param frame	JFrame for which this MenuPanel will be set in.
-	 * @post	MenuPanel is set in JFrame with specified size and in the center.
-	 */
-	private void validateToMainFrame(JFrame frame) {		
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.weightx = 1.0;
-		gbc.weighty = 1.0;
-		gbc.insets = new Insets(0, 0, 0, 0);
-		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.fill = GridBagConstraints.BOTH;		
-		frame.getContentPane().add(this, gbc);
-		frame.validate();
 	}
 	
 	/**

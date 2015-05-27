@@ -17,12 +17,13 @@ import javax.swing.Timer;
 import Game.Cell;
 import Game.BoardMechanics;
 
-@SuppressWarnings("serial")
 public class GamePanel extends JPanel {
 	
 	/**
-	 * @param slots		Game cells.
-	 * @param buttons	List of buttons in GamePanel.
+	 * @field slots		Game cells.
+	 * @field buttons	List of buttons in GamePanel.
+	 * @field hint_row	Hint x-coordinates.
+	 * @field hint_col	Hint y-coordinates.
 	 */
 	private JButton[][] slots;
 	private ArrayList<JButton> buttons;
@@ -144,7 +145,9 @@ public class GamePanel extends JPanel {
 	}
 	
 	/**
-	 * Displays the winning tokens
+	 * Displays the winning tokens in special effects.
+	 * @pre		Game has been finished and won by some player.
+	 * @post	The cells that have won the gave will be repainted with special cell effects.
 	 */
 	public void showWinningTokens(ArrayList<Cell> tokens){
 		for(Cell token : tokens){
@@ -175,6 +178,13 @@ public class GamePanel extends JPanel {
 		return buttons;
 	}
 
+	/***
+	 * Makes the Hint cell blink and returns the Timer object that controls it.
+	 * @pre			Requires valid x, y cordinates within board for hint cell given by AI.
+	 * @param row	X-cordinate of hint cell.
+	 * @param col	Y-cordinate of hitn cell.
+	 * @return		Timer object that controls the blinking of this cell.
+	 */
 	public Timer highlightHint(int row, int col) {
 		hint_row = row;
 		hint_col = col;
@@ -195,6 +205,11 @@ public class GamePanel extends JPanel {
 		return hint;
 	}
 
+	/***
+	 * Resets and repaints the blinking hint cell highlighted in highlightHint method.
+	 * @pre		highlightHint method has been called.
+	 * @post	The blinking effects in hint cell will be turned off.
+	 */
 	public void repaintHintCell() {
 		slots[hint_row][hint_col].setIcon(new ImageIcon(this.getClass().getResource("resource/Cell.png")));
 	}

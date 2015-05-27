@@ -1,18 +1,18 @@
 package GUI;
 
-import javax.swing.*; 
-
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JButton;
 
 import GUI.GamePanel;
 import Game.BoardMechanics;
 
-public class ConnectFourListener implements MouseListener{
-	private boolean win;
-	GamePanel gui; 
-	BoardMechanics game; 
+public class ConnectFourListener implements MouseListener {
+
+	private GamePanel gui; 
+	private BoardMechanics game; 
+	
 	public ConnectFourListener(BoardMechanics game, GamePanel gui) { 
-		win = false;
 		this.game = game; 
 		this.gui = gui; 
 		gui.addListener(this); 
@@ -20,7 +20,6 @@ public class ConnectFourListener implements MouseListener{
 	
 	@Override
 	public void mouseClicked(MouseEvent event) {
-//		System.out.println("Click");
 		if(game.isListenerActive()){
 			JButton button = (JButton) event.getComponent();
 			int row = -1;
@@ -38,20 +37,17 @@ public class ConnectFourListener implements MouseListener{
 	
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

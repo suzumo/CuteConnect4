@@ -46,7 +46,9 @@ import java.util.*;
 
 
 public class AI {
+	
 	private int difficulty; // 1 easiest 3 hardest
+	
 	public AI(int i) {
 		difficulty = i;
 	}

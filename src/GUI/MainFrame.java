@@ -25,7 +25,7 @@ public class MainFrame extends JFrame {
 	 * @pre		None.
 	 * @post	Initialises the frame with specified size and layout.
 	 */
-	public void initialize() {
+	private void initialize() {
 		//sets title, size and layout
 		setTitle("Connect Four");
 		setBounds(100, 100, 1200, 750);

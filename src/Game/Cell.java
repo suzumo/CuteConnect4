@@ -4,6 +4,16 @@ package Game;
 public class Cell {
 
 	/***
+	 * Fields
+	 * @field x		The x-coordinate of this Cell.
+	 * @field y		The y-coordinate of this Cell.
+	 * @field value	The value of this Cell.
+	 */
+	private int col;
+	private int row;
+	private int val;
+	
+	/***
 	 * Constructor for Cell object.
 	 * @pre			Cell must be contained in a valid Board object. 
 	 * @param ix	The x-coordinate of this Cell.
@@ -44,18 +54,14 @@ public class Cell {
 		return val;
 	}
 	
+	/***
+	 * Sets the value of this Cell.
+	 * @pre				None.
+	 * @param newVal	New value of this Cell.
+	 * @post			The value of this Cell; e.g. 1 for Player1, 2 for Player2 and 0 for empty Cell.
+	 */
 	public void setValue(int newVal) {
 		val = newVal;
 	}
-	
-	/***
-	 * Fields
-	 * @param x		The x-coordinate of this Cell.
-	 * @param y		The y-coordinate of this Cell.
-	 * @param value	The value of this Cell.
-	 */
-	private int col;
-	private int row;
-	private int val;
 
 }

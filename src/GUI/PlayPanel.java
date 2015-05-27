@@ -16,8 +16,10 @@ import java.util.ArrayList;
 public class PlayPanel extends JPanel {
 	
 	/**
-	 * @param buttons	The list of buttons in PlayPanel.
-	 * @param background_image	The image file for the background of this PlayPanel.
+	 * @field buttons			The list of buttons in PlayPanel.
+	 * @field background_image	The image file for the background of this PlayPanel.
+	 * @field soundButton_on	Sound-On button
+	 * @field soundButton_off	Sound-Off button
 	 */
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
