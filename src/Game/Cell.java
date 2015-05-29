@@ -16,8 +16,8 @@ public class Cell {
 	/***
 	 * Constructor for Cell object.
 	 * @pre			Cell must be contained in a valid Board object. 
-	 * @param ix	The x-coordinate of this Cell.
-	 * @param iy	The y-coordinate of this Cell.
+	 * @param iRow	The x-coordinate of this Cell.
+	 * @param iCol	The y-coordinate of this Cell.
 	 * @param iv	The value of this Cell.
 	 * @post		Creates a Cell object with the relevant input information.
 	 */

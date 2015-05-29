@@ -17,12 +17,6 @@ import java.util.ArrayList;
 
 public class MenuPanel extends JPanel {
 	
-	/**
-	 * @field buttons			List of buttons in this MenuPanel.
-	 * @field background_image	File that stores the background_image for this JPanel.
-	 * @field soundButton_on	Sound-On button
-	 * @field soundButton_off	Sound-Off button
-	 */
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
 	private JButton soundButton_on, soundButton_off;

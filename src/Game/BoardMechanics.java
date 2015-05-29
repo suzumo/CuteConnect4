@@ -49,11 +49,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	/**
 	 * Constructor.
-	 * @param connectFourGame
-	 * @param mFrame
-	 * @param diff
-	 * @param cpu_players
-	 * @param players number of players in this game
+	 * @param connectFourGame	ConnectFourGame JFrame object.
+	 * @param mFrame			Main JFrame to set objects in.
+	 * @param diff				AI difficulty level.
+	 * @param cpu_players		Whether there are AI players.
+	 * @param players 			Number of players in this game.
+	 * @param isMChrome			True if game is in Monochrome, false otherwise.
 	 */
 	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff, HashMap<Integer, Boolean> cpu_players, int players, boolean isMChrome) {
 
@@ -98,11 +99,14 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 		helpButtonPressedNumber = 0;
 		fullColumnPressedNumber = 0;
+		rightPanel.updateTurnDisplay(getCurrentPlayer());
 		if (current_player == 2 && isCPU()) doAIMove();
 	}
 	
 	/**
-	 * initialise board state
+	 * Initialise board state.
+	 * @pre		None.
+	 * @post	Board state is initialised to start.
 	 */
 	private void initialise(){
 		board = new ArrayList<ArrayList<Cell>>();
@@ -127,8 +131,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	/**
 	 * Drops in a token into the board.
-	 * @param col 		column to insert token
-	 * @param player	owner of token -> can be replaced by turn or whatever
+	 * @pre			None.
+	 * @param col 	Column to insert token
+	 * @return		Puts in a coin for the current player in the board and returns the row number.
 	 */
 	public int dropToken(int col) {
 		int dRow = -1;
@@ -150,7 +155,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * switch players
+	 * Switch players.
+	 * @pre		None.
+	 * @post	Current player is switched to the other player.
 	 */
 	public void nextPlayer() {
 		current_player++;
@@ -159,8 +166,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * return the previous player number
-	 * @return
+	 * Return the previous player number.
+	 * @pre		None.
+	 * @return	Returns previous player's number.
 	 */
 	private int getPreviousPlayer(){
 		int p = current_player-1;
@@ -170,8 +178,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 
 	/**
-	 * use currently set up ai to drop token
-	 * @return
+	 * Use currently set up AI to drop token.
+	 * @pre		None.
+	 * @return	Returns column number of AI move.
 	 */
 	public int aiDropToken(){
 		int row = this.ai.makeAIMove(this);
@@ -179,22 +188,25 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * use currently set up AI to do move
+	 * Use currently set up AI to do move.
+	 * @pre		None.
+	 * @post	AI fills a slot on board.
 	 */
 	public void doAIMove(){
 		
 		int col = aiDropToken();
 		int row = dropToken(col);
-		System.out.println("AI col "+ col +" row "+ row + " next player: " + current_player);
+		//System.out.println("AI col "+ col +" row "+ row + " next player: " + current_player);
 		if (row != -1)
 			gamePanel.set(col, row, current_player, checkMonoChrome());
 		update();
 	}
 	
 	/**
-	 * check if current player is ai
-	 * @param p player number
-	 * @return 
+	 * Check if current player is AI.
+	 * @pre		None.
+	 * @param p Player number.
+	 * @return	Returns true if current player is AI, false otherwise.
 	 */
 	public boolean isPlayerAI(int p){
 		if (cpu_players.get(p) != null && cpu_players.get(p) == true)
@@ -203,28 +215,33 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * Calculates the current player with turns
+	 * Calculates the current player with turns.
+	 * @pre		None.
+	 * @return	Returns the current player number.
 	 */
 	public int getCurrentPlayer() {
 		return current_player;
 	}
 	
-	/**
-	 * 
-	 */
-	public void print() {
-		for (int row = 0; row < 6; row++) {
-		    for (int col = 0; col < 7; col++) {
-		    	System.out.print(board.get(row).get(col).getValue() + " ");
-		    }
-		    System.out.println();
-		}
-		System.out.println();
-	}
+//	/**
+//	 * Prints current board state.
+//	 * @pre		None.
+//	 * @post	Prints the current board state.
+//	 */
+//	public void print() {
+//		for (int row = 0; row < 6; row++) {
+//		    for (int col = 0; col < 7; col++) {
+//		    	System.out.print(board.get(row).get(col).getValue() + " ");
+//		    }
+//		    System.out.println();
+//		}
+//		System.out.println();
+//	}
 	
 	/**
-	 * check if CPU
-	 * @return
+	 * Check if current game mode is Player versus Computer.
+	 * @pre		None.
+	 * @return	Returns true if it is PvE, false otherwise.
 	 */
 	public boolean isCPU(){
 		boolean isCPU = false;
@@ -235,9 +252,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 
 	/**
-	 * Checks if the current move attempt is valid 
-	 * @param col      : The column that the player or computer is attempting to drop a token in
-	 * @return valid   : If the move is valid or not
+	 * Checks if the current move attempt is valid.
+	 * @param col      The column that the player or computer is attempting to drop a token in.
+	 * @return valid   True if current move is valid, false otherwise.
 	 */
 	public boolean checkMoveValid(int col){
 		boolean valid = true;
@@ -248,7 +265,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			
 			if(board.get(0).get(col).getValue() != 0){
 				
-				System.out.println("Full"); //Need to put a label after adding side panels to indicate that the column is full
+				//System.out.println("Full"); //Need to put a label after adding side panels to indicate that the column is full
 				if(getCurrentPlayer() == 1){
 					switch (fullColumnPressedNumber) {
 					case 0: JOptionPane.showMessageDialog(gamePanel,"This Column is Full!\n"); break;
@@ -267,7 +284,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	/***
 	 * Checks for win at each coin drop at column, col.
 	 * @pre			turn is greater than 6.
-	 * @param col	column number
+	 * @param isCheck	Whether or not it has been currently checked for win; false for not yet.
 	 * @return		0 if there is no win, player number (i.e. 1, 2...) if there is a win.
 	 */
 	public boolean checkForWin(boolean isCheck){
@@ -362,8 +379,10 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	
 	/**
-	 * 
-	 * @param player 
+	 * Procedures to follow when game is won.
+	 * @pre		Game is won by a player.
+	 * @param player Player who won the game.
+	 * @post	Finishes up the game when game is won; asks if player should be replayed.
 	 */
 	public void win(int player) {
 		
@@ -429,7 +448,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * 
+	 * Procedures to follow if the game is finished in a tie.
+	 * @pre		Game is finished with a tie.
+	 * @post	Finishes up the game when game is finished in a tie; asks if player should be replayed.
 	 */
 	private void tie() {
 		state = 0;
@@ -453,7 +474,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * restarting the entire game
+	 * Restarting the entire game.
+	 * @pre		None
+	 * @post	Restarts the game to initial state.
 	 */
 	public void restart(){
 		initialise();
@@ -484,10 +507,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	
 	/**
-	 * TODO: Need to look over this
+	 * Allows key pressed to enter in chips by players.
+	 * @pre		None.
+	 * @post	Player makes a move by keyboard.
 	 */
 	public void keyPressed(KeyEvent e) {
-		System.out.println("Press");
+		//System.out.println("Press");
 		int k = e.getKeyCode() - 48;
 		boolean win = false;
 		// numbers one to seven
@@ -575,7 +600,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 				numHints--;
 				hintFlag = 1;
 				int col = getHint();
-				System.out.println(col);
 				int row;
 				for (row = 5; row >= 0; row--) {
 					if (board.get(row).get(col).getValue() == 0)
@@ -603,7 +627,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			update();
 		}
 	}
-
+	
+	/***
+	 * Returns true if a game is in progress.
+	 * @pre		None.
+	 * @return	Returns true if game is in progress, false otherwise.
+	 */
 	public boolean isInPlay() {
 		if (state == 1)
 			return true;
@@ -611,12 +640,12 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * regular checks and updates to game
-	 * 
-	 * @return
+	 * Regular checks and updates to game.
+	 * @pre		None.
+	 * @post	Updates the game status.
 	 */
 	public void update() {
-		System.out.println("update running.....current move: " + moves_made);
+		//System.out.println("update running.....current move: " + moves_made);
 	
 		//disable any turned on hints
 		if (hint != null && hint.isRunning()) {
@@ -650,7 +679,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 
 	/**
-	 *	
+	 *	Checks if a game is in monochrome mode.
+	 *	@pre	None.
+	 *	@return	True if a game is in monochrome mode, false otherwise.
 	 */
 	public boolean checkMonoChrome() {
 		return isMonoChrome;
@@ -658,19 +689,27 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	
 	
 	/**
-	 * 
-	 * @return
+	 * Checks if Listener is active.
+	 * @pre		None.
+	 * @return	True if the listener object is active, false otherwise.
 	 */
 	public boolean isListenerActive(){
 		return isListenerActive;
 	}
 	
+	/***
+	 * Returns the game board.
+	 * @pre		None.
+	 * @return	Returns the game board object.
+	 */
 	public ArrayList<ArrayList<Cell>> getBoard() {
 		return board;
 	}
 	
 	/**
-	 * switches current player
+	 * Switches current player.
+	 * @pre		None.
+	 * @post	Switches game play to the other player.
 	 */
 	public void switchCurrentPlayer() {
 		if (current_player == 1) current_player = 2;
@@ -678,18 +717,19 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * inserts token into open position ( can be floating )
-	 * @param row
-	 * @param col
-	 * @param player
+	 * Inserts token into open position (can be floating).
+	 * @param row	X-coordinate.
+	 * @param col	Y-coordinate.
+	 * @param player	Current player.
 	 */
 	public void customDropToken(int row, int col, int player) {
 		board.get(row).get(col).setValue(player);
 	}
 	
 	/**
-	 * undoes last dropped token
-	 * @param col column number
+	 * Undoes last dropped token.
+	 * @param col Y-coordinate.
+	 * @post	Undoes last move.
 	 */
 	public void undoDropToken(int col) {
 		for (int i = 5; i >= 0; i--) {
@@ -702,15 +742,15 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * resets the win (used in AI)
+	 * Resets the win (used in AI).
 	 */
 	public void resetWin() {
 		winning_player = 0;
 	}
 	
 	/**
-	 * Gets a hint from AI (hardmode).
-	 * @return
+	 * Gets a hint from AI (hard mode).
+	 * @return	Returns the Y-coordinate given by hard mode AI.
 	 */
 	public int getHint() {
 		if (helpButtonPressedNumber == 1) {
@@ -721,7 +761,9 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	}
 	
 	/**
-	 * reset button presses
+	 * Reset button presses.
+	 * @pre		None.
+	 * @post	Sets helpbutton and fullcolumn indicators to 0.
 	 */
 	public void resetButtonPresses() {
 		helpButtonPressedNumber = 0;

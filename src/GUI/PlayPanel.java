@@ -15,12 +15,6 @@ import java.util.ArrayList;
 
 public class PlayPanel extends JPanel {
 	
-	/**
-	 * @field buttons			The list of buttons in PlayPanel.
-	 * @field background_image	The image file for the background of this PlayPanel.
-	 * @field soundButton_on	Sound-On button
-	 * @field soundButton_off	Sound-Off button
-	 */
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
 	private JButton sound_on, sound_off;
@@ -29,6 +23,7 @@ public class PlayPanel extends JPanel {
 	 * Constructor for PlayPanel.
 	 * @pre		JFrame for this PlayPanel object must exist.
 	 * @param mainFrame	The JFrame where this PlayPanel is set.
+	 * @param sound_status	1 if sound is on, 0 otherwise.
 	 * @post	JFrame contains an initialised PlayPanel.
 	 */
 	public PlayPanel(JFrame mainFrame, int sound_status){	

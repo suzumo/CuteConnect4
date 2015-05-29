@@ -12,6 +12,12 @@ public class ConnectFourListener implements MouseListener {
 	private GamePanel gui; 
 	private BoardMechanics game; 
 	
+	/***
+	 * Constructor.
+	 * @param game	Game mechanics object which this Listener object will listen to.
+	 * @param gui	GUI object that this object will pass information to.
+	 * @post		Generates a main MouseListener object for the game.
+	 */
 	public ConnectFourListener(BoardMechanics game, GamePanel gui) { 
 		this.game = game; 
 		this.gui = gui; 
@@ -25,7 +31,7 @@ public class ConnectFourListener implements MouseListener {
 			int row = -1;
 		    int column = gui.getColumn(button); 
 	    	row = game.dropToken(column);
-	    	System.out.println("row: " + row + " col " + column);
+	    	//System.out.println("row: " + row + " col " + column);
 		    if(row != -1){
 	        	gui.set(column, row, game.getCurrentPlayer(), game.checkMonoChrome());
 		    }

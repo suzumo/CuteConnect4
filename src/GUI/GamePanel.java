@@ -19,12 +19,6 @@ import Game.BoardMechanics;
 
 public class GamePanel extends JPanel {
 	
-	/**
-	 * @field slots		Game cells.
-	 * @field buttons	List of buttons in GamePanel.
-	 * @field hint_row	Hint x-coordinates.
-	 * @field hint_col	Hint y-coordinates.
-	 */
 	private JButton[][] slots;
 	private ArrayList<JButton> buttons;
 	private int hint_row, hint_col;
@@ -93,7 +87,7 @@ public class GamePanel extends JPanel {
 
 	/**
 	 * Add ConnectFourListener object to every cell.
-	 * @param	ConnectFourListener must exist.
+	 * @pre 	ConnectFourListener must exist.
 	 * @param connectFourListener	ConnectFourListener which will listen to activities in GamePanel.
 	 * @post	GamePanel adds listener object.
 	 */
@@ -129,7 +123,7 @@ public class GamePanel extends JPanel {
 	 * @param column	Cell column number.
 	 * @param row		Cell row number.
 	 * @param player	Player number who is putting in the coin at this location.
-	 * @isMonoChrome	Boolean flag for Monochrome game.
+	 * @param isMonoChrome	Boolean flag for Monochrome game.
 	 * @post			The Cell with specified column and row is highlighted with player's coin.
 	 */
 	public void set(int column, int row, int player, boolean isMonoChrome) {
@@ -147,11 +141,12 @@ public class GamePanel extends JPanel {
 	/**
 	 * Displays the winning tokens in special effects.
 	 * @pre		Game has been finished and won by some player.
+	 * @param tokens	Cells that contains the winning move.
 	 * @post	The cells that have won the gave will be repainted with special cell effects.
 	 */
 	public void showWinningTokens(ArrayList<Cell> tokens){
 		for(Cell token : tokens){
-			System.out.print("row: " + token.getRow() + " col: " + token.getCol() + "/ ");
+			//System.out.print("row: " + token.getRow() + " col: " + token.getCol() + "/ ");
 			slots[token.getRow()][token.getCol()].setIcon(new ImageIcon(this.getClass().getResource("resource/CellWin.png")));
 			slots[token.getRow()][token.getCol()].setSelectedIcon(new ImageIcon(this.getClass().getResource("resource/CellWin.png")));
 		}

@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 /**
  * @author Jaan
  * 
- * A class that allows for music to be played
+ * A class that allows for music to be played.
  * 
  */
 public class Music {

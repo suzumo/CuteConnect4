@@ -18,14 +18,6 @@ import javax.swing.JPanel;
 
 public class SidePanel extends JPanel {
 
-	/**
-	 * @field turnDisplay		JLabel object that displays player turn.
-	 * @field buttons			List of buttons in this SidePanel.
-	 * @field background_image	The image file of background image.
-	 * @field soundButton_on	Sound-On button
-	 * @field soundButton_off	Sound-Off button
-	 * @field hintButton		Hint button
-	 */
 	private JLabel turnDisplay;
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
@@ -35,6 +27,8 @@ public class SidePanel extends JPanel {
 	 * Constructor.
 	 * @pre				Mainframe for this JPanel must exist.
 	 * @param mainframe	JFrame for which this JPanel will be set in.
+	 * @param music_status	1 if sound is on, 0 otherwise.
+	 * @param num_hints	Number of hints in this game.
 	 * @post			A SidePanel object is created with specified size and layout.
 	 */
 	public SidePanel(JFrame mainframe, int music_status, int num_hints) {

@@ -1,45 +1,3 @@
-/*package Game;
-
-import java.util.*;
-
-
-public class AI {
-	private int difficulty; // 1 easiest 3 hardest
-	public AI(int i) {
-		difficulty = i;
-	}
-	public int makeAIMove(BoardMechanics b) {
-		int move = -1;
-		switch (difficulty) {
-		case 0: move = makeBongoMove(b); break;
-		case 1: move = makeEasyMove(b); break;
-		}
-		
-		return move;
-	}
-	private int makeBongoMove(BoardMechanics b) {
-		int move = (int) Math.ceil(Math.random()* 7);
-		while (!b.checkMoveValid(move)) move = (int) Math.ceil(Math.random()* 7);
-		return move;
-	}
-	private int makeEasyMove(BoardMechanics b) {
-		LinkedList<Integer> avoidCols = checkImpendingVictory(b);
-		int move = (int) Math.ceil(Math.random()* 7);
-		int i = 0;
-		while (!b.checkMoveValid(move) || avoidCols.contains(move)) {
-			move = (int) Math.ceil(Math.random()* 7);
-			i += 1;
-			if (i == 10) break;
-		}
-		return move;
-	}
-	private LinkedList<Integer> checkImpendingVictory(BoardMechanics b) {
-		LinkedList<Integer> winningColumns = new LinkedList<Integer>();
-		// copy board
-		// check if victory occurs by adding into each column
-		return winningColumns;
-	}
-}*/
 package Game;
 
 import java.util.*;
@@ -49,6 +7,10 @@ public class AI {
 	
 	private int difficulty; // 1 easiest 3 hardest
 	
+	/***
+	 * Constructor for AI.
+	 * @param i		AI difficulty level; -1 = no AI, 1 = easy; 2 = normal; 3 = hard.
+	 */
 	public AI(int i) {
 		difficulty = i;
 	}
@@ -235,12 +197,12 @@ public class AI {
 			heuristics.add(new ArrayList<Integer>());
 		}
 		
-		System.out.println("board input");
+		//System.out.println("board input");
 		for (ArrayList<Cell> ac: boardCopy) {
 			for (Cell ce : ac) {
-				System.out.print(ce.getValue() + " ");
+				//System.out.print(ce.getValue() + " ");
 			}
-			System.out.println("");
+			//System.out.println("");
 		}
 		
 		for (row = 0; row < 6; row ++) {
@@ -508,12 +470,12 @@ public class AI {
 				heuristics.get(row).add(storeValue);
 			}
 		}
-		System.out.println("heuristics");
+		//System.out.println("heuristics");
 		for (ArrayList<Integer> array: heuristics) {
 			for (Integer i : array) {
-				System.out.print(i + " ");
+				//System.out.print(i + " ");
 			}
-			System.out.println("");
+			//System.out.println("");
 		}
 		return heuristics;
 	}

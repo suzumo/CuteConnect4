@@ -15,10 +15,6 @@ import java.util.ArrayList;
 
 public class DifficultyPanel extends JPanel {
 
-	/**
-	 * @field buttons			List of buttons in DifficultyPanel
-	 * @field background_image	File which refers to background image.
-	 */
 	private ArrayList<JButton> buttons;
 	private BufferedImage background_image;
 

@@ -24,18 +24,6 @@ import GUI.SidePanel;
 
 public class ConnectFourGame extends JFrame implements ActionListener, MouseListener{
 	
-	/***
-	 * @field mainFrame		Main frame of the game.
-	 * @field gamePanel		Connect4 board panel.
-	 * @field helpDialog	Pop up help panel.
-	 * @field menuPanel		Title screen panel.
-	 * @field playPanel		Game options panel.
-	 * @field diffPanel		Difficulty choice panel.
-	 * @field rightPanel	Connect4 board main options panel.
-	 * @field boardMechanics Controls Connect4 board mechanisms.
-	 * @field music			Game music.
-	 * @field music_on		Flag for controlling game music on/off across different panels. 
-	 */
 	private MainFrame mainFrame;
 	private GamePanel gamePanel;
 	private JDialog helpDialog;
@@ -61,9 +49,9 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 	}
 	
 	/**
-	 * Creating the menu panel and adding it to the JFrame
+	 * Creating the menu panel and adding it to the JFrame.
 	 * 
-	 * @param mainFrame		JFrame of the game
+	 * @param mainFrame		JFrame of the game.
 	 */
 	public void viewMenuPanel(JFrame mainFrame)
 	{
@@ -89,6 +77,11 @@ public class ConnectFourGame extends JFrame implements ActionListener, MouseList
 		}
 	}
 	
+	/***
+	 * Generates a title screen panel.
+	 * @param mainFrame	JFrame to which this panel will be set in.
+	 * @post	JFrame set entirely with title screen panel.
+	 */
 	public void viewPlayPanel(JFrame mainFrame){
 		if(playPanel == null) {
 			playPanel = new PlayPanel(mainFrame, music_on);
