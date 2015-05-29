@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import Audio.Music;
 import GUI.ConnectFourListener;
 import GUI.GamePanel;
 import GUI.LeftPanel;
@@ -48,8 +47,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	private int ai_difficulty;
 	private AI ai;
 	
-	private Music m;
-	
 	/**
 	 * Constructor.
 	 * @param connectFourGame
@@ -61,8 +58,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	public BoardMechanics(ConnectFourGame connectFourGame, MainFrame mFrame, int diff, HashMap<Integer, Boolean> cpu_players, int players, boolean isMChrome) {
 
 		//Initializing board
-		m = new Music();
-		
 		initialise();
 		
 		this.mainFrame = mFrame;
@@ -125,8 +120,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		moves_made = 0;
 		curr_row = 0;
 		state = 1;
-		
-		m.playEffect(Music.start);
 	}
 	
 	
@@ -140,7 +133,6 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		if(checkMoveValid(col)){
 			for(int i = 5; i >=0; i--){
 				if(board.get(i).get(col).getValue() == 0){
-					m.playEffect(Music.drop);
 					board.get(i).get(col).setValue(current_player);
 					curr_row = i;
 					break;
@@ -298,7 +290,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	    			winning_player = board.get(row).get(column).getValue();
 	    			return true; 
 	            }
-	    	}
+	    	}      
 	    }
 		  // check for a vertical win 
 	    for (int row=0; row<3; row++) { 
