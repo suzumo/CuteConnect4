@@ -120,6 +120,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		moves_made = 0;
 		curr_row = 0;
 		state = 1;
+		fullColumnPressedNumber = 0;
+		helpButtonPressedNumber = 0;
 	}
 	
 	
@@ -134,12 +136,13 @@ public class BoardMechanics implements ActionListener, KeyListener{
 			for(int i = 5; i >=0; i--){
 				if(board.get(i).get(col).getValue() == 0){
 					board.get(i).get(col).setValue(current_player);
+					//System.out.println("Dropping token player_num "+current_player +"#move: "+moves_made+ "("+i+","+col+")");
 					curr_row = i;
 					break;
 				}
 			}
-			nextPlayer();
 			moves_made++;
+			nextPlayer();
 			helpButtonPressedNumber = 0;
 			return curr_row;
 		}
@@ -182,7 +185,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		
 		int col = aiDropToken();
 		int row = dropToken(col);
-		System.out.println("col: "+ col +" Row "+ row + " current player: " + current_player);
+		System.out.println("AI col "+ col +" row "+ row + " next player: " + current_player);
 		if (row != -1)
 			gamePanel.set(col, row, current_player, checkMonoChrome());
 		update();
@@ -613,7 +616,7 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	 * @return
 	 */
 	public void update() {
-		System.out.println("update running.....");
+		System.out.println("update running.....current move: " + moves_made);
 	
 		//disable any turned on hints
 		if (hint != null && hint.isRunning()) {
@@ -627,7 +630,8 @@ public class BoardMechanics implements ActionListener, KeyListener{
 	    	win(getCurrentPlayer());
 	    }
 	    
-	    if(moves_made == 42 && !checkForWin(false)) tie();
+	    if(boardFull())
+	    	tie();
 	    
 		//check if need to do player move
 		if ( isPlayerAI(getCurrentPlayer()) && isCPU() ) {
@@ -637,6 +641,14 @@ public class BoardMechanics implements ActionListener, KeyListener{
 		rightPanel.updateTurnDisplay(current_player);
 	}
 	
+	private boolean boardFull() {
+		for (int col = 0; col < 7; col++) {
+			if (board.get(0).get(col).getValue() == 0)
+				return false;
+		}
+		return true;
+	}
+
 	/**
 	 *	
 	 */

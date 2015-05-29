@@ -77,8 +77,8 @@ public class AI {
 	 * @return random column
 	 */
 	private int makeBogoMove(BoardMechanics bm) {
-		int move = (int) Math.floor(Math.random()* 7);
-		while (bm.getBoard().get(0).get(move).getValue() != 0) move = (int) Math.floor(Math.random()* 7);
+		int move = (int) Math.round(Math.random()* 6);
+		while (bm.getBoard().get(0).get(move).getValue() != 0) move = (int) Math.round(Math.random()* 6);
 		return move;
 	}
 	
