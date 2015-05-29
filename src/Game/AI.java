@@ -78,7 +78,7 @@ public class AI {
 	 */
 	private int makeBogoMove(BoardMechanics bm) {
 		int move = (int) Math.ceil(Math.random()* 7);
-		while (bm.getBoard().get(move).get(0).getValue() != 0) move = (int) Math.ceil(Math.random()* 7);
+		while (bm.getBoard().get(0).get(move).getValue() != 0) move = (int) Math.ceil(Math.random()* 7);
 		return move;
 	}
 	
