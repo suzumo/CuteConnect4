@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # find all java source files in src directory
-FILES=$(find src -iname "*.java")
+FILES=$(find src/GUI -iname "*.java")
 
 rm -rf bin
 mkdir -p bin
@@ -10,7 +10,41 @@ mkdir -p bin
 for file in $FILES
 do
     echo "compiling $file"
-    javac -cp "./src/" -d bin $file
+    javac -cp "./src/GUI/" -d bin/GUI $file
+    if [ $? -ne 0 ]
+    then
+        exit 1
+    fi
+done
+
+# find all java source files in src directory
+FILES=$(find src/Audio -iname "*.java")
+
+rm -rf bin
+mkdir -p bin
+
+# compile each source file into bin directory, exiting on compilation failure
+for file in $FILES
+do
+    echo "compiling $file"
+    javac -cp "./src/Audio/" -d bin/Audio $file
+    if [ $? -ne 0 ]
+    then
+        exit 1
+    fi
+done
+
+# find all java source files in src directory
+FILES=$(find src/Game -iname "*.java")
+
+rm -rf bin
+mkdir -p bin
+
+# compile each source file into bin directory, exiting on compilation failure
+for file in $FILES
+do
+    echo "compiling $file"
+    javac -cp "./src/Game/" -d bin/Game $file
     if [ $? -ne 0 ]
     then
         exit 1
