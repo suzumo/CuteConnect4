@@ -1,10 +1,17 @@
 #! /bin/sh
 
+
+
 # find all java source files in src directory
 FILES=$(find src -iname "*.java")
 
 rm -rf bin
 mkdir -p bin
+
+
+#copying resource files for GUI
+mkdir bin/GUI/
+cp -a src/GUI/resource bin/GUI
 
 # compile each source file into bin directory, exiting on compilation failure
 for file in $FILES
@@ -16,5 +23,6 @@ do
         exit 1
     fi
 done
+
 
 echo "done"
